@@ -2,16 +2,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody2D body;
+    private Rigidbody2D body = null;
+    private Animator animator = null;
 
     float horizontal;
     float vertical;
 
     public float runSpeed = 5f;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        body = GetComponent<Rigidbody2D>();
+        body.freezeRotation = true;
+    }
+
+    private void OnEnable()
+    {
+        
+    }
+
     void Start()
     {
-        body = GetComponent<Rigidbody2D>();
+        
     }
 
     void Update()
@@ -22,6 +35,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        Vector2 moveDir = new Vector2(horizontal, vertical);
+        moveDir.Normalize();
+        Vector2 moveVector = moveDir * runSpeed * Time.deltaTime;
+        body.velocity = moveVector;
+        animator.SetFloat("MovingSpeed", moveVector.magnitude);
+        animator.SetBool("IsMoving", moveVector.magnitude > 0);
     }
 }
