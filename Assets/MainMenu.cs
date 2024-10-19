@@ -8,4 +8,15 @@ public class MainMenu : MonoBehaviour
 	{
 		SceneManager.LoadSceneAsync(1);
 	}
+    public void MuteHandler(bool mute)
+	{
+		if(mute)
+		{
+			AudioListener.volume = 0;
+		}	
+		else
+		{
+			AudioListener.volume = 1;
+		}
+	}
 }
