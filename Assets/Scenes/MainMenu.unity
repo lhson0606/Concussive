@@ -1094,6 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e96fb7008cc1f44a07af04a4bb1bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSceneName: PrototypeMap
 --- !u!1 &656365970
 GameObject:
   m_ObjectHideFlags: 0

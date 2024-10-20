@@ -3,11 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+	public string startSceneName = "PrototypeMap";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void PlayGame()
 	{
-		SceneManager.LoadSceneAsync(1);
-	}
+		try
+        {
+            SceneManager.LoadScene(startSceneName);
+        }
+        catch
+        {
+            Debug.LogError(@"MainMenu: Scene not found: " + startSceneName);
+        }
+    }
     public void MuteHandler(bool mute)
 	{
 		if(mute)
