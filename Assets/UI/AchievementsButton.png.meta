@@ -257,7 +257,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      AchievementsButton_0: 8603696694035650228
+      AchievementsButton_1: -2919844681020303379
+      AchievementsButton_2: -9095844269761313021
+      AchievementsButton_3: 1413591324623539699
+      AchievementsButton_4: -9011292079724118910
+      AchievementsButton_5: 1211502207959162856
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

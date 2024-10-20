@@ -257,7 +257,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PlayerButton_0: -6366759895238522898
+      PlayerButton_1: 8841566987343862588
+      PlayerButton_2: -7153564453798353802
+      PlayerButton_3: 3435793881266321077
+      PlayerButton_4: -4927938629645791312
+      PlayerButton_5: 8163279704474476036
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
