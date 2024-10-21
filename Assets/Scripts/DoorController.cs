@@ -1,3 +1,7 @@
+using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +17,12 @@ public class DoorController : MonoBehaviour
     private bool hasChangedState = false;
     private bool isInGame = false;
     private bool isPlayerInRange = false;
-    public float interactionCooldownInSecond = 6f;
+    public float interactionCooldownInSecond = 1f;
     private float interactionSecondsRemaining = 0f;
     private GameObject interactionText;
+    private PlayerController playerController = null;
+    private bool playerInteracted = false;
+    public float delayPlayerTime = 0.5f;
 
     private void OnValidate()
     {
@@ -120,6 +127,17 @@ public class DoorController : MonoBehaviour
     void Start()
     {
         isInGame = true;
+        playerController = GameObject.FindFirstObjectByType<PlayerController>();
+        //if player doesn't have a valid player controller, log an error
+        if (playerController == null)
+        {
+            Debug.LogError("DoorController: No PlayerController found in the scene");
+        }
+        //check if player has multiple player controllers, if so, log an error
+        if(FindObjectsByType<PlayerController>(FindObjectsSortMode.None).Length > 1)
+        {
+            Debug.LogError("DoorController: Multiple PlayerControllers found in the scene");
+        }
     }
 
     // Update is called once per frame
@@ -136,9 +154,42 @@ public class DoorController : MonoBehaviour
             isOpen = !isOpen;
             hasChangedState = true;
             interactionSecondsRemaining = interactionCooldownInSecond;
+            playerInteracted = true;
         }
 
         UpdateInteractionTextState();
+
+        if (hasChangedState && isInGame)
+        {
+            if(playerInteracted && playerController != null)
+            {
+                playerInteracted = false;
+                hasChangedState = false;
+                //for game
+                StartCoroutine(DisableInputTemporarilyAndUpdateDoorState(delayPlayerTime));
+            }
+            else
+            {
+                // for editor
+                UpdateDoorState();
+            }            
+        }
+    }
+
+    private IEnumerator DisableInputTemporarilyAndUpdateDoorState(float delayPlayerTime)
+    {
+        playerController.SetEnabled(false);
+        playerController.ResetMovement();
+        yield return new WaitForSeconds(delayPlayerTime);
+        playerController.SetEnabled(true);
+        if (isOpen)
+        {
+            OpenDoor();
+        }
+        else
+        {
+            CloseDoor();
+        }
     }
 
     private bool IsInteractable()
@@ -146,13 +197,6 @@ public class DoorController : MonoBehaviour
         return interactionSecondsRemaining <= 0 && isPlayerInRange;
     }
 
-    private void FixedUpdate()
-    {
-        if (hasChangedState && isInGame)
-        {
-            UpdateDoorState();
-        }        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -468,10 +468,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3466ecd6ab1b9114a8b8ca54a3f9dde7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorOpenSound: {fileID: 8300000, guid: 8b35190aae63e3643b67bc470d55af65, type: 3}
+  doorOpenSound: {fileID: 8300000, guid: 0292d2536a290f342bf8d701ff579b17, type: 3}
   volume: 1.5
   isOpen: 0
-  interactionCooldownInSecond: 4
+  interactionCooldownInSecond: 1.5
 --- !u!82 &4411366675760051049
 AudioSource:
   m_ObjectHideFlags: 0
