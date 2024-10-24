@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text dialogueText;
+    
+    [SerializeField] private TMP_Text displayName;
 
     [Header("Dialogue Choices")]
     [SerializeField] private GameObject[] choices;
@@ -51,6 +53,7 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         dialogueIsPlaying = false;
+        dialogueBox.SetActive(false);
         choicesText = new TextMeshProUGUI[choices.Length];
 
         int index = 0;
@@ -61,6 +64,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         tagHandler = new TagHandler();
+        tagHandler.SetSpeakerName(displayName);
 
     }
 

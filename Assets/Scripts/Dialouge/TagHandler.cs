@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TagHandler
 {
-    private const string COLLECT_TAG = "collect";
-    private const string FLAG_TAG = "flag";
+    private const string SPEAKER_TAG = "speaker";
+
+    private TMP_Text speakerName;
+
     public void HandleTags(List<string> currentTags)
     {
         foreach (string tag in currentTags)
@@ -20,6 +23,9 @@ public class TagHandler
 
             switch (tagKey)
             {
+                case SPEAKER_TAG:
+                    speakerName.text = tagValue;
+                    break;
                 default:
                     Debug.LogWarning("Co tag chua duoc xu li" + tag);
                     break;
@@ -27,5 +33,8 @@ public class TagHandler
         }
     }
 
+    public void SetSpeakerName(TMP_Text speaker){
+        speakerName = speaker;
+    }
 
 }
