@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(DialogueManager.GetInstance().dialogueIsPlaying){
+            return;
+        }
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
         Vector2 moveVector = moveDir * runSpeed * Time.deltaTime;
