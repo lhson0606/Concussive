@@ -43,14 +43,12 @@ public class NormalChestController : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E) && !isOpen)
         {
-            Debug.Log("Player pressed E to open chest");
             chestAnimator.SetTrigger("Open");
         }
     }
 
     public void OnOpenAnimationFinished()
     {
-        Debug.Log("Chest opened");
         isOpen = true;
         audioSource.Play();
         SpawnItem();
@@ -68,7 +66,6 @@ public class NormalChestController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player entered chest trigger");
             isPlayerInRange = true;
         }
     }
@@ -77,7 +74,6 @@ public class NormalChestController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player exited chest trigger");
             isPlayerInRange = false;
         }
     }
