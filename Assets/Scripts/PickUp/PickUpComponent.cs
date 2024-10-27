@@ -43,6 +43,12 @@ public class PickUpComponent : MonoBehaviour, IPickUpable
 
     public void OnSelect(BaseCharacter target)
     {
+        //if this is already selected by the player, return
+        if (isSelected)
+        {
+            return;
+        }
+
         isSelected = true;
         lineRenderer.enabled = true;
         this.currentBaseCharacter = target;
@@ -122,12 +128,6 @@ public class PickUpComponent : MonoBehaviour, IPickUpable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if this is already selected by the player, return
-        if (isSelected)
-        {
-            return;
-        }
-
         if (collision.gameObject.CompareTag("Player"))
         {
             isPlayerInRange = true;
