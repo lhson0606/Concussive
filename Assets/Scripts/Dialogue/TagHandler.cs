@@ -6,8 +6,10 @@ using UnityEngine;
 public class TagHandler
 {
     private const string SPEAKER_TAG = "speaker";
+    private const string PORTRAIT_TAG = "portrait";
 
     private TMP_Text speakerName;
+    private Animator portraitAnimator;
 
     public void HandleTags(List<string> currentTags)
     {
@@ -25,6 +27,8 @@ public class TagHandler
             {
                 case SPEAKER_TAG:
                     speakerName.text = tagValue;
+                    portraitAnimator.Play(tagValue);
+                    
                     break;
                 default:
                     Debug.LogWarning("Co tag chua duoc xu li" + tag);
@@ -35,6 +39,10 @@ public class TagHandler
 
     public void SetSpeakerName(TMP_Text speaker){
         speakerName = speaker;
+    }
+
+    public void SetPortraitAnimator(Animator animator){
+        portraitAnimator = animator;
     }
 
 }

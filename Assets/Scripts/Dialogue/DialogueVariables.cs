@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
 
-public class DialougeVariables
+public class DialogueVariables
 {
     public Dictionary<string, Ink.Runtime.Object> variables { get; private set; }
 
     private Story globalVariablesStory;
     private string loadedVariablesJson;
-    public DialougeVariables(TextAsset loadGlobalsJSON)
+    public DialogueVariables(TextAsset loadGlobalsJSON)
     {
         //Load tat ca cac bien trong file Json thanh file Story
         globalVariablesStory = new Story(loadGlobalsJSON.text);

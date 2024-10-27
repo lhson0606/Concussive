@@ -18,7 +18,8 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text dialogueText;
-    
+    [SerializeField] private GameObject continueIcon;
+    [SerializeField] private Animator portraitAnimator;
     [SerializeField] private TMP_Text displayName;
 
     [Header("Dialogue Choices")]
@@ -41,12 +42,12 @@ public class DialogueManager : MonoBehaviour
     private TagHandler tagHandler;
     private GameObject currentGameObject;
 
-    private DialougeVariables dialougeVariables;
+    private DialogueVariables dialogueVariables;
     // private InkExternalFunction inkExternalFunction;
     private void Awake()
     {
         instance = this;
-        dialougeVariables = new DialougeVariables(loadGlobalsJSON);
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
         // inkExternalFunction = new InkExternalFunction(); // Dùng để bind hàm với code script
     }
 
@@ -65,6 +66,7 @@ public class DialogueManager : MonoBehaviour
 
         tagHandler = new TagHandler();
         tagHandler.SetSpeakerName(displayName);
+        tagHandler.SetPortraitAnimator(portraitAnimator);
 
     }
 
@@ -101,7 +103,7 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = true;
         dialogueBox.SetActive(true);
 
-        dialougeVariables.StartListening(currentStory);
+        dialogueVariables.StartListening(currentStory);
         // inkExternalFunction.Bind(currentStory,currentGameObject);
 
         ContinueStory();
@@ -109,7 +111,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ExitDialogueMode()
     {
-        dialougeVariables.StopListening(currentStory);
+        dialogueVariables.StopListening(currentStory);
         // inkExternalFunction.Unbind(currentStory);
 
         dialogueIsPlaying = false;
@@ -196,6 +198,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator DisplayLine(string line)
     {
         dialogueText.text = "";
+        continueIcon.SetActive(false);
         HideChoices();
         submitSkip = false;
         canContinueToNextLine = false;
@@ -217,6 +220,7 @@ public class DialogueManager : MonoBehaviour
         canContinueToNextLine = true;
         canSkip = false;
         DisplayChoices();
+        continueIcon.SetActive(true);   
     }
 
     private IEnumerator CanSkip()
@@ -238,7 +242,7 @@ public class DialogueManager : MonoBehaviour
     public Ink.Runtime.Object GetVariableState(string variableName)
     {
         Ink.Runtime.Object variableValue = null;
-        dialougeVariables.variables.TryGetValue(variableName, out variableValue);
+        dialogueVariables.variables.TryGetValue(variableName, out variableValue);
 
         if (variableValue == null) 
         { 
