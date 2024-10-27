@@ -15,6 +15,7 @@ public class BaseCharacter : SlowMotionObject
     public int runSpeed = 240;
     public float criticalHitChance = 0.1f;
     public float criticalHitMultiplier = 2.0f;
+    public GameObject characterText = null;
 
     protected List<Effect> effects = new List<Effect>();
 
@@ -39,16 +40,43 @@ public class BaseCharacter : SlowMotionObject
         effects.Remove(effect);
     }
 
-    public void Heal(int healingAmount)
+    public void Heal(int healingAmount, EffectType healingType = EffectType.HEALING)
     {
         Debug.Log("Healing " + healingAmount + " health");
         if (currentHealth + healingAmount > maxHealth)
         {
-            currentHealth = maxHealth;
+            healingAmount = 0;
         }
-        else
+
+        currentHealth += healingAmount;
+
+        String text = "+" + healingAmount + " HP";
+        Color textColor = EffectConfig.Instance.GetEffectTextColor(healingType);
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+        this.SpawnText(text, textColor, lifeTime, initVel);
+    }
+
+    public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel)
+    {
+        if (characterText == null)
         {
-            currentHealth += (int)healingAmount;
+            Debug.LogError("CharacterText prefab is not assigned.");
+            return;
         }
+
+        GameObject textObject = Instantiate(characterText, transform.position, Quaternion.identity, gameObject.transform);
+        PopUpTextControl textControl = textObject.GetComponent<PopUpTextControl>();
+
+        if (textControl == null)
+        {
+            Debug.LogError("PopUpTextControl component not found on characterText prefab.");
+            return;
+        }
+
+        textControl.text = text;
+        textControl.textColor = color;
+        textControl.lifeTime = lifeTime;
+        textControl.InitialVelocity = initVel;
     }
 }

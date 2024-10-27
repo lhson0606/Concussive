@@ -8,6 +8,7 @@ public class Effect : SlowMotionObject
     public float delay = 0f;
     public Sprite icon = null;
     public ParticleSystem particles = null;
+    public EffectType effectType = EffectType.NONE;
 
     protected BaseCharacter target;
 

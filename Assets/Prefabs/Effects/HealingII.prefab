@@ -50,3 +50,5 @@ MonoBehaviour:
   delay: 1
   icon: {fileID: 21300000, guid: aab72a0f63574a54283bcc0226a473bc, type: 3}
   particles: {fileID: 4756323546171148685, guid: f3f6461b9b6c3b54aabf7fd3fd4fe843, type: 3}
+  effectType: 1
+  healPerTick: 1
