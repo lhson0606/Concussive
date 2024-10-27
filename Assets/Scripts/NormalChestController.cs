@@ -58,7 +58,8 @@ public class NormalChestController : MonoBehaviour
     {
         if (itemToSpawn != null)
         {
-            Instantiate(itemToSpawn, itemSpawnPos, Quaternion.identity);
+            GameObject spawnedItem = Instantiate(itemToSpawn, itemSpawnPos, Quaternion.identity);
+            PickUpComponent pickUpComponent = spawnedItem.AddComponent<PickUpComponent>();
         }
     }
 

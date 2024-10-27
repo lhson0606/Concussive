@@ -198,19 +198,19 @@ public class DoorController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            isPlayerInRange = true;
-        }
-    }
-
     private void UpdateInteractionTextState()
     {
         if (interactionText != null)
         {
             interactionText.gameObject.SetActive(IsInteractable());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
         }
     }
 
