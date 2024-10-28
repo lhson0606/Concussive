@@ -42,6 +42,9 @@ public class BaseCharacter : SlowMotionObject
     protected BaseWeapon primaryWeapon;
     protected BaseWeapon secondaryWeapon;
 
+    protected WeaponControl weaponControl;
+    protected SpriteRenderer characterRenderer;
+
     public void Start()
     {
         currentHealth = 1;
@@ -61,7 +64,9 @@ public class BaseCharacter : SlowMotionObject
             Debug.LogError("Secondary weapon not found.");
         }
 
+        characterRenderer = GetComponent<SpriteRenderer>();
         primaryWeapon = primaryWeaponSlot.GetComponent<BaseWeapon>();
+        weaponControl = primaryWeaponSlot.GetComponent<WeaponControl>();
     }
 
     public void Update()
@@ -221,21 +226,25 @@ public class BaseCharacter : SlowMotionObject
         return runSpeed;
     }
 
-    public void Equip(BaseWeapon weapon)
+    public void EquipWeapon(BaseWeapon weapon, SpriteRenderer characterRenderer, SpriteRenderer weaponRenderer)
     {
         if(primaryWeapon == null)
         {
             primaryWeapon = weapon;
             weapon.transform.SetParent(primaryWeaponSlot.transform);
+            weaponControl.characterRenderer = characterRenderer;
+            weaponControl.weaponRenderer = weaponRenderer;
+            weapon.SetAsMainWeapon(primaryWeaponSlot.transform);
         }
         else if (secondaryWeapon == null)
         {
             secondaryWeapon = weapon;
             weapon.transform.SetParent(secondaryWeaponSlot.transform);
+            weapon.SetAsOffHandWeapon(secondaryWeaponSlot.transform);
         }
         else
         {
-
+            Debug.LogError("Not implemented");
         }
     }
 
@@ -247,5 +256,15 @@ public class BaseCharacter : SlowMotionObject
     public void SwitchToSecondaryWeapon()
     {
 
+    }
+
+    public void SetWeaponPointer(Vector2 val)
+    {
+        weaponControl.PointerPosition = val;
+    }
+
+    public SpriteRenderer GetCharacterSpriteRenderer()
+    {
+        return characterRenderer;
     }
 }

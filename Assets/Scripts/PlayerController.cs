@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     private PickUpComponent selectedPickUp;
     private AudioSource audioSource;
     private GameObject playerCamera;
-    private WeaponControl weaponControl;
+
+    private Vector2 pointerPosition;
 
     float horizontal;
     float vertical;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         playerCamera = transform.Find("Main Camera").gameObject;
-        weaponControl = GetComponentInChildren<WeaponControl>();
+        pointerPosition = GetPointerWorldPosition();
 
         body.freezeRotation = true;
     }
@@ -48,19 +49,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        weaponControl.PointerPosition = GetPointerWorldPosition();
+        pointerPosition = GetPointerWorldPosition();
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if(weaponControl.PointerPosition.x > 0)
+        if(pointerPosition.x > 0)
         {
             spriteRenderer.flipX = false;
         }
-        else if(weaponControl.PointerPosition.x < 0)
+        else if(pointerPosition.x < 0)
         {
             spriteRenderer.flipX = true;
         }
 
+        baseCharacter.SetWeaponPointer(pointerPosition);
         HandleMouseClick();
         HandlePickUp();
     }

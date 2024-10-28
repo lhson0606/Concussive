@@ -15,6 +15,8 @@ public class GameItem : MonoBehaviour
     private GameObject uiTextPrefab;
     [SerializeField]
     private Sprite icon = null;
+    [SerializeField]
+    private Transform onGroundTransform = null;
 
     public string ItemName => itemName;
     public ItemRarity Rarity => rarity;
@@ -89,5 +91,10 @@ public class GameItem : MonoBehaviour
             Destroy(uiTextInstance.gameObject);
             uiTextInstance = null;
         }
+    }
+
+    public Transform GetOnGroundTransform()
+    {
+        return onGroundTransform;
     }
 }

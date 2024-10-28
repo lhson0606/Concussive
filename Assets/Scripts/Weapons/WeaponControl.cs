@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class WeaponControl : MonoBehaviour
+public class WeaponControl : SlowMotionObject
 {
     public float stopAimingDistance = 0.5f;
     public SpriteRenderer characterRenderer, weaponRenderer;
@@ -15,7 +15,7 @@ public class WeaponControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector2.Distance(transform.position, PointerPosition) < stopAimingDistance)
+        if(IsPointerTooClose())
         {
             return;
         }
@@ -23,14 +23,24 @@ public class WeaponControl : MonoBehaviour
         UpdateWeaponRenderOrder();
     }
 
+    private bool IsPointerTooClose()
+    {
+        return Vector2.Distance(transform.position, PointerPosition) < stopAimingDistance;
+    }
+
     private void UpdateWeaponRenderOrder()
     {
-        if(characterRenderer == null || weaponRenderer == null)
+        if(characterRenderer == null)
         {
-            Debug.LogError("Character or weapon renderer is not set");
+            return;
         }
 
-        if(transform.eulerAngles.z > 0 && transform.eulerAngles.z < 180)
+        if(weaponRenderer == null)
+        {
+            return;
+        }
+
+        if (transform.eulerAngles.z > 0 && transform.eulerAngles.z < 180)
         {
             weaponRenderer.sortingOrder = characterRenderer.sortingOrder - 1;
         }
@@ -42,6 +52,16 @@ public class WeaponControl : MonoBehaviour
 
     void UpdateWeaponRotation()
     {
+        if (characterRenderer == null)
+        {
+            return;
+        }
+
+        if (weaponRenderer == null)
+        {
+            return;
+        }
+
         Vector2 direction = (PointerPosition - (Vector2)transform.position).normalized;
         transform.right = direction;
 
