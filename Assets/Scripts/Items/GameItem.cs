@@ -13,6 +13,8 @@ public class GameItem : MonoBehaviour
     private string description;
     [SerializeField]
     private GameObject uiTextPrefab;
+    [SerializeField]
+    private Sprite icon = null;
 
     public string ItemName => itemName;
     public ItemRarity Rarity => rarity;

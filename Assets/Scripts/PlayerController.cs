@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(BaseCharacter))]
 [RequireComponent(typeof(AudioSource))]
@@ -15,7 +16,10 @@ public class PlayerController : MonoBehaviour
     private GameObject playerCamera;
 
     float horizontal;
-    float vertical;    
+    float vertical;
+
+    [SerializeField]
+    private InputActionReference movement, attack, pointerPosition;
 
     private void Awake()
     {
@@ -82,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
-        Vector2 moveVector = moveDir * baseCharacter.runSpeed * Time.deltaTime;
+        Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
         body.velocity = moveVector;
         animator.SetFloat("MovingSpeed", moveVector.magnitude);
         animator.SetBool("IsMoving", moveVector.magnitude > 0);
