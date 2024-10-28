@@ -45,6 +45,9 @@ public class BaseCharacter : SlowMotionObject
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
 
+    public Vector2 LookDir { get; private set;  }
+    public Vector2 LookAtPosition { get; set; }
+
     public void Start()
     {
         currentHealth = 1;
@@ -67,6 +70,8 @@ public class BaseCharacter : SlowMotionObject
         characterRenderer = GetComponent<SpriteRenderer>();
         primaryWeapon = primaryWeaponSlot.GetComponent<BaseWeapon>();
         weaponControl = primaryWeaponSlot.GetComponent<WeaponControl>();
+        LookAtPosition = transform.position;
+        LookDir = Vector2.right;
     }
 
     public void Update()
@@ -75,6 +80,19 @@ public class BaseCharacter : SlowMotionObject
         {
             Die();
         }
+
+        LookDir = (LookAtPosition - (Vector2)transform.position).normalized;
+
+        if (LookDir.x < 0)
+        {
+            transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (LookDir.x > 0)
+        {
+            transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+
+        weaponControl.PointerPosition = LookAtPosition;
     }
 
     public void Die()

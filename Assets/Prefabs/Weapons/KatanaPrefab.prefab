@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5577656590127977711}
   - component: {fileID: 727576484816487214}
   - component: {fileID: 7887772118975674440}
-  - component: {fileID: 8385722777046468206}
   - component: {fileID: 8347750349538637727}
   - component: {fileID: 8651333642439640499}
   m_Layer: 0
@@ -29,9 +28,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2519646079485683144}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.0012929583, y: 0.0013646287, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.425, y: 0.425, z: 0.425}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6688074585986750719}
@@ -140,24 +139,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8385722777046468206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2519646079485683144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dafb65d75a48bfd47b97c34ee4afdae3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: Katana
-  rarity: 2
-  description: Has long attack range and high DPS
-  uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
-  icon: {fileID: 0}
-  onGroundTransform: {fileID: 6688074585986750719}
 --- !u!120 &8347750349538637727
 LineRenderer:
   serializedVersion: 2
@@ -277,6 +258,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381d188dc9e361c46b7300b2ac010665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: Katana
+  rarity: 2
+  description: Deals damage quick
+  uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
+  icon: {fileID: 0}
+  onGroundTransform: {fileID: 6688074585986750719}
   baseDamage: 0
   attackSpeed: 1
   animator: {fileID: 0}

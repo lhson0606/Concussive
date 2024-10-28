@@ -1,11 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(GameItem))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class BaseWeapon : SlowMotionObject
+public class BaseWeapon : GameItem
 {
     [SerializeField]
     protected int baseDamage = 0;
@@ -20,19 +19,13 @@ public class BaseWeapon : SlowMotionObject
     [SerializeField]
     protected Transform offHandWeaponTransform;
 
-
-    protected PickUpComponent pickUpComponent;
     protected SpriteRenderer weaponSpriteRenderer;
     private WeaponState weaponState = WeaponState.ON_GROUND;
-    private GameItem gameItem;
 
-    protected void Start()
+    protected override void Start()
     {
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-        gameItem = GetComponent<GameItem>();
-
         UpdateWeaponState();
-        SetUpPickUp();
     }
 
     private void SetWeaponState(WeaponState state)
@@ -60,9 +53,7 @@ public class BaseWeapon : SlowMotionObject
         switch (weaponState)
         {
             case WeaponState.ON_GROUND:
-                transform.localPosition += gameItem.GetOnGroundTransform().localPosition;
-                transform.localRotation = gameItem.GetOnGroundTransform().localRotation;
-                transform.localScale = gameItem.GetOnGroundTransform().localScale;
+                base.SetUpOnGround();
                 break;
             case WeaponState.MAIN_WEAPON:
                 transform.localPosition += mainWeaponTransform.localPosition;
@@ -77,17 +68,9 @@ public class BaseWeapon : SlowMotionObject
         }
     }
 
-    private void SetUpPickUp()
+    protected override void OnPickUp(BaseCharacter owner)
     {
-        pickUpComponent = GetComponent<PickUpComponent>();
-        if (pickUpComponent != null)
-        {
-            pickUpComponent.OnPickedUp += OnEquip; // Adjusted to match Action delegate
-        }
-    }
-
-    private void OnEquip(BaseCharacter owner)
-    {
+        Debug.Log("Weapon picked up");
         owner.EquipWeapon(this, owner.GetCharacterSpriteRenderer(), GetWeaponSpriteRenderer());
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NormalChestController : MonoBehaviour
+public class NormalChestController : SlowMotionObject
 {
     private Animator chestAnimator;
     private bool isPlayerInRange = false;
@@ -59,7 +59,9 @@ public class NormalChestController : MonoBehaviour
         if (itemToSpawn != null)
         {
             GameObject spawnedItem = Instantiate(itemToSpawn, itemSpawnPos, Quaternion.identity);
-            PickUpComponent pickUpComponent = spawnedItem.AddComponent<PickUpComponent>();
+            GameItem gameItem = spawnedItem.GetComponent<GameItem>();
+
+            gameItem.DropItem(itemSpawnPos);
         }
     }
 

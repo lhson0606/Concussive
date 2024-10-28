@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BasePotion : GameItem
 {
-    private PickUpComponent pickUpComponent;
     [SerializeField]
     private AudioClip usingAudio;
     public Effect effectPrefab;
@@ -11,11 +10,6 @@ public class BasePotion : GameItem
     protected new void Start()
     {
         base.Start();
-        pickUpComponent = GetComponent<PickUpComponent>();
-        if (pickUpComponent != null)
-        {
-            pickUpComponent.OnPickedUp += OnUsed; // Adjusted to match Action delegate
-        }
     }
 
     protected virtual void OnUsing(BaseCharacter baseCharacter)
@@ -23,7 +17,7 @@ public class BasePotion : GameItem
         
     }
 
-    protected void OnUsed(BaseCharacter baseCharacter)
+    protected override void OnPickUp(BaseCharacter baseCharacter)
     {
         Debug.Log("Potion used");
         PlayUsingSound();
@@ -45,13 +39,5 @@ public class BasePotion : GameItem
     protected void DestroyPotion()
     {
         Destroy(gameObject);
-    }
-
-    void OnDestroy()
-    {
-        if (pickUpComponent != null)
-        {
-            pickUpComponent.OnPickedUp -= OnUsed; // Adjusted to match Action delegate
-        }
     }
 }

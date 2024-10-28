@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerCamera = transform.Find("Main Camera").gameObject;
         pointerPosition = GetPointerWorldPosition();
+        baseCharacter.LookAtPosition = pointerPosition;
 
         body.freezeRotation = true;
     }
@@ -50,19 +51,11 @@ public class PlayerController : MonoBehaviour
         }
 
         pointerPosition = GetPointerWorldPosition();
+        baseCharacter.LookAtPosition = pointerPosition;
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if(pointerPosition.x > 0)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if(pointerPosition.x < 0)
-        {
-            spriteRenderer.flipX = true;
-        }
-
-        baseCharacter.SetWeaponPointer(pointerPosition);
+        //baseCharacter.SetWeaponPointer(pointerPosition);
         HandleMouseClick();
         HandlePickUp();
     }

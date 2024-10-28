@@ -1,9 +1,11 @@
+using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameItem : MonoBehaviour
+public class GameItem : SlowMotionObject
 {
     [SerializeField]
     private string itemName;
@@ -22,11 +24,73 @@ public class GameItem : MonoBehaviour
     public ItemRarity Rarity => rarity;
     public string Description => description;
     protected PlayerController playerController = null;
-    private GameObject uiTextInstance = null;
+    protected GameObject uiTextInstance = null;
+    protected PickUpComponent pickUpComponent = null;
 
-    protected void Start()
+    protected virtual void Start()
     {
         playerController = FindFirstObjectByType<PlayerController>();
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        SetUpOnGround();
+        SetUpPickUp();
+    }
+
+    protected virtual void OnValidate()
+    {
+        SetUpOnGround();
+    }
+
+    protected virtual void SetUpOnGround()
+    {
+        if(onGroundTransform == null)
+        {
+            return;
+        }
+
+        transform.localPosition += onGroundTransform.localPosition;
+        transform.localRotation = onGroundTransform.localRotation;
+        transform.localScale = onGroundTransform.localScale;
+    }
+
+    protected virtual void SetUpPickUp()
+    {
+        pickUpComponent = GetComponent<PickUpComponent>();
+        if (pickUpComponent != null)
+        {
+            // Unsubscribe first to prevent multiple subscriptions
+            pickUpComponent.OnPickedUp -= OnPickUp;
+            pickUpComponent.OnPickedUp += OnPickUp;
+        }
+    }
+
+    public virtual void DropItem(Vector3 position)
+    {
+        //check if it contains PickUpComponent
+        if(pickUpComponent == null)
+        {
+            pickUpComponent = gameObject.AddComponent<PickUpComponent>();
+        }
+
+        //set the item to be on the ground
+        SetOnGround(position);
+        SetUpPickUp();
+    }
+
+    protected virtual void SetOnGround(Vector3 position)
+    {
+        transform.position = position;
+        transform.SetParent(null);
+        SetUpOnGround();
+        SetUpPickUp();
+    }
+
+    protected virtual void OnPickUp(BaseCharacter baseCharacter)
+    {
+        Debug.Log("GameItem picked up");
     }
 
     // Method to get the color based on rarity
@@ -96,5 +160,14 @@ public class GameItem : MonoBehaviour
     public Transform GetOnGroundTransform()
     {
         return onGroundTransform;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (pickUpComponent != null)
+        {
+            pickUpComponent.OnPickedUp -= OnPickUp;
+        }
     }
 }

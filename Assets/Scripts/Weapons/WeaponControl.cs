@@ -6,10 +6,12 @@ public class WeaponControl : SlowMotionObject
     public float stopAimingDistance = 0.5f;
     public SpriteRenderer characterRenderer, weaponRenderer;
     public Vector2 PointerPosition { get; set; }
+    private BaseCharacter character;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         UpdateWeaponRotation();
+        character = transform.parent.GetComponent<BaseCharacter>();
     }
 
     // Update is called once per frame
@@ -63,18 +65,25 @@ public class WeaponControl : SlowMotionObject
         }
 
         Vector2 direction = (PointerPosition - (Vector2)transform.position).normalized;
-        transform.right = direction;
-
-        Vector2 scale = transform.localScale;
-        if (direction.x < 0)
+        if(character.LookDir.x<0)
         {
-            scale.y = -1;
-        }
-        else if(direction.x > 0)
+            transform.right = -direction;
+        }else if(character.LookDir.x > 0)
         {
-            scale.y = 1;
+            transform.right = direction;
         }
 
-        transform.localScale = scale;
+
+        //Vector2 scale = transform.localScale;
+        //if (direction.x < 0)
+        //{
+        //    scale.y = -1;
+        //}
+        //else if(direction.x > 0)
+        //{
+        //    scale.y = 1;
+        //}
+
+        //transform.localScale = scale;
     }
 }
