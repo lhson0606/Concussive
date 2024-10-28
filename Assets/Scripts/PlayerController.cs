@@ -14,12 +14,10 @@ public class PlayerController : MonoBehaviour
     private PickUpComponent selectedPickUp;
     private AudioSource audioSource;
     private GameObject playerCamera;
+    private WeaponControl weaponControl;
 
     float horizontal;
     float vertical;
-
-    [SerializeField]
-    private InputActionReference movement, attack, pointerPosition;
 
     private void Awake()
     {
@@ -38,6 +36,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         playerCamera = transform.Find("Main Camera").gameObject;
+        weaponControl = GetComponentInChildren<WeaponControl>();
 
         body.freezeRotation = true;
     }
@@ -49,14 +48,15 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        weaponControl.PointerPosition = GetPointerWorldPosition();
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if(horizontal > 0)
+        if(weaponControl.PointerPosition.x > 0)
         {
             spriteRenderer.flipX = false;
         }
-        else if(horizontal < 0)
+        else if(weaponControl.PointerPosition.x < 0)
         {
             spriteRenderer.flipX = true;
         }
@@ -168,5 +168,12 @@ public class PlayerController : MonoBehaviour
             audioSource.clip = clip;
             audioSource.Play();
         }
+    }
+
+    public Vector2 GetPointerWorldPosition()
+    {
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        mousePos.z = Camera.main.nearClipPlane;
+        return Camera.main.ScreenToWorldPoint(mousePos);
     }
 }
