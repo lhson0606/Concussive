@@ -129,10 +129,10 @@ public class DialogueManager : MonoBehaviour
             }
             String nextLine = currentStory.Continue();
 
-            // if(nextLine.Equals("") && !currentStory.canContinue)
-            // {
-            //     ExitDialogueMode();
-            // }
+            if(nextLine.Equals("") && !currentStory.canContinue)
+            {
+                ExitDialogueMode();
+            }
             
             //Xu li tag
             tagHandler.HandleTags(currentStory.currentTags);
@@ -160,7 +160,7 @@ public class DialogueManager : MonoBehaviour
         List<Choice> currentChoices = currentStory.currentChoices;
         if (currentChoices.Count > choices.Length)
         {
-            Debug.LogError("Co qua nhieu option trong doan hoi thoai");
+            Debug.LogError("Too many options");
         }
 
         int index = 0;
