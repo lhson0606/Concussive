@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
     {
         instance = this;
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
-        // inkExternalFunction = new InkExternalFunction(); // Dùng để bind hàm với code script
+        // inkExternalFunction = new InkExternalFunction(); // Bind code script
     }
 
     private void Start()
