@@ -15,10 +15,6 @@ public class GameItem : SlowMotionObject
     private string description;
     [SerializeField]
     private GameObject uiTextPrefab;
-    [SerializeField]
-    private Sprite icon = null;
-    [SerializeField]
-    private Transform onGroundTransform = null;
 
     public string ItemName => itemName;
     public ItemRarity Rarity => rarity;
@@ -35,25 +31,11 @@ public class GameItem : SlowMotionObject
     protected override void Awake()
     {
         base.Awake();
-        SetUpOnGround();
         SetUpPickUp();
     }
 
     protected virtual void OnValidate()
     {
-        SetUpOnGround();
-    }
-
-    protected virtual void SetUpOnGround()
-    {
-        if(onGroundTransform == null)
-        {
-            return;
-        }
-
-        transform.localPosition += onGroundTransform.localPosition;
-        transform.localRotation = onGroundTransform.localRotation;
-        transform.localScale = onGroundTransform.localScale;
     }
 
     protected virtual void SetUpPickUp()
@@ -84,7 +66,6 @@ public class GameItem : SlowMotionObject
     {
         transform.position = position;
         transform.SetParent(null);
-        SetUpOnGround();
         SetUpPickUp();
     }
 
@@ -155,11 +136,6 @@ public class GameItem : SlowMotionObject
             Destroy(uiTextInstance.gameObject);
             uiTextInstance = null;
         }
-    }
-
-    public Transform GetOnGroundTransform()
-    {
-        return onGroundTransform;
     }
 
     protected override void OnDestroy()

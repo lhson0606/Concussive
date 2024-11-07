@@ -119,6 +119,12 @@ public class PlayerController : MonoBehaviour
                     selectedPickUp = null;
                 }
             }
+
+            // attack if there is a weapon
+            if (baseCharacter.GetPrimaryWeapon() != null)
+            {
+                baseCharacter.GetPrimaryWeapon().DoAttack();
+            }
         }
     }
 

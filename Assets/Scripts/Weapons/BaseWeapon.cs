@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -13,59 +14,26 @@ public class BaseWeapon : GameItem
     [SerializeField]
     protected Element element = null;
     [SerializeField]
-    protected Animator animator = null;
-    [SerializeField]
-    protected Transform mainWeaponTransform;
-    [SerializeField]
-    protected Transform offHandWeaponTransform;
+    protected Animator animator;
 
     protected SpriteRenderer weaponSpriteRenderer;
-    private WeaponState weaponState = WeaponState.ON_GROUND;
+    private bool isAttacking = false;
 
     protected override void Start()
     {
+        base.Start();
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-        UpdateWeaponState();
-    }
-
-    private void SetWeaponState(WeaponState state)
-    {
-        weaponState = state;
-        UpdateWeaponState();
+        animator = GetComponent<Animator>();
     }
 
     public void SetAsMainWeapon(Transform primaryWeaponSlotTransform)
     {
-        transform.localPosition = primaryWeaponSlotTransform.localPosition;
-        transform.localRotation = primaryWeaponSlotTransform.localRotation;
-        SetWeaponState(WeaponState.MAIN_WEAPON);
+        transform.localPosition = new Vector3(0, 0, 0);
     }
 
     public void SetAsOffHandWeapon(Transform secondaryWeaponSlotTransform)
     {
-        transform.localPosition = secondaryWeaponSlotTransform.localPosition;
-        transform.localRotation = secondaryWeaponSlotTransform.localRotation;
-        SetWeaponState(WeaponState.OFF_HAND);
-    }
-
-    private void UpdateWeaponState()
-    {
-        switch (weaponState)
-        {
-            case WeaponState.ON_GROUND:
-                base.SetUpOnGround();
-                break;
-            case WeaponState.MAIN_WEAPON:
-                transform.localPosition += mainWeaponTransform.localPosition;
-                transform.localRotation = mainWeaponTransform.localRotation;
-                transform.localScale = mainWeaponTransform.localScale;
-                break;
-            case WeaponState.OFF_HAND:
-                transform.localPosition += offHandWeaponTransform.localPosition;
-                transform.localRotation = offHandWeaponTransform.localRotation;
-                transform.localScale = offHandWeaponTransform.localScale;
-                break;
-        }
+        transform.localPosition = new Vector3(0,0,0);
     }
 
     protected override void OnPickUp(BaseCharacter owner)
@@ -112,7 +80,21 @@ public class BaseWeapon : GameItem
 
     public void DoAttack()
     {
+        //if on cooldown, return
+        if (isAttacking)
+        {
+            return;
+        }
 
+        animator.SetTrigger("Attack");
+        isAttacking = true;
+        //create an invoke to reset the attack
+        Invoke("ResetAttack", 1 / attackSpeed);
+    }
+
+    private void ResetAttack()
+    {
+        isAttacking = false;
     }
 
     public SpriteRenderer GetWeaponSpriteRenderer()

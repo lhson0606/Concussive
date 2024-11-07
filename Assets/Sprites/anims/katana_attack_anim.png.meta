@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: bf2dd6eb0ec03624698eb2bb8c3508a5
+guid: b364466ee96fa7d48976ab680ac17d35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2582888597079945630
-    second: weapon_katana_0
+      213: 5704545759782533023
+    second: katana_attack_anim_0
+  - first:
+      213: -3291805360791304147
+    second: katana_attack_anim_1
+  - first:
+      213: 2344611713292618358
+    second: katana_attack_anim_2
+  - first:
+      213: 8005985474412274706
+    second: katana_attack_anim_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,11 +55,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.4926131, y: 0.13930914}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -75,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,23 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: weapon_katana_0
+      name: katana_attack_anim_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 6
+        width: 15
         height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5969194, y: 0.13834284}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 26e84a4718cb72cd0800000000000000
-      internalID: -2582888597079945630
+      spriteID: b34e06dd9245e7d47b12d7595f974759
+      internalID: 5704545759782533023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: katana_attack_anim_1
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 0
+        width: 15
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6661478, y: 0.14013322}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e208c30584f75344899fcc7727fdabe9
+      internalID: -3291805360791304147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: katana_attack_anim_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 15
+        height: 29
+      alignment: 9
+      pivot: {x: 0.676532, y: 0.13834284}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 050f2ee671b3e244da9113af0e8dff63
+      internalID: 2344611713292618358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: katana_attack_anim_3
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 0
+        width: 15
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6654696, y: 0.14083749}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c139e18b2e85074cbf342d094603bb8
+      internalID: 8005985474412274706
       vertices: []
       indices: 
       edges: []
@@ -125,15 +200,18 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: a19e856064c5bdb4b9f1ffd8a654e119
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      weapon_katana_0: -2582888597079945630
+      katana_attack_anim_0: 5704545759782533023
+      katana_attack_anim_1: -3291805360791304147
+      katana_attack_anim_2: 2344611713292618358
+      katana_attack_anim_3: 8005985474412274706
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

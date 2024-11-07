@@ -285,4 +285,9 @@ public class BaseCharacter : SlowMotionObject
     {
         return characterRenderer;
     }
+
+    public BaseWeapon GetPrimaryWeapon()
+    {
+        return primaryWeapon;
+    }
 }
