@@ -41,6 +41,7 @@ public class DialogueManager : MonoBehaviour
 
     private TagHandler tagHandler;
     private GameObject currentGameObject;
+    private PlayerController playerController;
 
     private DialogueVariables dialogueVariables;
     // private InkExternalFunction inkExternalFunction;
@@ -67,7 +68,7 @@ public class DialogueManager : MonoBehaviour
         tagHandler = new TagHandler();
         tagHandler.SetSpeakerName(displayName);
         tagHandler.SetPortraitAnimator(portraitAnimator);
-
+        playerController = FindFirstObjectByType<PlayerController>();
     }
 
     private void Update()
@@ -101,6 +102,9 @@ public class DialogueManager : MonoBehaviour
     {
         currentStory = new Story(inkJSon.text);
         dialogueIsPlaying = true;
+        // disable character movement
+        playerController.ResetMovement();
+        playerController.SetEnabled(false);
         dialogueBox.SetActive(true);
 
         dialogueVariables.StartListening(currentStory);
@@ -115,6 +119,8 @@ public class DialogueManager : MonoBehaviour
         // inkExternalFunction.Unbind(currentStory);
 
         dialogueIsPlaying = false;
+        //enable character movement
+        playerController.SetEnabled(true);
         dialogueBox.SetActive(false);
         dialogueText.text = "";
     }
