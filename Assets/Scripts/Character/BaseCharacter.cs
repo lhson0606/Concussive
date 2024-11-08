@@ -249,7 +249,6 @@ public class BaseCharacter : SlowMotionObject
         if(primaryWeapon == null)
         {
             primaryWeapon = weapon;
-            weapon.transform.SetParent(primaryWeaponSlot.transform);
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
             weapon.SetAsMainWeapon(primaryWeaponSlot.transform);
@@ -257,7 +256,6 @@ public class BaseCharacter : SlowMotionObject
         else if (secondaryWeapon == null)
         {
             secondaryWeapon = weapon;
-            weapon.transform.SetParent(secondaryWeaponSlot.transform);
             weapon.SetAsOffHandWeapon(secondaryWeaponSlot.transform);
         }
         else

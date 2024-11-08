@@ -19,21 +19,47 @@ public class BaseWeapon : GameItem
     protected SpriteRenderer weaponSpriteRenderer;
     private bool isAttacking = false;
 
-    protected override void Start()
+    public readonly int STATE_ON_GROUND = 0;
+    public readonly int STATE_IDLE = 1;
+    public readonly int STATE_OFF_HAND = 2;
+
+    private int currentState = 0;
+
+    protected override void OnValidate()
     {
-        base.Start();
+        base.OnValidate();
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+
+        SetUpPickUp();
+        updateState(STATE_ON_GROUND);
+    }
+
+
+    protected override void Start()
+    {
+        base.Start();        
+        updateState(STATE_ON_GROUND);
+    }
+
+    private void updateState(int state)
+    {
+        currentState = state;
+        animator.SetInteger("State", currentState);
     }
 
     public void SetAsMainWeapon(Transform primaryWeaponSlotTransform)
     {
+        transform.SetParent(primaryWeaponSlotTransform);
         transform.localPosition = new Vector3(0, 0, 0);
+        updateState(STATE_IDLE);
     }
 
     public void SetAsOffHandWeapon(Transform secondaryWeaponSlotTransform)
     {
+        transform.SetParent(secondaryWeaponSlotTransform);
         transform.localPosition = new Vector3(0,0,0);
+        updateState(STATE_OFF_HAND);
     }
 
     protected override void OnPickUp(BaseCharacter owner)

@@ -114,10 +114,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 15
+        width: 20
         height: 29
       alignment: 9
-      pivot: {x: 0.5969194, y: 0.13834284}
+      pivot: {x: 0.8489205, y: 0.1390479}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: katana_attack_anim_1
       rect:
         serializedVersion: 2
-        x: 15
+        x: 20
         y: 0
-        width: 15
+        width: 20
         height: 29
       alignment: 9
-      pivot: {x: 0.6661478, y: 0.14013322}
+      pivot: {x: 0.8517805, y: 0.13904788}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: katana_attack_anim_2
       rect:
         serializedVersion: 2
-        x: 30
+        x: 40
         y: 0
-        width: 15
+        width: 20
         height: 29
       alignment: 9
-      pivot: {x: 0.676532, y: 0.13834284}
+      pivot: {x: 0.8517805, y: 0.13904788}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,20 +178,20 @@ TextureImporter:
       name: katana_attack_anim_3
       rect:
         serializedVersion: 2
-        x: 45
+        x: 60
         y: 0
-        width: 15
+        width: 20
         height: 29
       alignment: 9
-      pivot: {x: 0.6654696, y: 0.14083749}
+      pivot: {x: 0.8517807, y: 0.1410203}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c139e18b2e85074cbf342d094603bb8
-      internalID: 8005985474412274706
+      spriteID: 2fadd698e176f3b48b00450dac105bf3
+      internalID: -31703290
       vertices: []
       indices: 
       edges: []
@@ -211,7 +211,7 @@ TextureImporter:
       katana_attack_anim_0: 5704545759782533023
       katana_attack_anim_1: -3291805360791304147
       katana_attack_anim_2: 2344611713292618358
-      katana_attack_anim_3: 8005985474412274706
+      katana_attack_anim_3: -31703290
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
