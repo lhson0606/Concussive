@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class BaseCharacter : SlowMotionObject
+public class BaseCharacter : SlowMotionObject, IDamageable
 {
     [SerializeField]
     protected int maxHealth = 7;
@@ -48,6 +48,8 @@ public class BaseCharacter : SlowMotionObject
     public Vector2 LookDir { get; private set;  }
     public Vector2 LookAtPosition { get; set; }
 
+    public bool IsAttacking { get; set; } = false;
+
     public void Start()
     {
         currentHealth = 1;
@@ -81,6 +83,11 @@ public class BaseCharacter : SlowMotionObject
             Die();
         }
 
+        if(IsAttacking)
+        {
+            return;
+        }
+
         LookDir = (LookAtPosition - (Vector2)transform.position).normalized;
 
         if (LookDir.x < 0)
@@ -92,7 +99,10 @@ public class BaseCharacter : SlowMotionObject
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
-        weaponControl.PointerPosition = LookAtPosition;
+        if(weaponControl != null)
+        {
+            weaponControl.PointerPosition = LookAtPosition;
+        }
     }
 
     public void Die()
@@ -135,7 +145,7 @@ public class BaseCharacter : SlowMotionObject
             return;
         }
 
-        GameObject textObject = Instantiate(characterText, transform.position, Quaternion.identity, gameObject.transform);
+        GameObject textObject = Instantiate(characterText, transform.position, Quaternion.identity);
         PopUpTextControl textControl = textObject.GetComponent<PopUpTextControl>();
 
         if (textControl == null)
@@ -251,12 +261,12 @@ public class BaseCharacter : SlowMotionObject
             primaryWeapon = weapon;
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
-            weapon.SetAsMainWeapon(primaryWeaponSlot.transform);
+            weapon.SetAsMainWeapon(this);
         }
         else if (secondaryWeapon == null)
         {
             secondaryWeapon = weapon;
-            weapon.SetAsOffHandWeapon(secondaryWeaponSlot.transform);
+            weapon.SetAsOffHandWeapon(this);
         }
         else
         {
@@ -287,5 +297,22 @@ public class BaseCharacter : SlowMotionObject
     public BaseWeapon GetPrimaryWeapon()
     {
         return primaryWeapon;
+    }
+
+    public Transform GetPrimaryWeaponSlotTransform()
+    {
+        return primaryWeaponSlot.transform;
+    }
+
+    public Transform GetSecondaryWeaponSlotTransform()
+    {
+        return secondaryWeaponSlot.transform;
+    }
+
+    public void TakeDamage(DamageData damageData)
+    {
+        Debug.Log("Taking damage");
+        Debug.Log("Is critical hit: " + damageData.IsCritical);
+        Debug.Log("Damage: " + damageData.Damage);
     }
 }

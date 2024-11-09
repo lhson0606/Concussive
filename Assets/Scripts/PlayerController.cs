@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -58,6 +59,19 @@ public class PlayerController : MonoBehaviour
         //baseCharacter.SetWeaponPointer(pointerPosition);
         HandleMouseClick();
         HandlePickUp();
+        HandleAttack();
+    }
+
+    private void HandleAttack()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            // attack if there is a weapon
+            if (baseCharacter.GetPrimaryWeapon() != null)
+            {
+                baseCharacter.GetPrimaryWeapon().DoAttack();
+            }
+        }
     }
 
     public void SetEnabled(bool enabled)
@@ -118,12 +132,6 @@ public class PlayerController : MonoBehaviour
                     selectedPickUp.OnDeselect();
                     selectedPickUp = null;
                 }
-            }
-
-            // attack if there is a weapon
-            if (baseCharacter.GetPrimaryWeapon() != null)
-            {
-                baseCharacter.GetPrimaryWeapon().DoAttack();
             }
         }
     }

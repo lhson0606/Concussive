@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponControl : SlowMotionObject
 {
@@ -21,6 +22,12 @@ public class WeaponControl : SlowMotionObject
         {
             return;
         }
+
+        if(character.IsAttacking)
+        {
+            return;
+        }
+
         UpdateWeaponRotation();
         UpdateWeaponRenderOrder();
     }

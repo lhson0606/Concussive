@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(LineRenderer))]
@@ -10,6 +11,8 @@ public class BaseWeapon : GameItem
     [SerializeField]
     protected int baseDamage = 0;
     [SerializeField]
+    protected float weaponCriticalChance = 0.05f;
+    [SerializeField]
     protected float attackSpeed = 1.0f;
     [SerializeField]
     protected Element element = null;
@@ -17,29 +20,41 @@ public class BaseWeapon : GameItem
     protected Animator animator;
 
     protected SpriteRenderer weaponSpriteRenderer;
-    private bool isAttacking = false;
 
     public readonly int STATE_ON_GROUND = 0;
     public readonly int STATE_IDLE = 1;
     public readonly int STATE_OFF_HAND = 2;
 
-    private int currentState = 0;
+    protected int currentState = 0;
+    protected BaseCharacter owner;
 
     protected override void OnValidate()
     {
         base.OnValidate();
+        SetUpPickUp();
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-
-        SetUpPickUp();
+        attackSpeed = 1f / GetAnimationClipDuration("WeaponAttackAnim");
         updateState(STATE_ON_GROUND);
     }
 
-
-    protected override void Start()
+    private float GetAnimationClipDuration(string clipName)
     {
-        base.Start();        
-        updateState(STATE_ON_GROUND);
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        foreach (var clip in ac.animationClips)
+        {
+            if (clip.name == clipName)
+            {
+                return clip.length;
+            }
+        }
+        Debug.LogWarning($"Animation clip '{clipName}' not found!");
+        return 0f;
     }
 
     private void updateState(int state)
@@ -48,16 +63,24 @@ public class BaseWeapon : GameItem
         animator.SetInteger("State", currentState);
     }
 
-    public void SetAsMainWeapon(Transform primaryWeaponSlotTransform)
+    private void SetOwnerIsAttackingFalse()
     {
-        transform.SetParent(primaryWeaponSlotTransform);
+        if (owner != null)
+        {
+            owner.IsAttacking = false;
+        }
+    }
+
+    public void SetAsMainWeapon(BaseCharacter owner)
+    {
+        transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         updateState(STATE_IDLE);
     }
 
-    public void SetAsOffHandWeapon(Transform secondaryWeaponSlotTransform)
+    public void SetAsOffHandWeapon(BaseCharacter owner)
     {
-        transform.SetParent(secondaryWeaponSlotTransform);
+        transform.SetParent(owner.GetSecondaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0,0,0);
         updateState(STATE_OFF_HAND);
     }
@@ -66,9 +89,10 @@ public class BaseWeapon : GameItem
     {
         Debug.Log("Weapon picked up");
         owner.EquipWeapon(this, owner.GetCharacterSpriteRenderer(), GetWeaponSpriteRenderer());
+        this.owner = owner;
     }
 
-    private DamageData CalculateDamage(BaseCharacter owner, BaseCharacter target)
+    protected DamageData CalculateDamage(BaseCharacter owner, BaseCharacter target)
     {
         DamageData damageData = new DamageData();
         damageData.Damage = baseDamage;
@@ -77,6 +101,11 @@ public class BaseWeapon : GameItem
 
         // Apply critable damage buffs
         damageData = ApplyCritableDamageBuff(damageData, owner, target);
+
+        if(element == null)
+        {
+            return damageData;
+        }
 
         // Calculate crit damage
         if (damageData.IsCritical && !element.IsElemental)
@@ -101,30 +130,28 @@ public class BaseWeapon : GameItem
 
     private bool IsCriticalHit(BaseCharacter owner)
     {
-        return Random.value < owner.GetCriticalChance();
+        return Random.value < owner.GetCriticalChance() + this.weaponCriticalChance;
     }
 
     public void DoAttack()
     {
         //if on cooldown, return
-        if (isAttacking)
+        if (owner.IsAttacking)
         {
             return;
         }
 
         animator.SetTrigger("Attack");
-        isAttacking = true;
-        //create an invoke to reset the attack
-        Invoke("ResetAttack", 1 / attackSpeed);
-    }
-
-    private void ResetAttack()
-    {
-        isAttacking = false;
+        owner.IsAttacking = true;
     }
 
     public SpriteRenderer GetWeaponSpriteRenderer()
     {
         return weaponSpriteRenderer;
+    }
+
+    public bool IsAttacking()
+    {
+        return owner.IsAttacking;
     }
 }
