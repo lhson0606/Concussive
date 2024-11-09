@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class BaseWeapon : GameItem
 {
     [SerializeField]
@@ -18,6 +19,14 @@ public class BaseWeapon : GameItem
     protected Element element = null;
     [SerializeField]
     protected Animator animator;
+    [SerializeField]
+    protected AudioClip onAttackSound;
+    [SerializeField]
+    protected AudioClip onEquipSound;
+    [SerializeField]
+    protected AudioClip onHitSound;
+    [SerializeField]
+    protected AudioClip onAttackMissSound;
 
     protected SpriteRenderer weaponSpriteRenderer;
 
@@ -27,6 +36,7 @@ public class BaseWeapon : GameItem
 
     protected int currentState = 0;
     protected BaseCharacter owner;
+    protected AudioSource audioSource;
 
     protected override void OnValidate()
     {
@@ -40,6 +50,13 @@ public class BaseWeapon : GameItem
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         attackSpeed = 1f / GetAnimationClipDuration("WeaponAttackAnim");
+        audioSource = GetComponent<AudioSource>();
+        updateState(STATE_ON_GROUND);
+    }
+
+    public override void DropItem(Vector3 position)
+    {
+        base.DropItem(position);
         updateState(STATE_ON_GROUND);
     }
 
@@ -81,7 +98,7 @@ public class BaseWeapon : GameItem
     public void SetAsOffHandWeapon(BaseCharacter owner)
     {
         transform.SetParent(owner.GetSecondaryWeaponSlotTransform());
-        transform.localPosition = new Vector3(0,0,0);
+        transform.localPosition = new Vector3(0, 0, 0);
         updateState(STATE_OFF_HAND);
     }
 
@@ -98,11 +115,13 @@ public class BaseWeapon : GameItem
         damageData.Damage = baseDamage;
         damageData.IsCritical = IsCriticalHit(owner);
         damageData.SourceElement = element;
+        damageData.SourcePosition = owner.transform.position;
+        damageData.TargetPosition = target.transform.position;
 
         // Apply critable damage buffs
         damageData = ApplyCritableDamageBuff(damageData, owner, target);
 
-        if(element == null)
+        if (element == null)
         {
             return damageData;
         }
@@ -143,6 +162,8 @@ public class BaseWeapon : GameItem
 
         animator.SetTrigger("Attack");
         owner.IsAttacking = true;
+
+        OnAttack();
     }
 
     public SpriteRenderer GetWeaponSpriteRenderer()
@@ -153,5 +174,57 @@ public class BaseWeapon : GameItem
     public bool IsAttacking()
     {
         return owner.IsAttacking;
+    }
+
+    public void OnHit()
+    {
+        PlayOnHitSound();
+    }
+
+    public void OnEquip()
+    {
+        PlayEquipSound();
+    }
+
+    public void OnAttack()
+    {
+        PlayOnAttackSound();
+    }
+
+    public void OnAttackMiss()
+    {
+        PlayOnAttackMissSound();
+    }
+
+    public void PlayOnHitSound()
+    {
+        if (onHitSound != null)
+        {
+            audioSource.PlayOneShot(onHitSound);
+        }
+    }
+
+    public void PlayEquipSound()
+    {
+        if (onEquipSound != null)
+        {
+            audioSource.PlayOneShot(onEquipSound);
+        }
+    }
+
+    public void PlayOnAttackMissSound()
+    {
+        if (onAttackMissSound != null)
+        {
+            audioSource.PlayOneShot(onAttackMissSound);
+        }
+    }
+
+    public void PlayOnAttackSound()
+    {
+        if (onAttackSound != null)
+        {
+            audioSource.PlayOneShot(onAttackSound);
+        }
     }
 }

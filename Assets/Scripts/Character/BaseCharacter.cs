@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
@@ -40,7 +41,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected GameObject primaryWeaponSlot;
     protected GameObject secondaryWeaponSlot;
     protected BaseWeapon primaryWeapon;
-    protected BaseWeapon secondaryWeapon;
+    protected BaseWeapon secondaryWeapon;// Secondary weapon can be null
 
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
@@ -62,11 +63,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         if(primaryWeaponSlot == null)
         {
             Debug.LogError("Primary weapon not found.");
-        }
-
-        if(secondaryWeaponSlot == null)
-        {
-            Debug.LogError("Secondary weapon not found.");
         }
 
         characterRenderer = GetComponent<SpriteRenderer>();
@@ -262,6 +258,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
             weapon.SetAsMainWeapon(this);
+            primaryWeapon.OnEquip();
         }
         else if (secondaryWeapon == null)
         {
@@ -270,18 +267,36 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
         else
         {
-            Debug.LogError("Not implemented");
+            // Drop the weapon and pick up the new one
+            primaryWeapon.DropItem(weapon.transform.position);
+            primaryWeapon = weapon;
+            weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
+            primaryWeapon.SetAsMainWeapon(this);
+            primaryWeapon.OnEquip();
         }
-    }
-
-    public void DropPrimaryWeapon()
-    {
-
     }
 
     public void SwitchToSecondaryWeapon()
     {
+        if (secondaryWeapon == null)
+        {
+            Debug.LogWarning("No secondary weapon equipped.");
+            return;
+        }
 
+        // Swap primary and secondary weapons
+        BaseWeapon tempWeapon = primaryWeapon;
+        primaryWeapon = secondaryWeapon;
+        secondaryWeapon = tempWeapon;
+
+        // Update weapon control to use the new primary weapon
+        weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
+        primaryWeapon.SetAsMainWeapon(this);
+        secondaryWeapon.SetAsOffHandWeapon(this);
+
+        primaryWeapon.OnEquip();
+
+        Debug.Log("Switched to secondary weapon.");
     }
 
     public void SetWeaponPointer(Vector2 val)
@@ -314,5 +329,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         Debug.Log("Taking damage");
         Debug.Log("Is critical hit: " + damageData.IsCritical);
         Debug.Log("Damage: " + damageData.Damage);
+        // Add impule to the character
+        Vector2 impulse = new Vector2(0, 0);
+        Vector2  dir = damageData.TargetPosition - damageData.SourcePosition;
+        impulse = dir.normalized * 10;
+        if(damageData.IsCritical)
+        {
+            impulse *= 3;
+        }
+        GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
     }
 }

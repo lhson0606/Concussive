@@ -20,6 +20,7 @@ public class MeleeWeapon : BaseWeapon
             {
                 DamageData damageData = base.CalculateDamage(owner, target);
                 damageable.TakeDamage(damageData);
+                base.OnHit();
             }
         }
     }
