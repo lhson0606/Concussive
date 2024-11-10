@@ -347,8 +347,8 @@ MonoBehaviour:
   rarity: 2
   description: Deals damage quick
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
-  baseDamage: 0
-  weaponCriticalChance: 0.05
+  baseDamage: 5
+  weaponCriticalChance: 0.16
   attackSpeed: 5
   animator: {fileID: 724027056349166629}
   onAttackSound: {fileID: 8300000, guid: 0264bc6b3dc83a4419a396547bca16e1, type: 3}

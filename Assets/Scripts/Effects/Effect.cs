@@ -65,4 +65,6 @@ public class Effect : SlowMotionObject
             Destroy(particlesInstance.gameObject, particlesInstance.main.duration);
         }
     }
+
+    public EffectType EffectType => effectType;
 }

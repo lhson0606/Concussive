@@ -10,4 +10,7 @@ public class Element
     protected Effect effect { get; private set; } = null;
 
     public bool IsElemental => type != ElementType.NONE;
+    public ElementType Type => type;
+    public Sprite Icon => icon;
+    public Effect Effect => effect;
 }

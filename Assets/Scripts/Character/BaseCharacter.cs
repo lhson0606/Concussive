@@ -5,10 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(AudioSource))]
 public class BaseCharacter : SlowMotionObject, IDamageable
 {
     [SerializeField]
@@ -31,6 +30,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected GameObject characterText = null;
     [SerializeField]
     protected RaceType race = RaceType.HUMAN;
+    [SerializeField]
+    protected AudioClip hurtSound = null;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -45,6 +46,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
+    protected AudioSource audioSource;
 
     public Vector2 LookDir { get; private set;  }
     public Vector2 LookAtPosition { get; set; }
@@ -57,17 +59,13 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         currentArmor = maxArmor;
         currentMana = maxMana;
 
-        primaryWeaponSlot = transform.Find("PrimaryWeapon").gameObject;
-        secondaryWeaponSlot = transform.Find("SecondaryWeapon").gameObject;
-
-        if(primaryWeaponSlot == null)
-        {
-            Debug.LogError("Primary weapon not found.");
-        }
+        primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
+        secondaryWeaponSlot = transform.Find("SecondaryWeapon")?.gameObject;
 
         characterRenderer = GetComponent<SpriteRenderer>();
-        primaryWeapon = primaryWeaponSlot.GetComponent<BaseWeapon>();
-        weaponControl = primaryWeaponSlot.GetComponent<WeaponControl>();
+        primaryWeapon = primaryWeaponSlot?.GetComponent<BaseWeapon>();
+        weaponControl = primaryWeaponSlot?.GetComponent<WeaponControl>();
+        audioSource = GetComponent<AudioSource>();
         LookAtPosition = transform.position;
         LookDir = Vector2.right;
     }
@@ -131,6 +129,34 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
         this.SpawnText(text, textColor, lifeTime, initVel);
+    }
+
+    public void SpawnDamageText(DamageData damageData)
+    {
+        if (characterText == null)
+        {
+            Debug.LogError("CharacterText prefab is not assigned.");
+            return;
+        }
+
+        var color = Color.white;
+        var text = damageData.Damage.ToString();
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+
+        if (damageData.IsCritical)
+        {
+            color = Color.red;
+        }
+
+        //color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
+
+        //if(damageData.IsCritical && !damageData.SourceElement.IsElemental)
+        //{
+        //    color = Color.red;
+        //}
+
+        this.SpawnText(text, color, lifeTime, initVel);
     }
 
     public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel)
@@ -252,13 +278,18 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public void EquipWeapon(BaseWeapon weapon, SpriteRenderer characterRenderer, SpriteRenderer weaponRenderer)
     {
+        if(weaponControl == null)
+        {
+            throw new ArgumentException("Weapon control is not assigned.");
+        }
+
         if(primaryWeapon == null)
         {
             primaryWeapon = weapon;
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
             weapon.SetAsMainWeapon(this);
-            primaryWeapon.OnEquip();
+            primaryWeapon.OnEquipped();
         }
         else if (secondaryWeapon == null)
         {
@@ -272,7 +303,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon = weapon;
             weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
             primaryWeapon.SetAsMainWeapon(this);
-            primaryWeapon.OnEquip();
+            primaryWeapon.OnEquipped();
         }
     }
 
@@ -294,7 +325,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         primaryWeapon.SetAsMainWeapon(this);
         secondaryWeapon.SetAsOffHandWeapon(this);
 
-        primaryWeapon.OnEquip();
+        primaryWeapon.OnEquipped();
 
         Debug.Log("Switched to secondary weapon.");
     }
@@ -316,15 +347,25 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public Transform GetPrimaryWeaponSlotTransform()
     {
-        return primaryWeaponSlot.transform;
+        return primaryWeaponSlot?.transform;
     }
 
     public Transform GetSecondaryWeaponSlotTransform()
     {
-        return secondaryWeaponSlot.transform;
+        return secondaryWeaponSlot?.transform;
     }
 
-    public void TakeDamage(DamageData damageData)
+    protected virtual void OnDamageTaken(DamageData damageData)
+    {
+        SpawnDamageText(damageData);
+
+        if(hurtSound)
+        {
+            audioSource?.PlayOneShot(hurtSound);
+        }
+    }
+
+    public virtual void TakeDamage(DamageData damageData)
     {
         Debug.Log("Taking damage");
         Debug.Log("Is critical hit: " + damageData.IsCritical);
@@ -337,6 +378,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             impulse *= 3;
         }
-        GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>()?.AddForce(impulse, ForceMode2D.Impulse);
+        OnDamageTaken(damageData);
     }
 }

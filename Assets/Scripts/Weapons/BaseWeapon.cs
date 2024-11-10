@@ -80,6 +80,11 @@ public class BaseWeapon : GameItem
         animator.SetInteger("State", currentState);
     }
 
+    protected virtual void OnAttackFinish()
+    {
+
+    }
+
     private void SetOwnerIsAttackingFalse()
     {
         if (owner != null)
@@ -163,7 +168,7 @@ public class BaseWeapon : GameItem
         animator.SetTrigger("Attack");
         owner.IsAttacking = true;
 
-        OnAttack();
+        OnAttackStarted();
     }
 
     public SpriteRenderer GetWeaponSpriteRenderer()
@@ -176,22 +181,22 @@ public class BaseWeapon : GameItem
         return owner.IsAttacking;
     }
 
-    public void OnHit()
+    public virtual void OnHit()
     {
         PlayOnHitSound();
     }
 
-    public void OnEquip()
+    public void OnEquipped()
     {
         PlayEquipSound();
     }
 
-    public void OnAttack()
+    public virtual void OnAttackStarted()
     {
         PlayOnAttackSound();
     }
 
-    public void OnAttackMiss()
+    public void OnAttackMissed()
     {
         PlayOnAttackMissSound();
     }
