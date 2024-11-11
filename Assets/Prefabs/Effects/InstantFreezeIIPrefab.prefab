@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7202207012018927799}
   - component: {fileID: 7824092880889320325}
   m_Layer: 0
-  m_Name: InstantFreezeII
+  m_Name: InstantFreezeIIPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,12 +200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectName: Instant Freeze II
-  duration: 0.75
+  duration: 1.5
   tickRate: 0
   delay: 0
   particles: {fileID: 0}
   effectType: 3
-  effectStartAudio: {fileID: 0}
+  effectStartAudio: {fileID: 8300000, guid: b19075568ce928848bc67a0826ded1b0, type: 3}
 --- !u!95 &7824092880889320325
 Animator:
   serializedVersion: 7

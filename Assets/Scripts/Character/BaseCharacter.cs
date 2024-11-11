@@ -33,6 +33,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected RaceType race = RaceType.HUMAN;
     [SerializeField]
     protected AudioClip hurtSound = null;
+    [SerializeField]
+    protected float effectSizeScale = 1f;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -392,5 +394,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
         GetComponent<Rigidbody2D>()?.AddForce(impulse, ForceMode2D.Impulse);
         OnDamageTaken(damageData);
+    }
+
+    public float GetEffectSizeScale()
+    {
+        return effectSizeScale;
     }
 }

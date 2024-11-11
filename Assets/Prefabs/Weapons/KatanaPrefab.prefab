@@ -350,7 +350,7 @@ MonoBehaviour:
   description: Deals damage quick
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   baseDamage: 5
-  weaponCriticalChance: 0.16
+  weaponCriticalChance: 0.07
   attackSpeed: 5
   element: {fileID: 3488396042479631976, guid: 092533ef572df4748888acbe84fd54d9, type: 3}
   animator: {fileID: 724027056349166629}

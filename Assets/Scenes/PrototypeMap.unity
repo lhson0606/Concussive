@@ -3282,7 +3282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8651333642439640499, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
       propertyPath: weaponCriticalChance
-      value: 0.16
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 8651333642439640499, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
       propertyPath: hitColliders.Array.size

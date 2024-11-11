@@ -30,6 +30,7 @@ public class Effect : SlowMotionObject
     {
         this.target = target;
         target.AddEffect(this);
+        transform.localScale *= target.GetEffectSizeScale();
 
         // Debug logs to check the values
         Debug.Log($"Starting effect: {effectName} with delay: {delay}, tickRate: {tickRate}, duration: {duration}");
@@ -42,7 +43,9 @@ public class Effect : SlowMotionObject
         if (particles != null)
         {
             // spawn particles at the target's position
-            particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity, transform);
+            particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity,transform);
+            particlesInstance.transform.localScale *= target.GetEffectSizeScale();
+
             var mainModule = particlesInstance.main;
             mainModule.duration = duration;
             mainModule.loop = true;

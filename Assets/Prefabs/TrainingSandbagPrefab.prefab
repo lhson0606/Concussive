@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3622630212214082847}
   - component: {fileID: 6374276026078465499}
   m_Layer: 0
-  m_Name: TrainingSandbag
+  m_Name: TrainingSandbagPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,3 +279,4 @@ MonoBehaviour:
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
   hurtSound: {fileID: 8300000, guid: d79000afcc2b782458b337aad9eb93f4, type: 3}
+  effectSizeScale: 1.5
