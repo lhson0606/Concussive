@@ -8,6 +8,7 @@ using static UnityEditor.PlayerSettings;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Animator))]
 public class BaseCharacter : SlowMotionObject, IDamageable
 {
     [SerializeField]
