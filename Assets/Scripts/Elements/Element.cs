@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class Element
+public class Element : MonoBehaviour
 {
     [SerializeField]
-    protected ElementType type { get; private set; } = ElementType.NONE;
+    protected ElementType type = ElementType.NONE;
     [SerializeField]
-    protected Sprite icon { get; private set; } = null;
+    protected Sprite icon = null;
     [SerializeField]
-    protected Effect effect { get; private set; } = null;
+    protected Effect effect = null;
 
     public bool IsElemental => type != ElementType.NONE;
     public ElementType Type => type;

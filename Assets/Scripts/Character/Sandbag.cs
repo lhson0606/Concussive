@@ -15,7 +15,7 @@ public class Sandbag : BaseCharacter
             GetComponent<Animator>()?.SetBool("IsHurtingLeft", true);
         }
 
-        base.SpawnDamageText(damageData);
+        base.OnDamageTaken(damageData);
     }
 
     public void StopHurting()

@@ -53,6 +53,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
+    public bool IsFreezing { get; set; } = false;
 
     public void Start()
     {
@@ -144,10 +145,19 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         var text = damageData.Damage.ToString();
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
+        float scale = 1;
 
         if (damageData.IsCritical)
         {
-            color = Color.red;
+            color = damageData.SourceElement.IsElemental
+                ? EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType)
+                : Color.red;
+            initVel *= GetCriticalDamageMultiplier();
+            scale = 1.5f;
+        }
+        else if (damageData.SourceElement.IsElemental)
+        {
+            color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
         }
 
         //color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
@@ -157,10 +167,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         //    color = Color.red;
         //}
 
-        this.SpawnText(text, color, lifeTime, initVel);
+        this.SpawnText(text, color, lifeTime, initVel, scale);
     }
 
-    public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel)
+    public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel, float scale = 1)
     {
         if (characterText == null)
         {
@@ -181,6 +191,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         textControl.textColor = color;
         textControl.lifeTime = lifeTime;
         textControl.InitialVelocity = initVel;
+        textControl.transform.localScale *= scale;
     }
 
     public void AddBuff(Buff buff)

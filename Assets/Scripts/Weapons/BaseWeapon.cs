@@ -132,9 +132,22 @@ public class BaseWeapon : GameItem
         }
 
         // Calculate crit damage
-        if (damageData.IsCritical && !element.IsElemental)
+        if (damageData.IsCritical)
         {
-            damageData.Damage *= owner.GetCriticalDamageMultiplier();
+            if(element.IsElemental)
+            {
+                // apply elemental effect
+                Effect effectPrefab = element.Effect;
+                if (effectPrefab != null)
+                {
+                    Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+                    effectInstance.StartEffect(target);
+                }
+            }
+            else
+            {
+                damageData.Damage *= owner.GetCriticalDamageMultiplier();
+            }
         }
 
         return damageData;

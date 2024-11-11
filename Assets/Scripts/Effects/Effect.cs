@@ -1,18 +1,29 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Effect : SlowMotionObject
 {
     public string effectName = "?";
     public float duration = 0f;
     public float tickRate = 0f;
     public float delay = 0f;
-    public Sprite icon = null;
     public ParticleSystem particles = null;
     public EffectType effectType = EffectType.NONE;
+    [SerializeField]
+    protected AudioClip effectStartAudio;
+
 
     protected BaseCharacter target;
+    protected ParticleSystem particlesInstance;
+    protected AudioSource audioSource;
+    protected Animator animator;
 
-    private ParticleSystem particlesInstance;
+    protected override void Awake()
+    {
+        base.Awake();
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void StartEffect(BaseCharacter target)
@@ -23,24 +34,24 @@ public class Effect : SlowMotionObject
         // Debug logs to check the values
         Debug.Log($"Starting effect: {effectName} with delay: {delay}, tickRate: {tickRate}, duration: {duration}");
 
-        if (tickRate > 0)
-        {
-            InvokeRepeating("ApplyEffect", delay, tickRate);
-            Invoke("EndEffect", duration);
-        }
-        else
-        {
-            Debug.LogError("Tick rate must be greater than 0");
-        }
+        InvokeRepeating("ApplyEffect", delay, tickRate);
+        Invoke("EndEffect", duration);
+
+        transform.SetParent(target.transform);
 
         if (particles != null)
         {
             // spawn particles at the target's position
-            particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity, target.transform);
+            particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity, transform);
             var mainModule = particlesInstance.main;
             mainModule.duration = duration;
             mainModule.loop = true;
             particlesInstance.Play();
+        }
+
+        if(effectStartAudio != null)
+        {
+            audioSource.PlayOneShot(effectStartAudio);
         }
     }
 

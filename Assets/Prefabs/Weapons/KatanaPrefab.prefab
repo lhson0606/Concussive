@@ -78,9 +78,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.43244284, y: 0.72986186}
-      - {x: -1.5777727, y: -0.32789153}
-      - {x: -0.57033896, y: -1.0090823}
+    - - {x: -0.26135507, y: 0.58369124}
+      - {x: -0.708614, y: 0.5236347}
+      - {x: -1.0515678, y: 0.20880452}
+      - {x: -1.4724175, y: -0.5045283}
+      - {x: -0.11793929, y: -0.89569396}
       - {x: 0.079293795, y: -0.6750365}
       - {x: 0.106610596, y: 0.35886124}
   m_UseDelaunayMesh: 0
@@ -350,6 +352,7 @@ MonoBehaviour:
   baseDamage: 5
   weaponCriticalChance: 0.16
   attackSpeed: 5
+  element: {fileID: 3488396042479631976, guid: 092533ef572df4748888acbe84fd54d9, type: 3}
   animator: {fileID: 724027056349166629}
   onAttackSound: {fileID: 8300000, guid: 0264bc6b3dc83a4419a396547bca16e1, type: 3}
   onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
