@@ -8117,6 +8117,7 @@ MonoBehaviour:
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
   hurtSound: {fileID: 0}
+  effectSizeScale: 1
 --- !u!212 &1672039734
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9377,6 +9378,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3570797435832845595, guid: 88a7c10c11888c248ba80acf904a7e44, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4542241651969654636, guid: 88a7c10c11888c248ba80acf904a7e44, type: 3}
       propertyPath: m_Name
       value: TrainingSandbag

@@ -51,6 +51,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected SpriteRenderer characterRenderer;
     protected AudioSource audioSource;
 
+    protected SimpleFlashEffect flashEffect;
+
     public Vector2 LookDir { get; private set;  }
     public Vector2 LookAtPosition { get; set; }
 
@@ -72,6 +74,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         audioSource = GetComponent<AudioSource>();
         LookAtPosition = transform.position;
         LookDir = Vector2.right;
+
+        flashEffect = GetComponent<SimpleFlashEffect>();
     }
 
     public void Update()
@@ -371,6 +375,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     protected virtual void OnDamageTaken(DamageData damageData)
     {
+        flashEffect?.Flash();
+
         SpawnDamageText(damageData);
 
         if(hurtSound)
