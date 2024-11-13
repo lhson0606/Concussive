@@ -37,6 +37,7 @@ public class BaseWeapon : GameItem
     protected int currentState = 0;
     protected BaseCharacter owner;
     protected AudioSource audioSource;
+    public bool ShouldAlterRenderOrder { get; set; } = true;
 
     protected override void OnValidate()
     {
@@ -62,6 +63,11 @@ public class BaseWeapon : GameItem
 
     private float GetAnimationClipDuration(string clipName)
     {
+        if(!animator)
+        {
+            return 0f;
+        }
+
         RuntimeAnimatorController ac = animator.runtimeAnimatorController;
         foreach (var clip in ac.animationClips)
         {
@@ -77,7 +83,11 @@ public class BaseWeapon : GameItem
     private void updateState(int state)
     {
         currentState = state;
-        animator.SetInteger("State", currentState);
+
+        if (animator != null)
+        {
+            animator.SetInteger("State", currentState);
+        }
     }
 
     protected virtual void OnAttackFinish()
@@ -93,17 +103,18 @@ public class BaseWeapon : GameItem
         }
     }
 
-    public void SetAsMainWeapon(BaseCharacter owner)
+    public virtual void SetAsMainWeapon(BaseCharacter owner)
     {
         transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         updateState(STATE_IDLE);
     }
 
-    public void SetAsOffHandWeapon(BaseCharacter owner)
+    public virtual void SetAsOffHandWeapon(BaseCharacter owner)
     {
         transform.SetParent(owner.GetSecondaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
+        weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder - 1;
         updateState(STATE_OFF_HAND);
     }
 
@@ -170,18 +181,20 @@ public class BaseWeapon : GameItem
         return Random.value < owner.GetCriticalChance() + this.weaponCriticalChance;
     }
 
-    public void DoAttack()
+    public virtual void DoAttack()
     {
-        //if on cooldown, return
-        if (owner.IsAttacking)
-        {
-            return;
-        }
+        
+    }
 
-        animator.SetTrigger("Attack");
-        owner.IsAttacking = true;
 
-        OnAttackStarted();
+    public virtual void ReleaseAttack()
+    {
+
+    }
+
+    public virtual void Update()
+    {
+        
     }
 
     public SpriteRenderer GetWeaponSpriteRenderer()

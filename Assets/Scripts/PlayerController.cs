@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
         HandleMouseClick();
         HandlePickUp();
         HandleAttack();
+        HandleSwitchWeapon();
     }
 
     private void HandleAttack()
@@ -71,6 +72,23 @@ public class PlayerController : MonoBehaviour
             {
                 baseCharacter.GetPrimaryWeapon().DoAttack();
             }
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if(baseCharacter.GetPrimaryWeapon() != null)
+            {
+                baseCharacter.GetPrimaryWeapon().ReleaseAttack();
+            }
+        }
+    }
+
+    private void HandleSwitchWeapon()
+    {
+        // Scroll wheel to switch weapons
+        if(Input.mouseScrollDelta.y != 0)
+        {
+            baseCharacter.SwitchToSecondaryWeapon();
         }
     }
 

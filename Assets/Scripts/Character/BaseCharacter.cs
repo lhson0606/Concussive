@@ -304,9 +304,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         if(primaryWeapon == null)
         {
             primaryWeapon = weapon;
+            weapon.SetAsMainWeapon(this);
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
-            weapon.SetAsMainWeapon(this);
+            weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
             primaryWeapon.OnEquipped();
         }
         else if (secondaryWeapon == null)
@@ -320,6 +321,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.DropItem(weapon.transform.position);
             primaryWeapon = weapon;
             weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
+            weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
@@ -342,6 +344,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
         primaryWeapon.SetAsMainWeapon(this);
         secondaryWeapon.SetAsOffHandWeapon(this);
+        weaponControl.ShouldAlterRenderOrder = primaryWeapon.ShouldAlterRenderOrder;
 
         primaryWeapon.OnEquipped();
 

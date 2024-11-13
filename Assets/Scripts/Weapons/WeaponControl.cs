@@ -8,6 +8,7 @@ public class WeaponControl : SlowMotionObject
     public SpriteRenderer characterRenderer, weaponRenderer;
     public Vector2 PointerPosition { get; set; }
     private BaseCharacter character;
+    public bool ShouldAlterRenderOrder { get; set; } = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,7 +40,12 @@ public class WeaponControl : SlowMotionObject
 
     private void UpdateWeaponRenderOrder()
     {
-        if(characterRenderer == null)
+        if(!ShouldAlterRenderOrder)
+        {
+            return;
+        }
+
+        if (characterRenderer == null)
         {
             return;
         }
