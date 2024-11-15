@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject continueIcon;
     [SerializeField] private Animator portraitAnimator;
     [SerializeField] private TMP_Text displayName;
+    [SerializeField] private GameObject nameTextBox;
 
     [Header("Dialogue Choices")]
     [SerializeField] private GameObject[] choices;
@@ -102,9 +103,14 @@ public class DialogueManager : MonoBehaviour
     {
         currentStory = new Story(inkJSon.text);
         dialogueIsPlaying = true;
+
         // disable character movement
-        playerController.ResetMovement();
-        playerController.SetEnabled(false);
+        if(playerController != null)
+        {
+            playerController.ResetMovement();
+            playerController.SetEnabled(false);
+        }
+
         dialogueBox.SetActive(true);
 
         dialogueVariables.StartListening(currentStory);
@@ -119,8 +125,12 @@ public class DialogueManager : MonoBehaviour
         // inkExternalFunction.Unbind(currentStory);
 
         dialogueIsPlaying = false;
-        //enable character movement
-        playerController.SetEnabled(true);
+
+        if(playerController != null)
+        {
+            //enable character movement
+            playerController.SetEnabled(true);
+        }
         dialogueBox.SetActive(false);
         dialogueText.text = "";
     }
@@ -257,6 +267,10 @@ public class DialogueManager : MonoBehaviour
         return variableValue;
     }
 
+    public void SetNameTextBox(bool state)
+    {
+        this.nameTextBox.SetActive(state);
+    }
     // public void SaveData(GameData gameData)
     // {
     //     dialougeVariables.SaveVariable(gameData);
