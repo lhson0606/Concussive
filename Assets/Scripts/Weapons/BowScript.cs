@@ -21,6 +21,7 @@ public class BowScript : BaseWeapon
     public override void DoAttack()
     {
         isCharging = true;
+        animator?.SetBool("IsCharging", true);
         Debug.Log("Charging attack");
     }
 
@@ -48,6 +49,7 @@ public class BowScript : BaseWeapon
     public override void ReleaseAttack()
     {
         isCharging = false;
+        animator?.SetBool("IsCharging", false);
         chargeTime = 0.0f;
         chargeLevel = 0;
         Debug.Log("Releasing attack");
