@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.VFX;
 
 public class BowScript : BaseWeapon
 {
     [SerializeField]
     private GameObject arrowPrefab;
-
-    [Range(0, 3)]
-    private int chargeLevel = 0;
-
+    private GameObject arrow;
     private bool isCharging = false;
-    private float chargeTime = 0.0f;
 
     protected override void Start()
     {
@@ -20,8 +17,8 @@ public class BowScript : BaseWeapon
 
     public override void DoAttack()
     {
-        isCharging = true;
         animator?.SetBool("IsCharging", true);
+        isCharging = true;
         Debug.Log("Charging attack");
     }
 
@@ -36,33 +33,49 @@ public class BowScript : BaseWeapon
     public override void Update()
     {
         base.Update();
-        if (isCharging)
-        {
-            chargeTime += Time.deltaTime;
-
-            chargeLevel = GetClampedIntParameter(chargeTime, 0.0f, 1.0f, 2.0f, 3);
-
-            Debug.Log($"Charging at level {chargeLevel}");
-        }
     }
 
     public override void ReleaseAttack()
     {
-        isCharging = false;
+        if(isCharging)
+        {
+            isCharging = false;
+            // destroy the arrow
+            Destroy(arrow);
+            
+        }
+
         animator?.SetBool("IsCharging", false);
-        chargeTime = 0.0f;
-        chargeLevel = 0;
         Debug.Log("Releasing attack");
+
+        if (arrow)
+        {
+            // release the arrow
+            ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
+            arrowScript.OnProjectileRelease();
+            arrow = null;
+        }        
     }
 
-    private int GetClampedIntParameter(float time, float level1, float level2, float level3, int maxLevel)
+    // This method is called from the animator
+    public void SpawnArrow()
     {
-        if (time >= level3)
-            return maxLevel;
-        if (time >= level2)
-            return 2;
-        if (time >= level1)
-            return 1;
-        return 0;
+        isCharging = false;
+        // get the bow rotation
+        float angle = transform.rotation.eulerAngles.z;
+        // spawn the arrow
+        arrow = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, angle), transform);
+        //rotate the arrow to match the bow
+        arrow.transform.Rotate(0, 0, -90);
+        ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
+        arrowScript.OnProjectileSpawn();
+    }
+
+    public void OnArrowFullyCharged()
+    {
+        if (arrow)
+        {
+            arrow.GetComponent<ArrowScript>().OnProjectileFullyCharged();
+        }
     }
 }
