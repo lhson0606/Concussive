@@ -125,7 +125,7 @@ public class BaseWeapon : GameItem
         this.owner = owner;
     }
 
-    protected DamageData CalculateDamage(BaseCharacter owner, BaseCharacter target)
+    public DamageData CalculateDamage(BaseCharacter owner, BaseCharacter target)
     {
         DamageData damageData = new DamageData();
         damageData.Damage = baseDamage;

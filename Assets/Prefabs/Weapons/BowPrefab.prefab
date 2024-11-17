@@ -356,19 +356,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Wooden Bow
-  rarity: 0
+  rarity: 2
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
-  baseDamage: 0
-  weaponCriticalChance: 0.05
+  baseDamage: 3
+  weaponCriticalChance: 0.16
   attackSpeed: 1
-  element: {fileID: 0}
+  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
   animator: {fileID: 0}
   onAttackSound: {fileID: 0}
-  onEquipSound: {fileID: 0}
+  onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
   arrowPrefab: {fileID: 4110399282965247295, guid: 3f6a90d1965aac646bfbeaca46d2a17d, type: 3}
+  arrowNockSound: {fileID: 8300000, guid: 7bd3efabe0977b8418f2ee09045f50cc, type: 3}
+  arrowReleaseSound: {fileID: 8300000, guid: 01a3322814f42ab4bb231c365be8fa6a, type: 3}
 --- !u!114 &5196024946667887240
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5298853702950721454}
   - component: {fileID: 3488396042479631976}
   m_Layer: 0
-  m_Name: ElementIce
+  m_Name: ElementIcePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

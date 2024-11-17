@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Door
+  - Projectile
+  - Obstacle
+  - Enemy
   layers:
   - Default
   - TransparentFX

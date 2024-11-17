@@ -6,6 +6,12 @@ public class BowScript : BaseWeapon
 {
     [SerializeField]
     private GameObject arrowPrefab;
+    [SerializeField]
+    private AudioClip arrowNockSound;
+    [SerializeField]
+    private AudioClip arrowReleaseSound;
+
+    private AudioSource audioSource;
     private GameObject arrow;
     private bool isCharging = false;
 
@@ -13,6 +19,7 @@ public class BowScript : BaseWeapon
     {
         base.Start();
         base.ShouldAlterRenderOrder = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void DoAttack()
@@ -54,7 +61,12 @@ public class BowScript : BaseWeapon
             ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
             arrowScript.OnProjectileRelease();
             arrow = null;
-        }        
+
+            if(arrowReleaseSound)
+            {
+                audioSource?.PlayOneShot(arrowReleaseSound);
+            }
+        }
     }
 
     // This method is called from the animator
@@ -68,7 +80,12 @@ public class BowScript : BaseWeapon
         //rotate the arrow to match the bow
         arrow.transform.Rotate(0, 0, -90);
         ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
-        arrowScript.OnProjectileSpawn();
+        arrowScript.OnProjectileSpawn(owner, this);
+
+        if(arrowNockSound)
+        {
+            audioSource?.PlayOneShot(arrowNockSound);
+        }
     }
 
     public void OnArrowFullyCharged()
