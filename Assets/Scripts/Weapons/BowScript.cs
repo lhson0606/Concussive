@@ -95,4 +95,17 @@ public class BowScript : BaseWeapon
             arrow.GetComponent<ArrowScript>().OnProjectileFullyCharged();
         }
     }
+
+    public override void OnEquippedAsOffHandWeapon()
+    {
+        base.OnEquippedAsOffHandWeapon();
+        // cancel the charging attack
+        isCharging = false;
+        animator?.SetBool("IsCharging", false);
+
+        if (arrow)
+        {
+            Destroy(arrow);
+        }
+    }
 }

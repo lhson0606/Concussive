@@ -108,6 +108,7 @@ public class BaseWeapon : GameItem
         transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         updateState(STATE_IDLE);
+        OnEquippedAsOffHandWeapon();
     }
 
     public virtual void SetAsOffHandWeapon(BaseCharacter owner)
@@ -116,6 +117,15 @@ public class BaseWeapon : GameItem
         transform.localPosition = new Vector3(0, 0, 0);
         weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder - 1;
         updateState(STATE_OFF_HAND);
+        OnEquippedAsOffHandWeapon();
+    }
+
+    public virtual void OnEquippedAsMainWeapon()
+    {
+    }
+
+    public virtual void OnEquippedAsOffHandWeapon()
+    {
     }
 
     protected override void OnPickUp(BaseCharacter owner)
