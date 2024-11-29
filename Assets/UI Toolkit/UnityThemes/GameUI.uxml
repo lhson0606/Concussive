@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox name="Status" style="height: 20%; width: 35%; flex-direction: row; background-image: url(&quot;project://database/Assets/Sprites/GUI/SpriteSheet.png?fileID=5546671543968653177&amp;guid=ecba3c7501c730b489b79a542f7d6772&amp;type=3#SpriteSheet_0&quot;); -unity-background-scale-mode: stretch-to-fill;">
+        <ui:VisualElement name="Player" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=-4745567402290024960&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_13&quot;); width: 40%;">
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/frames/knight_f_hit_anim_f0.png?fileID=2800000&amp;guid=23b3418e40d737b4199c2ff696d037df&amp;type=3#knight_f_hit_anim_f0&quot;); height: 45%; width: 53%; align-self: center;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Icon" style="flex-grow: 0; height: 80%; align-self: flex-end; width: 10%;">
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Stats" style="flex-grow: 0; width: 45%; height: 80%; flex-direction: column; align-self: flex-end; right: auto;">
+            <ui:VisualElement name="HealthBar" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=3321681590055085053&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_2&quot;);">
+                <ui:VisualElement name="Health" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=-3750482850934594921&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_1&quot;);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Shield" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=3321681590055085053&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_2&quot;);">
+                <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=5372776407919291188&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_0&quot;);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Exp" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=3321681590055085053&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_2&quot;);">
+                <ui:VisualElement style="flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:GroupBox>
+    <ui:GroupBox name="Ability" style="justify-content: center; align-items: auto; position: absolute; top: auto; left: auto; height: 70px; width: 40px; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=-4566373158413014706&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_9&quot;); -unity-background-scale-mode: stretch-to-fill; bottom: 0; right: 0;">
+        <ui:VisualElement name="Weapon" data-source="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4413694071827464959&amp;guid=c8a8740b34e328846afce8212c7aaf19&amp;type=3#default" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/frames/weapon_anime_sword.png?fileID=21300000&amp;guid=b922f39604264b84081e46387f7c102b&amp;type=3#weapon_anime_sword&quot;); -unity-text-align: upper-center; align-self: center; height: 70%; width: 30%; justify-content: flex-end;" />
+    </ui:GroupBox>
+</ui:UXML>

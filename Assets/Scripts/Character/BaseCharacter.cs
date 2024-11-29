@@ -64,7 +64,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         currentHealth = 1;
         currentArmor = maxArmor;
         currentMana = maxMana;
-
+        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
         primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
         secondaryWeaponSlot = transform.Find("SecondaryWeapon")?.gameObject;
 
@@ -137,6 +137,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
         this.SpawnText(text, textColor, lifeTime, initVel);
+        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
     }
 
     public void SpawnDamageText(DamageData damageData)
@@ -325,6 +326,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
+        UIHandler.instance.SetWeaponSprite(weapon.GetWeaponSpriteRenderer().sprite);
     }
 
     public void SwitchToSecondaryWeapon()
