@@ -18,7 +18,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     [SerializeField]
     protected int maxMana = 200;
     [SerializeField]
-    protected int runSpeed = 240;
+    protected float runSpeed = 240.0f;
     [SerializeField]
     protected float criticalHitChance = 0.05f;
     [SerializeField]
@@ -39,7 +39,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
 
-    protected int currentHealth;
+    [SerializeField] protected int currentHealth;
     protected int currentArmor;
     protected int currentMana;
     protected GameObject primaryWeaponSlot;
@@ -59,9 +59,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public bool IsAttacking { get; set; } = false;
     public bool IsFreezing { get; set; } = false;
 
-    public void Start()
+    public virtual void Start()
     {
-        currentHealth = 1;
+        currentHealth = maxHealth;
         currentArmor = maxArmor;
         currentMana = maxMana;
         UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
@@ -78,7 +78,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         flashEffect = GetComponent<SimpleFlashEffect>();
     }
 
-    public void Update()
+    public virtual void Update()
     {
         if (currentHealth <= 0)
         {
@@ -107,7 +107,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
         Debug.Log("Character died.");
     }
@@ -394,7 +394,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         Debug.Log("Taking damage");
         Debug.Log("Is critical hit: " + damageData.IsCritical);
+
         Debug.Log("Damage: " + damageData.Damage);
+
+        currentHealth = currentHealth - (int)damageData.Damage;
+
         // Add impule to the character
         Vector2 impulse = new Vector2(0, 0);
         Vector2  dir = damageData.TargetPosition - damageData.SourcePosition;
@@ -411,4 +415,5 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         return effectSizeScale;
     }
+
 }

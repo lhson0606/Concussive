@@ -3280,7 +3280,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 432606b12f19d0642a55d3e3aa1383a3, type: 2}
+  - {fileID: 2100000, guid: db8ee6565fe248146823d0c1a7345f74, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7337,6 +7337,7 @@ GameObject:
   - component: {fileID: 1672039733}
   - component: {fileID: 1672039732}
   - component: {fileID: 1672039737}
+  - component: {fileID: 1672039738}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7445,6 +7446,7 @@ MonoBehaviour:
   race: 0
   hurtSound: {fileID: 0}
   effectSizeScale: 1
+  currentHealth: 0
 --- !u!212 &1672039734
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7646,6 +7648,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1672039738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672039727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ecf6519c6345e49beee2cbe733792f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashMaterial: {fileID: 2100000, guid: a6c6f5cb01856364c801d68dd886cb10, type: 2}
 --- !u!1001 &1721380101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8772,6 +8788,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 524bc9bbdb5dd2e41aa304dc3034dd31, type: 3}
+--- !u!1001 &6049266182876252308
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4480812215505567297, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701079288712103040, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_Name
+      value: MeleeEnemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
 --- !u!1001 &6289410016111406135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8983,4 +9056,4 @@ SceneRoots:
   - {fileID: 1085780825100522557}
   - {fileID: 5175066561241277568}
   - {fileID: 2677977573034767934}
-  - {fileID: 1856775702}
+  - {fileID: 6049266182876252308}
