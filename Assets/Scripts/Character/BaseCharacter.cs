@@ -58,13 +58,28 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public bool IsAttacking { get; set; } = false;
     public bool IsFreezing { get; set; } = false;
+    public int CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
 
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+        set { maxHealth = value; }
+    }
+    public BaseWeapon PrimaryWeapon
+    {
+        get { return primaryWeapon; }
+    }
     public virtual void Start()
     {
+        Debug.Log("BaseCharacter tag: " + gameObject.tag);
         currentHealth = maxHealth;
         currentArmor = maxArmor;
         currentMana = maxMana;
-        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+        //UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
         primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
         secondaryWeaponSlot = transform.Find("SecondaryWeapon")?.gameObject;
 
@@ -84,7 +99,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             Die();
         }
-
+        if (CompareTag("Player"))
+        {
+            UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+        }
         if(IsAttacking)
         {
             return;
@@ -137,7 +155,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
         this.SpawnText(text, textColor, lifeTime, initVel);
-        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+        //UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
     }
 
     public void SpawnDamageText(DamageData damageData)
@@ -326,7 +344,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
-        UIHandler.instance.SetWeaponSprite(weapon.GetWeaponSpriteRenderer().sprite);
+        if (PrimaryWeapon != null && CompareTag("Player"))
+        {
+            UIHandler.instance.SetWeaponSprite(weapon.GetWeaponSpriteRenderer().sprite);
+        }
+
     }
 
     public void SwitchToSecondaryWeapon()
