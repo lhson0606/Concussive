@@ -35,7 +35,14 @@ public class UIHandler : MonoBehaviour
                 // Set the health value using the player's currentHealth and maxHealth
                 SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
 
+                // Subscribe to the WeaponEquipHandler event
+                baseCharacter.WeaponEquipHandler += OnWeaponEquipped;
+
                 // Set the initial weapon sprite if the character has a primary weapon
+                if (baseCharacter.PrimaryWeapon != null)
+                {
+                    SetWeaponSprite(baseCharacter.PrimaryWeapon.GetWeaponSpriteRenderer().sprite);
+                }
             }
             else
             {
@@ -51,6 +58,14 @@ public class UIHandler : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if (baseCharacter != null)
+        {
+            // Set the health value using the player's currentHealth and maxHealth
+            SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
+        }
+    }
 
     public void SetHealthValue(float percentage)
     {
@@ -68,18 +83,8 @@ public class UIHandler : MonoBehaviour
     {
         if (Weapon != null)
         {
-            // Convert the sprite to a texture
-            Texture2D texture = SpriteToTexture2D(weaponSprite);
-
-            if (texture != null)
-            {
-                // Set the texture to the UI element
-                Weapon.style.backgroundImage = new StyleBackground(texture);
-            }
-            else
-            {
-                Debug.LogError("Failed to convert sprite to texture.");
-            }
+            // Use the sprite directly as the background image
+            Weapon.style.backgroundImage = new StyleBackground(weaponSprite);
         }
         else
         {
@@ -87,30 +92,9 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    private Texture2D SpriteToTexture2D(Sprite sprite)
+    // Event handler for weapon equip event
+    private void OnWeaponEquipped(BaseWeapon weapon)
     {
-        try
-        {
-            if (sprite.rect.width != sprite.texture.width)
-            {
-                Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-                Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
-                                                             (int)sprite.textureRect.y,
-                                                             (int)sprite.textureRect.width,
-                                                             (int)sprite.textureRect.height);
-                newText.SetPixels(newColors);
-                newText.Apply();
-                return newText;
-            }
-            else
-            {
-                return sprite.texture;
-            }
-        }
-        catch (UnityException e)
-        {
-            Debug.LogError("Texture is not readable: " + e.Message);
-            return null;
-        }
+        SetWeaponSprite(weapon.GetWeaponSpriteRenderer().sprite);
     }
 }

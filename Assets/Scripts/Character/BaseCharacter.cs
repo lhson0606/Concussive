@@ -45,7 +45,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected GameObject primaryWeaponSlot;
     protected GameObject secondaryWeaponSlot;
     protected BaseWeapon primaryWeapon;
-    protected BaseWeapon secondaryWeapon;// Secondary weapon can be null
+    protected BaseWeapon secondaryWeapon; // Secondary weapon can be null
 
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
@@ -53,11 +53,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     protected SimpleFlashEffect flashEffect;
 
-    public Vector2 LookDir { get; private set;  }
+    public Vector2 LookDir { get; private set; }
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
     public bool IsFreezing { get; set; } = false;
+
     public int CurrentHealth
     {
         get { return currentHealth; }
@@ -69,17 +70,23 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         get { return maxHealth; }
         set { maxHealth = value; }
     }
+
     public BaseWeapon PrimaryWeapon
     {
         get { return primaryWeapon; }
     }
+
+    // Define the WeaponEquipHandler event
+    public event Action<BaseWeapon> WeaponEquipHandler;
+
     public virtual void Start()
     {
-        Debug.Log("BaseCharacter tag: " + gameObject.tag);
+        // Log the tag of the GameObject
+        Debug.Log("BaseCharacter Start - Tag: " + gameObject.tag);
+
         currentHealth = maxHealth;
         currentArmor = maxArmor;
         currentMana = maxMana;
-        //UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
         primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
         secondaryWeaponSlot = transform.Find("SecondaryWeapon")?.gameObject;
 
@@ -99,11 +106,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             Die();
         }
-        if (CompareTag("Player"))
-        {
-            UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
-        }
-        if(IsAttacking)
+
+        if (IsAttacking)
         {
             return;
         }
@@ -119,7 +123,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
-        if(weaponControl != null)
+        if (weaponControl != null)
         {
             weaponControl.PointerPosition = LookAtPosition;
         }
@@ -155,7 +159,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
         this.SpawnText(text, textColor, lifeTime, initVel);
-        //UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
+
     }
 
     public void SpawnDamageText(DamageData damageData)
@@ -184,13 +188,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
         }
-
-        //color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
-
-        //if(damageData.IsCritical && !damageData.SourceElement.IsElemental)
-        //{
-        //    color = Color.red;
-        //}
 
         this.SpawnText(text, color, lifeTime, initVel, scale);
     }
@@ -223,7 +220,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (buffs.ContainsKey(buff.type))
         {
-            if(buff.canStack)
+            if (buff.canStack)
             {
                 buffs[buff.type].Add(buff);
             }
@@ -234,7 +231,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
         else
         {
-            // create a new list with the buff
             List<Buff> buffList = new List<Buff>();
             buffList.Add(buff);
             buffs.Add(buff.type, buffList);
@@ -277,7 +273,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float result = criticalHitChance;
         List<Buff> criticalChanceBuffList = GetBuff(BuffType.INCREASE_CRITICAL_CHANCE);
 
-        if(criticalChanceBuffList != null)
+        if (criticalChanceBuffList != null)
         {
             foreach (Buff buff in criticalChanceBuffList)
             {
@@ -293,7 +289,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         float result = criticalHitMultiplier;
         List<Buff> buffs = GetBuff(BuffType.INCREASE_CRITICAL_DAMAGE);
 
-        if(buffs != null) {
+        if (buffs != null)
+        {
             foreach (Buff buff in buffs)
             {
                 result += buff.value;
@@ -313,14 +310,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         return runSpeed;
     }
 
-    public void EquipWeapon(BaseWeapon weapon, SpriteRenderer characterRenderer, SpriteRenderer weaponRenderer)
+    public virtual void EquipWeapon(BaseWeapon weapon, SpriteRenderer characterRenderer, SpriteRenderer weaponRenderer)
     {
-        if(weaponControl == null)
+        if (weaponControl == null)
         {
             throw new ArgumentException("Weapon control is not assigned.");
         }
 
-        if(primaryWeapon == null)
+        if (primaryWeapon == null)
         {
             primaryWeapon = weapon;
             weapon.SetAsMainWeapon(this);
@@ -336,7 +333,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
         else
         {
-            // Drop the weapon and pick up the new one
             primaryWeapon.DropItem(weapon.transform.position);
             primaryWeapon = weapon;
             weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
@@ -344,11 +340,18 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
-        if (PrimaryWeapon != null && CompareTag("Player"))
-        {
-            UIHandler.instance.SetWeaponSprite(weapon.GetWeaponSpriteRenderer().sprite);
-        }
 
+        // Call the OnEquipWeapon method
+        OnEquipWeapon(weapon);
+    }
+
+    // New virtual method to handle weapon equip event
+    protected virtual void OnEquipWeapon(BaseWeapon weapon)
+    {
+        Debug.Log("Weapon equipped: " + weapon.name);
+
+        // Trigger the WeaponEquipHandler event
+        WeaponEquipHandler?.Invoke(weapon);
     }
 
     public void SwitchToSecondaryWeapon()
@@ -359,12 +362,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             return;
         }
 
-        // Swap primary and secondary weapons
         BaseWeapon tempWeapon = primaryWeapon;
         primaryWeapon = secondaryWeapon;
         secondaryWeapon = tempWeapon;
 
-        // Update weapon control to use the new primary weapon
         weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
         primaryWeapon.SetAsMainWeapon(this);
         secondaryWeapon.SetAsOffHandWeapon(this);
@@ -406,7 +407,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
         SpawnDamageText(damageData);
 
-        if(hurtSound)
+        if (hurtSound)
         {
             audioSource?.PlayOneShot(hurtSound);
         }
@@ -437,5 +438,4 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         return effectSizeScale;
     }
-
 }
