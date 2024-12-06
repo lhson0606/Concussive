@@ -8840,6 +8840,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6701079288712103040, guid: 8348421cf13d54d45b8c8fb364c98fb4, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9057,3 +9061,4 @@ SceneRoots:
   - {fileID: 5175066561241277568}
   - {fileID: 2677977573034767934}
   - {fileID: 6049266182876252308}
+  - {fileID: 1856775702}
