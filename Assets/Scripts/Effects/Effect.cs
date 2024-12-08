@@ -65,12 +65,16 @@ public class Effect : SlowMotionObject
         // Implement the effect logic here
     }
 
+    public virtual void OnEffectEnd()
+    {
+        // Implement the logic to be executed
+    }
+
     public virtual void EndEffect()
     {
         Debug.Log($"Ending effect: {effectName}");
         CancelInvoke("ApplyEffect");
         target.RemoveEffect(this);
-        Destroy(this.gameObject);
 
         // Stop and destroy the particle system
         if (particlesInstance != null)
@@ -78,6 +82,8 @@ public class Effect : SlowMotionObject
             particlesInstance.Stop();
             Destroy(particlesInstance.gameObject, particlesInstance.main.duration);
         }
+        OnEffectEnd();
+        Destroy(this.gameObject);
     }
 
     public EffectType EffectType => effectType;

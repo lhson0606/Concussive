@@ -9,7 +9,7 @@ public class InstantFreezeII : Effect
         target.Freeze();
     }
 
-    public new void EndEffect()
+    public override void OnEffectEnd()
     {
         animator?.SetTrigger("Unfreeze");
         target.Unfreeze();
