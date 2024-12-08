@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D body = null;
     private Animator animator = null;
     private SpriteRenderer spriteRenderer = null;
-    private bool isEnabled = true;
     private BaseCharacter baseCharacter = null;
     public float pickUpRange = 2.0f; // Define the range within which the player can pick up items
     private PickUpComponent selectedPickUp;
@@ -46,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!isEnabled)
+        if(!baseCharacter.CanMove())
         {
             return;
         }
@@ -92,21 +91,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetEnabled(bool enabled)
-    {
-        isEnabled = enabled;
-    }
-
-    public void ResetMovement()
-    {
-        body.velocity = Vector2.zero;
-        animator.SetFloat("MovingSpeed", 0);
-        animator.SetBool("IsMoving", false);
-    }
-
     private void FixedUpdate()
     {
-        if(!isEnabled)
+        if(!baseCharacter.IsMovementEnabled)
         {
             return;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
@@ -57,6 +58,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
+    public bool IsMovementEnabled { get; set; } = true;
     public bool IsFreezing { get; set; } = false;
 
     public int CurrentHealth
@@ -98,6 +100,21 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         LookDir = Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();
+    }
+
+    public void EnableMovement()
+    {
+        IsMovementEnabled = true;
+    }
+
+    public void DisableMovement()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        IsMovementEnabled = false;
     }
 
     public virtual void Update()
@@ -422,20 +439,71 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
         currentHealth = currentHealth - (int)damageData.Damage;
 
-        // Add impule to the character
-        Vector2 impulse = new Vector2(0, 0);
-        Vector2  dir = damageData.TargetPosition - damageData.SourcePosition;
-        impulse = dir.normalized * 10;
-        if(damageData.IsCritical)
+        // Add impulse to the character
+        Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
+        Vector2 impulse = dir.normalized * 10;
+        if (damageData.IsCritical)
         {
-            impulse *= 3;
+            impulse *= GetCriticalDamageMultiplier();
         }
-        GetComponent<Rigidbody2D>()?.AddForce(impulse, ForceMode2D.Impulse);
+
         OnDamageTaken(damageData);
+        
+        if(IsMovementEnabled)
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            
+            if (rb != null)
+            {
+                DisableMovement();
+                rb.velocity += impulse;
+                StartCoroutine(KnockCo());
+            }           
+            
+        }        
+    }
+
+    private IEnumerator KnockCo()
+    {
+        yield return new WaitForSeconds(0.1f);
+        EnableMovement();
     }
 
     public float GetEffectSizeScale()
     {
         return effectSizeScale;
+    }
+
+    public bool CanMove()
+    {
+        return IsMovementEnabled && !IsFreezing;
+    }
+
+    internal void Freeze()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if(rb != null)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        IsFreezing = true;
+
+        Animator animator = GetComponent<Animator>();
+        
+        if(animator != null)
+        {
+            animator.speed = 0;
+        }
+    }
+
+    internal void Unfreeze()
+    {
+        IsFreezing = false;
+        Animator animator = GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            animator.speed = 1;
+        }
     }
 }

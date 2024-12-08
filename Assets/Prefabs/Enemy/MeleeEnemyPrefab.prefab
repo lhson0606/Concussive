@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3029582408832271896}
   - component: {fileID: 2860717365918975264}
   m_Layer: 0
-  m_Name: MeleeEnemy
+  m_Name: MeleeEnemyPrefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6701079288712103040}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashDuration: 0.1
-  flashMaterial: {fileID: 2100000, guid: a6c6f5cb01856364c801d68dd886cb10, type: 2}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!82 &3956753236499101640
 AudioSource:
   m_ObjectHideFlags: 0

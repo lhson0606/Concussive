@@ -7,24 +7,23 @@ public class SimpleFlashEffect : MonoBehaviour
     [Tooltip("The duration of the flash effect")]
     [SerializeField] private float flashDuration = 0.1f;
 
-    [Tooltip("The material of the flash effect")]
-    [SerializeField] private Material flashMaterial = null;
+    [Tooltip("The color of the flash effect")]
+    [SerializeField] private Color flashColor = Color.red;
 
     private SpriteRenderer spriteRenderer;
-    private Material originalMaterial;
+    private Color originalColor;
     private Coroutine flashCoroutine;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        originalMaterial = spriteRenderer.material;
+        originalColor = spriteRenderer.color;
     }
 
     public void Flash()
     {
-        if(flashCoroutine != null)
+        if (flashCoroutine != null)
         {
             StopCoroutine(flashCoroutine);
         }
@@ -34,8 +33,8 @@ public class SimpleFlashEffect : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
-        spriteRenderer.material = flashMaterial;
+        spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
-        spriteRenderer.material = originalMaterial;
+        spriteRenderer.color = originalColor;
     }
 }

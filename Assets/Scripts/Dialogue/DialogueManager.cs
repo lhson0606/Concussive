@@ -107,8 +107,7 @@ public class DialogueManager : MonoBehaviour
         // disable character movement
         if(playerController != null)
         {
-            playerController.ResetMovement();
-            playerController.SetEnabled(false);
+            playerController.gameObject.GetComponent<BaseCharacter>().DisableMovement();
         }
 
         dialogueBox.SetActive(true);
@@ -129,7 +128,7 @@ public class DialogueManager : MonoBehaviour
         if(playerController != null)
         {
             //enable character movement
-            playerController.SetEnabled(true);
+            playerController.gameObject.GetComponent<BaseCharacter>().EnableMovement();
         }
         dialogueBox.SetActive(false);
         dialogueText.text = "";

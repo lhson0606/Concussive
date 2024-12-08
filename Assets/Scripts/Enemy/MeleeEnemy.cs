@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class MeleeEnemy : Enemy
 {
 
@@ -10,6 +11,13 @@ public class MeleeEnemy : Enemy
     // Update is called once per frame
     private Rigidbody2D rb;
     private float knockTime;
+
+    public override void Start()
+    {
+        base.Start();
+        rb = this.GetComponent<Rigidbody2D>();
+    }
+
     public override void Update()
     {
         base.Update();
@@ -20,6 +28,11 @@ public class MeleeEnemy : Enemy
     }
     void CheckDistance()
     {
+        if(!base.CanMove())
+        {
+            return;
+        }
+
         if (Vector3.Distance(target.position, this.transform.position) <= chaseRadius 
             && Vector3.Distance(target.position, this.transform.position) >= attackRadius)
         {
@@ -29,11 +42,12 @@ public class MeleeEnemy : Enemy
 
             base.LookAtPosition = direction;
 
-            this.transform.position = Vector3.MoveTowards(this.transform.position, target.position, runSpeed * Time.deltaTime);
+            rb.velocity = new Vector2(direction.normalized.x * runSpeed, direction.normalized.y * runSpeed);
         }
         else
         {
             animator.SetBool("run", false);
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -62,19 +76,4 @@ public class MeleeEnemy : Enemy
                 }
             }
     }
-    public override void TakeDamage(DamageData damageData)
-    {
-        rb = this.GetComponent<Rigidbody2D> ();
-        rb.isKinematic = false;
-        base.TakeDamage(damageData);
-        StartCoroutine(KnockCo(rb));
-    }
-
-    private IEnumerator KnockCo(Rigidbody2D enemy)
-    {
-        yield return new WaitForSeconds(knockTime);
-        enemy.velocity = Vector2.zero;
-        enemy.isKinematic = true;
-    }
-
 }

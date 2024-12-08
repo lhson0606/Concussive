@@ -11,7 +11,6 @@ public class BowScript : BaseWeapon
     [SerializeField]
     private AudioClip arrowReleaseSound;
 
-    private AudioSource audioSource;
     private GameObject arrow;
     private bool isCharging = false;
 
@@ -48,8 +47,7 @@ public class BowScript : BaseWeapon
         {
             isCharging = false;
             // destroy the arrow
-            Destroy(arrow);
-            
+            Destroy(arrow);            
         }
 
         animator?.SetBool("IsCharging", false);

@@ -2,9 +2,10 @@ using Ink.Parsed;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class ArrowScript : MonoBehaviour
+public class ArrowScript : SlowMotionObject
 {
     [SerializeField]
     private float speed = 16f;
@@ -21,6 +22,9 @@ public class ArrowScript : MonoBehaviour
     private List<string> collideTags = new() { "Obstacle", "Door", "Enemy"};
     private BaseCharacter owner;
     private BaseWeapon parentWeapon;
+    private TrailRenderer trailRenderer;
+
+    private bool isFlying = false;
 
     public void OnProjectileSpawn(BaseCharacter owner, BaseWeapon parentWeapon)
     {
@@ -40,6 +44,7 @@ public class ArrowScript : MonoBehaviour
         transform.parent = null;
         // add impulse to the arrow
         rb.velocity = transform.up * speed;
+        isFlying = true;
         // start coroutine to destroy the arrow after some time
         StartCoroutine(DestroyAfterTime());
     }
@@ -51,8 +56,9 @@ public class ArrowScript : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Start()
     {
+        trailRenderer = GetComponent<TrailRenderer>();
         flashEffect = GetComponent<SimpleFlashEffect>();
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -66,7 +72,12 @@ public class ArrowScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(owner == null || parentWeapon == null)
+        if(!isFlying)
+        {
+            return;
+        }
+
+        if (owner == null || parentWeapon == null)
         {
             return;
         }
@@ -89,5 +100,11 @@ public class ArrowScript : MonoBehaviour
         rb.velocity = Vector2.zero;
         transform.parent = collision.gameObject.transform;
         audioSource?.PlayOneShot(arrowHitSound);
+        isFlying = false;
+
+        if(trailRenderer != null)
+        {
+            trailRenderer.enabled = false;
+        }
     }
 }
