@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: -3572395160651383561, guid: b1948e7651e6ac247b05e1b5d6e89df9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -137,11 +137,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3105541804544596413, guid: 892f34a59245a5b43949eb6a968267b8, type: 3}
       propertyPath: m_PointLightInnerRadius
-      value: 1.22
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 3105541804544596413, guid: 892f34a59245a5b43949eb6a968267b8, type: 3}
       propertyPath: m_PointLightOuterRadius
-      value: 1.22
+      value: 3.32
       objectReference: {fileID: 0}
     - target: {fileID: 5677799495476230534, guid: 892f34a59245a5b43949eb6a968267b8, type: 3}
       propertyPath: m_Name
