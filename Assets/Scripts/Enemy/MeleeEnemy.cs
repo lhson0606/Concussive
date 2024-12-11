@@ -51,12 +51,6 @@ public class MeleeEnemy : Enemy
         }
     }
 
-
-    public override void Die()
-    {
-        Destroy(this.gameObject);
-    }
-
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("Collider");

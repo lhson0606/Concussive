@@ -194,4 +194,11 @@ public class PlayerController : MonoBehaviour
         mousePos.z = Camera.main.nearClipPlane;
         return Camera.main.ScreenToWorldPoint(mousePos);
     }
+
+    internal void AddCoins(int coinAmount)
+    {
+        Debug.Log("Player collected " + coinAmount + " coins");
+        string text = $"+{coinAmount} coins";
+        baseCharacter.SpawnText(text, Color.yellow, 0.5f, Vector2.up);
+    }
 }

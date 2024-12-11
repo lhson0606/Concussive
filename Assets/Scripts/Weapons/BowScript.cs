@@ -70,6 +70,12 @@ public class BowScript : BaseWeapon
     // This method is called from the animator
     public void SpawnArrow()
     {
+        if(arrow != null)
+        {
+            Destroy(arrow);
+            arrow = null;
+        }
+
         isCharging = false;
         // get the bow rotation
         float angle = transform.rotation.eulerAngles.z;

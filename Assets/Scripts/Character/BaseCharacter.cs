@@ -7,7 +7,7 @@ using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
 public class BaseCharacter : SlowMotionObject, IDamageable
@@ -36,6 +36,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected AudioClip hurtSound = null;
     [SerializeField]
     protected float effectSizeScale = 1f;
+    [SerializeField]
+    protected List<GameObject> dropOnDeath = new List<GameObject>();
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -59,6 +61,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public bool IsAttacking { get; set; } = false;
     public bool IsMovementEnabled { get; set; } = true;
+    private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
 
     public int CurrentHealth
@@ -149,6 +152,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public virtual void Die()
     {
         Debug.Log("Character died.");
+        foreach (GameObject drop in dropOnDeath)
+        {
+            if (drop != null)
+            {
+                Instantiate(drop, transform.position, Quaternion.identity);
+            }
+        }
+        Destroy(gameObject);
     }
 
     public void AddEffect(Effect effect)
@@ -437,7 +448,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
         Debug.Log("Damage: " + damageData.Damage);
 
-        currentHealth = currentHealth - (int)damageData.Damage;
+        currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
 
         // Add impulse to the character
         Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
@@ -460,7 +471,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable
                 StartCoroutine(KnockCo());
             }           
             
-        }        
+        }    
+        
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     private IEnumerator KnockCo()
@@ -479,14 +495,25 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         return IsMovementEnabled && !IsFreezing;
     }
 
-    internal void Freeze()
+    internal void Freeze(float freezeDuration)
     {
+        if (IsFreezing)
+        {
+            if (freezeDuration > freezeTimeLeft)
+            {
+                freezeTimeLeft = freezeDuration;
+            }
+            else
+            {
+                return;
+            }
+        }
+
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if(rb != null)
         {
             rb.velocity = Vector2.zero;
         }
-        IsFreezing = true;
 
         Animator animator = GetComponent<Animator>();
         
@@ -494,10 +521,20 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             animator.speed = 0;
         }
+
+        IsFreezing = true;
+        freezeTimeLeft = freezeDuration;
+        StartCoroutine(Unfreeze());
     }
 
-    internal void Unfreeze()
+    private IEnumerator Unfreeze()
     {
+        while (freezeTimeLeft > 0)
+        {
+            freezeTimeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
         IsFreezing = false;
         Animator animator = GetComponent<Animator>();
 
@@ -505,5 +542,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             animator.speed = 1;
         }
+
+        yield break;
     }
 }

@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashDuration: 0.1
-  flashMaterial: {fileID: 2100000, guid: a6c6f5cb01856364c801d68dd886cb10, type: 2}
+  flashColor: {r: 0.61320746, g: 1, b: 0.6807365, a: 1}
 --- !u!82 &1098727134587465056
 AudioSource:
   m_ObjectHideFlags: 0
