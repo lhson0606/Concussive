@@ -336,5 +336,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectRadius: 4
-  collectSpeed: 480
+  collectSpeed: 720
   isCollected: 0

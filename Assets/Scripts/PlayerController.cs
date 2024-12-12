@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D body = null;
-    private Animator animator = null;
     private SpriteRenderer spriteRenderer = null;
     private BaseCharacter baseCharacter = null;
     public float pickUpRange = 2.0f; // Define the range within which the player can pick up items
@@ -32,15 +30,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        animator = baseCharacter.GetComponent<Animator>();
-        body = baseCharacter.GetComponent<Rigidbody2D>();
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         playerCamera = transform.Find("Main Camera").gameObject;
         pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
-
-        body.freezeRotation = true;
     }
 
     void Update()
@@ -105,9 +99,9 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
         Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
-        body.velocity = moveVector;
-        animator.SetFloat("MovingSpeed", moveVector.magnitude);
-        animator.SetBool("IsMoving", moveVector.magnitude > 0);
+        baseCharacter.GetRigidbody().velocity = moveVector;
+        baseCharacter.GetAnimator().SetFloat("MovingSpeed", moveVector.magnitude);
+        baseCharacter.GetAnimator().SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     private void HandleMouseClick()

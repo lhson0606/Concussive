@@ -10,6 +10,7 @@ using static UnityEditor.PlayerSettings;
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class BaseCharacter : SlowMotionObject, IDamageable
 {
     [SerializeField]
@@ -53,6 +54,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
     protected AudioSource audioSource;
+    protected Animator animator = null;
+    private Rigidbody2D rb = null;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -63,6 +66,20 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public bool IsMovementEnabled { get; set; } = true;
     private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
+
+    private bool isHurt = false;
+
+    public void SetIsHurtTrue()
+    {
+        isHurt = true;
+        animator?.SetBool("IsHurt", isHurt);
+    }
+
+    public void SetIsHurtFalse()
+    {
+        isHurt = false;
+        animator?.SetBool("IsHurt", isHurt);
+    }
 
     public int CurrentHealth
     {
@@ -99,10 +116,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         primaryWeapon = primaryWeaponSlot?.GetComponent<BaseWeapon>();
         weaponControl = primaryWeaponSlot?.GetComponent<WeaponControl>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         LookAtPosition = transform.position;
         LookDir = Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();
+
+        rb.freezeRotation = true;
     }
 
     public void EnableMovement()
@@ -439,6 +460,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             audioSource?.PlayOneShot(hurtSound);
         }
+
+        SetIsHurtTrue();
     }
 
     public virtual void TakeDamage(DamageData damageData)
@@ -544,5 +567,15 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         }
 
         yield break;
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
+
+    public Rigidbody2D GetRigidbody()
+    {
+        return rb;
     }
 }

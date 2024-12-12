@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6374276026078465499}
   - component: {fileID: 2655603607001535303}
   - component: {fileID: 5217223916617457792}
+  - component: {fileID: 1804668506170069383}
   m_Layer: 0
   m_Name: TrainingSandbagPrefab
   m_TagString: Enemy
@@ -235,6 +236,7 @@ MonoBehaviour:
   race: 0
   hurtSound: {fileID: 8300000, guid: d79000afcc2b782458b337aad9eb93f4, type: 3}
   effectSizeScale: 1.5
+  dropOnDeath: []
   currentHealth: 0
 --- !u!114 &2655603607001535303
 MonoBehaviour:
@@ -287,3 +289,30 @@ CapsuleCollider2D:
   m_Offset: {x: -0.114070475, y: 0.21826917}
   m_Size: {x: 0.8770777, y: 1.572236}
   m_Direction: 0
+--- !u!50 &1804668506170069383
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542241651969654636}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
