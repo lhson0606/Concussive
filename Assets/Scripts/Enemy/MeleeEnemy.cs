@@ -5,17 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MeleeEnemy : Enemy
 {
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is create
-
-    // Update is called once per frame
-    private Rigidbody2D rb;
-    private float knockTime;
-
     public override void Start()
     {
         base.Start();
-        rb = this.GetComponent<Rigidbody2D>();
     }
 
     public override void Update()

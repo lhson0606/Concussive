@@ -25,7 +25,6 @@ public class BowScript : BaseWeapon
     {
         animator?.SetBool("IsCharging", true);
         isCharging = true;
-        Debug.Log("Charging attack");
     }
 
     public override void SetAsMainWeapon(BaseCharacter owner)
@@ -34,11 +33,6 @@ public class BowScript : BaseWeapon
         base.ShouldAlterRenderOrder = false;
         // set render order to character +1
         weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
-    }
-
-    public override void Update()
-    {
-        base.Update();
     }
 
     public override void ReleaseAttack()
@@ -51,7 +45,6 @@ public class BowScript : BaseWeapon
         }
 
         animator?.SetBool("IsCharging", false);
-        Debug.Log("Releasing attack");
 
         if (arrow)
         {

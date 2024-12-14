@@ -268,4 +268,9 @@ public class BaseWeapon : GameItem
             audioSource.PlayOneShot(onAttackSound);
         }
     }
+
+    internal void SetOwner(BaseCharacter baseCharacter)
+    {
+        this.owner = baseCharacter;
+    }
 }

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5412311238004725828}
   - component: {fileID: 1715374496884926189}
   - component: {fileID: 2233876909502225130}
-  - component: {fileID: 5196024946667887240}
   - component: {fileID: 6571165940221083037}
   m_Layer: 0
   m_Name: BowPrefab
@@ -371,18 +370,6 @@ MonoBehaviour:
   arrowPrefab: {fileID: 4110399282965247295, guid: 3f6a90d1965aac646bfbeaca46d2a17d, type: 3}
   arrowNockSound: {fileID: 8300000, guid: 7bd3efabe0977b8418f2ee09045f50cc, type: 3}
   arrowReleaseSound: {fileID: 8300000, guid: 01a3322814f42ab4bb231c365be8fa6a, type: 3}
---- !u!114 &5196024946667887240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5146041445369256103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &6571165940221083037
 Animator:
   serializedVersion: 7

@@ -39,6 +39,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected float effectSizeScale = 1f;
     [SerializeField]
     protected List<GameObject> dropOnDeath = new List<GameObject>();
+    [SerializeField]
+    protected GameObject initialPrimaryWeapon = null;
+    [SerializeField]
+    protected GameObject initialSecondaryWeapon = null;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -55,7 +59,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected SpriteRenderer characterRenderer;
     protected AudioSource audioSource;
     protected Animator animator = null;
-    private Rigidbody2D rb = null;
+    protected Rigidbody2D rb = null;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -67,7 +71,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
 
-    private bool isHurt = false;
+    protected bool isHurt = false;
 
     public void SetIsHurtTrue()
     {
@@ -103,9 +107,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public virtual void Start()
     {
-        // Log the tag of the GameObject
-        Debug.Log("BaseCharacter Start - Tag: " + gameObject.tag);
-
         currentHealth = maxHealth;
         currentArmor = maxArmor;
         currentMana = maxMana;
@@ -124,6 +125,21 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         flashEffect = GetComponent<SimpleFlashEffect>();
 
         rb.freezeRotation = true;
+
+
+        if (initialSecondaryWeapon != null)
+        {
+            BaseWeapon weapon = Instantiate(initialSecondaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
+            weapon.SetOwner(this);
+            EquipWeapon(weapon, characterRenderer, weapon.GetWeaponSpriteRenderer());
+        }
+
+        if (initialPrimaryWeapon != null)
+        {
+            BaseWeapon weapon = Instantiate(initialPrimaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
+            weapon.SetOwner(this);
+            EquipWeapon(weapon, characterRenderer, weapon.GetWeaponSpriteRenderer());
+        }
     }
 
     public void EnableMovement()
@@ -172,7 +188,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public virtual void Die()
     {
-        Debug.Log("Character died.");
         foreach (GameObject drop in dropOnDeath)
         {
             if (drop != null)
@@ -215,7 +230,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (characterText == null)
         {
-            Debug.LogError("CharacterText prefab is not assigned.");
             return;
         }
 
@@ -245,7 +259,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (characterText == null)
         {
-            Debug.LogError("CharacterText prefab is not assigned.");
             return;
         }
 
@@ -254,7 +267,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
         if (textControl == null)
         {
-            Debug.LogError("PopUpTextControl component not found on characterText prefab.");
             return;
         }
 
@@ -374,6 +386,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             weaponControl.weaponRenderer = weaponRenderer;
             weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
             primaryWeapon.OnEquipped();
+            // Call the OnEquipWeapon method
+            OnEquipWeapon(weapon);
         }
         else if (secondaryWeapon == null)
         {
@@ -389,16 +403,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
-
-        // Call the OnEquipWeapon method
-        OnEquipWeapon(weapon);
     }
 
     // New virtual method to handle weapon equip event
     protected virtual void OnEquipWeapon(BaseWeapon weapon)
     {
-        Debug.Log("Weapon equipped: " + weapon.name);
-
         // Trigger the WeaponEquipHandler event
         WeaponEquipHandler?.Invoke(weapon);
     }
@@ -407,7 +416,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (secondaryWeapon == null)
         {
-            Debug.LogWarning("No secondary weapon equipped.");
             return;
         }
 
@@ -421,8 +429,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         weaponControl.ShouldAlterRenderOrder = primaryWeapon.ShouldAlterRenderOrder;
 
         primaryWeapon.OnEquipped();
-
-        Debug.Log("Switched to secondary weapon.");
     }
 
     public void SetWeaponPointer(Vector2 val)
@@ -466,11 +472,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public virtual void TakeDamage(DamageData damageData)
     {
-        Debug.Log("Taking damage");
-        Debug.Log("Is critical hit: " + damageData.IsCritical);
-
-        Debug.Log("Damage: " + damageData.Damage);
-
         currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
 
         // Add impulse to the character
