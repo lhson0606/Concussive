@@ -11,7 +11,7 @@ using static UnityEditor.PlayerSettings;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class BaseCharacter : SlowMotionObject, IDamageable
+public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonInteractable
 {
     [SerializeField]
     protected int maxHealth = 7;
