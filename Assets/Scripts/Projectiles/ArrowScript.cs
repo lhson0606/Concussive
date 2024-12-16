@@ -43,7 +43,7 @@ public class ArrowScript : SlowMotionObject
         // Detach the arrow from the bow
         transform.parent = null;
         // add impulse to the arrow
-        rb.velocity = transform.up * speed;
+        rb.linearVelocity = transform.up * speed;
         isFlying = true;
         // start coroutine to destroy the arrow after some time
         StartCoroutine(DestroyAfterTime());

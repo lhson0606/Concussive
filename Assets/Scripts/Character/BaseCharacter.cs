@@ -152,7 +152,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
         IsMovementEnabled = false;
     }
@@ -491,7 +491,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             if (rb != null)
             {
                 DisableMovement();
-                rb.velocity += impulse;
+                rb.linearVelocity += impulse;
                 StartCoroutine(KnockCo());
             }           
             
@@ -536,7 +536,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if(rb != null)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
 
         Animator animator = GetComponent<Animator>();
