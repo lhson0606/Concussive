@@ -53,7 +53,7 @@ public class PopUpTextControl : SlowMotionObject
     {
         if (rb != null)
         {
-            rb.velocity = GetRandomVelocity();
+            rb.linearVelocity = GetRandomVelocity();
         }
     }
 

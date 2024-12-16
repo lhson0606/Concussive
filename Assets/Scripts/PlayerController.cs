@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetMovement()
     {
-        body.velocity = Vector2.zero;
+        body.linearVelocity = Vector2.zero;
         animator.SetFloat("MovingSpeed", 0);
         animator.SetBool("IsMoving", false);
     }
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
         Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
-        body.velocity = moveVector;
+        body.linearVelocity = moveVector;
         animator.SetFloat("MovingSpeed", moveVector.magnitude);
         animator.SetBool("IsMoving", moveVector.magnitude > 0);
     }

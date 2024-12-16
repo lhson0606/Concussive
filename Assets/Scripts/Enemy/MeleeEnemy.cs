@@ -73,7 +73,7 @@ public class MeleeEnemy : Enemy
     private IEnumerator KnockCo(Rigidbody2D enemy)
     {
         yield return new WaitForSeconds(knockTime);
-        enemy.velocity = Vector2.zero;
+        enemy.linearVelocity = Vector2.zero;
         enemy.isKinematic = true;
     }
 
