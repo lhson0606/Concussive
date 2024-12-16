@@ -11,11 +11,15 @@ public class BarrierController : MonoBehaviour, IControllable
     [SerializeField]
     bool isOpen = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         _animator = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
         _collider.enabled = !isOpen;
         _animator.SetBool("isOpen", isOpen);
 
@@ -46,14 +50,14 @@ public class BarrierController : MonoBehaviour, IControllable
     // call from animation to open barrier
     public void OpenBarrier()
     {
-        _collider.enabled = false;
+        _collider.isTrigger = true;
         isOpen = true;
     }
 
     // call from animation to close barrier
     public void CloseBarrier()
     {
-        _collider.enabled = true;
+        _collider.isTrigger = false;
         isOpen = false;
     }
 
