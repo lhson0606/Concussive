@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
@@ -6,9 +7,10 @@ using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class BaseCharacter : SlowMotionObject, IDamageable
 {
     [SerializeField]
@@ -35,6 +37,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected AudioClip hurtSound = null;
     [SerializeField]
     protected float effectSizeScale = 1f;
+    [SerializeField]
+    protected List<GameObject> dropOnDeath = new List<GameObject>();
+    [SerializeField]
+    protected GameObject initialPrimaryWeapon = null;
+    [SerializeField]
+    protected GameObject initialSecondaryWeapon = null;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -50,6 +58,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected WeaponControl weaponControl;
     protected SpriteRenderer characterRenderer;
     protected AudioSource audioSource;
+    protected Animator animator = null;
+    protected Rigidbody2D rb = null;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -57,7 +67,23 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
+    public bool IsMovementEnabled { get; set; } = true;
+    private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
+
+    protected bool isHurt = false;
+
+    public void SetIsHurtTrue()
+    {
+        isHurt = true;
+        animator?.SetBool("IsHurt", isHurt);
+    }
+
+    public void SetIsHurtFalse()
+    {
+        isHurt = false;
+        animator?.SetBool("IsHurt", isHurt);
+    }
 
     public int CurrentHealth
     {
@@ -81,9 +107,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public virtual void Start()
     {
-        // Log the tag of the GameObject
-        Debug.Log("BaseCharacter Start - Tag: " + gameObject.tag);
-
         currentHealth = maxHealth;
         currentArmor = maxArmor;
         currentMana = maxMana;
@@ -94,10 +117,44 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         primaryWeapon = primaryWeaponSlot?.GetComponent<BaseWeapon>();
         weaponControl = primaryWeaponSlot?.GetComponent<WeaponControl>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         LookAtPosition = transform.position;
         LookDir = Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();
+
+        rb.freezeRotation = true;
+
+
+        if (initialSecondaryWeapon != null)
+        {
+            BaseWeapon weapon = Instantiate(initialSecondaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
+            weapon.SetOwner(this);
+            EquipWeapon(weapon, characterRenderer, weapon.GetWeaponSpriteRenderer());
+        }
+
+        if (initialPrimaryWeapon != null)
+        {
+            BaseWeapon weapon = Instantiate(initialPrimaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
+            weapon.SetOwner(this);
+            EquipWeapon(weapon, characterRenderer, weapon.GetWeaponSpriteRenderer());
+        }
+    }
+
+    public void EnableMovement()
+    {
+        IsMovementEnabled = true;
+    }
+
+    public void DisableMovement()
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        IsMovementEnabled = false;
     }
 
     public virtual void Update()
@@ -131,7 +188,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
     public virtual void Die()
     {
-        Debug.Log("Character died.");
+        foreach (GameObject drop in dropOnDeath)
+        {
+            if (drop != null)
+            {
+                Instantiate(drop, transform.position, Quaternion.identity);
+            }
+        }
+        Destroy(gameObject);
     }
 
     public void AddEffect(Effect effect)
@@ -166,7 +230,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (characterText == null)
         {
-            Debug.LogError("CharacterText prefab is not assigned.");
             return;
         }
 
@@ -196,7 +259,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (characterText == null)
         {
-            Debug.LogError("CharacterText prefab is not assigned.");
             return;
         }
 
@@ -205,7 +267,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
 
         if (textControl == null)
         {
-            Debug.LogError("PopUpTextControl component not found on characterText prefab.");
             return;
         }
 
@@ -325,6 +386,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             weaponControl.weaponRenderer = weaponRenderer;
             weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
             primaryWeapon.OnEquipped();
+            // Call the OnEquipWeapon method
+            OnEquipWeapon(weapon);
         }
         else if (secondaryWeapon == null)
         {
@@ -340,16 +403,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable
             primaryWeapon.SetAsMainWeapon(this);
             primaryWeapon.OnEquipped();
         }
-
-        // Call the OnEquipWeapon method
-        OnEquipWeapon(weapon);
     }
 
     // New virtual method to handle weapon equip event
     protected virtual void OnEquipWeapon(BaseWeapon weapon)
     {
-        Debug.Log("Weapon equipped: " + weapon.name);
-
         // Trigger the WeaponEquipHandler event
         WeaponEquipHandler?.Invoke(weapon);
     }
@@ -358,7 +416,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     {
         if (secondaryWeapon == null)
         {
-            Debug.LogWarning("No secondary weapon equipped.");
             return;
         }
 
@@ -372,8 +429,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         weaponControl.ShouldAlterRenderOrder = primaryWeapon.ShouldAlterRenderOrder;
 
         primaryWeapon.OnEquipped();
-
-        Debug.Log("Switched to secondary weapon.");
     }
 
     public void SetWeaponPointer(Vector2 val)
@@ -411,31 +466,117 @@ public class BaseCharacter : SlowMotionObject, IDamageable
         {
             audioSource?.PlayOneShot(hurtSound);
         }
+
+        SetIsHurtTrue();
     }
 
     public virtual void TakeDamage(DamageData damageData)
     {
-        Debug.Log("Taking damage");
-        Debug.Log("Is critical hit: " + damageData.IsCritical);
+        currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
 
-        Debug.Log("Damage: " + damageData.Damage);
-
-        currentHealth = currentHealth - (int)damageData.Damage;
-
-        // Add impule to the character
-        Vector2 impulse = new Vector2(0, 0);
-        Vector2  dir = damageData.TargetPosition - damageData.SourcePosition;
-        impulse = dir.normalized * 10;
-        if(damageData.IsCritical)
+        // Add impulse to the character
+        Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
+        Vector2 impulse = dir.normalized * 10;
+        if (damageData.IsCritical)
         {
-            impulse *= 3;
+            impulse *= GetCriticalDamageMultiplier();
         }
-        GetComponent<Rigidbody2D>()?.AddForce(impulse, ForceMode2D.Impulse);
+
         OnDamageTaken(damageData);
+        
+        if(IsMovementEnabled)
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            
+            if (rb != null)
+            {
+                DisableMovement();
+                rb.velocity += impulse;
+                StartCoroutine(KnockCo());
+            }           
+            
+        }    
+        
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private IEnumerator KnockCo()
+    {
+        yield return new WaitForSeconds(0.1f);
+        EnableMovement();
     }
 
     public float GetEffectSizeScale()
     {
         return effectSizeScale;
+    }
+
+    public bool CanMove()
+    {
+        return IsMovementEnabled && !IsFreezing;
+    }
+
+    internal void Freeze(float freezeDuration)
+    {
+        if (IsFreezing)
+        {
+            if (freezeDuration > freezeTimeLeft)
+            {
+                freezeTimeLeft = freezeDuration;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if(rb != null)
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        Animator animator = GetComponent<Animator>();
+        
+        if(animator != null)
+        {
+            animator.speed = 0;
+        }
+
+        IsFreezing = true;
+        freezeTimeLeft = freezeDuration;
+        StartCoroutine(Unfreeze());
+    }
+
+    private IEnumerator Unfreeze()
+    {
+        while (freezeTimeLeft > 0)
+        {
+            freezeTimeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+        IsFreezing = false;
+        Animator animator = GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            animator.speed = 1;
+        }
+
+        yield break;
+    }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
+
+    public Rigidbody2D GetRigidbody()
+    {
+        return rb;
     }
 }

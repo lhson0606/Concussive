@@ -178,10 +178,10 @@ public class DoorController : MonoBehaviour
 
     private IEnumerator DisableInputTemporarilyAndUpdateDoorState(float delayPlayerTime)
     {
-        playerController.SetEnabled(false);
-        playerController.ResetMovement();
+        BaseCharacter baseCharacter = playerController.gameObject.GetComponent<BaseCharacter>();
+        baseCharacter.DisableMovement();
         yield return new WaitForSeconds(delayPlayerTime);
-        playerController.SetEnabled(true);
+        baseCharacter.EnableMovement();
         if (isOpen)
         {
             OpenDoor();

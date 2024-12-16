@@ -6,13 +6,7 @@ public class InstantFreezeII : Effect
     {
         base.ApplyEffect();
         animator?.SetTrigger("Freeze");
-        target.IsFreezing = true;
-    }
-
-    public new void EndEffect()
-    {
-        animator?.SetTrigger("Unfreeze");
-        target.IsFreezing = false;
+        target.Freeze(base.duration);
     }
 
     // call from animation event

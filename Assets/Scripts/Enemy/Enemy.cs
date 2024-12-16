@@ -7,7 +7,6 @@ public class Enemy : BaseCharacter
     public float chaseRadius;
     public float attackRadius;
     public Transform homePosition;
-    protected Animator animator;
 
     public override void Start()
     {
@@ -15,6 +14,4 @@ public class Enemy : BaseCharacter
         animator = this.GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
-
-
 }

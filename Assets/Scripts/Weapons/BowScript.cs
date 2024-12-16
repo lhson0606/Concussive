@@ -11,7 +11,6 @@ public class BowScript : BaseWeapon
     [SerializeField]
     private AudioClip arrowReleaseSound;
 
-    private AudioSource audioSource;
     private GameObject arrow;
     private bool isCharging = false;
 
@@ -26,7 +25,6 @@ public class BowScript : BaseWeapon
     {
         animator?.SetBool("IsCharging", true);
         isCharging = true;
-        Debug.Log("Charging attack");
     }
 
     public override void SetAsMainWeapon(BaseCharacter owner)
@@ -37,23 +35,16 @@ public class BowScript : BaseWeapon
         weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
     }
 
-    public override void Update()
-    {
-        base.Update();
-    }
-
     public override void ReleaseAttack()
     {
         if(isCharging)
         {
             isCharging = false;
             // destroy the arrow
-            Destroy(arrow);
-            
+            Destroy(arrow);            
         }
 
         animator?.SetBool("IsCharging", false);
-        Debug.Log("Releasing attack");
 
         if (arrow)
         {
@@ -72,6 +63,12 @@ public class BowScript : BaseWeapon
     // This method is called from the animator
     public void SpawnArrow()
     {
+        if(arrow != null)
+        {
+            Destroy(arrow);
+            arrow = null;
+        }
+
         isCharging = false;
         // get the bow rotation
         float angle = transform.rotation.eulerAngles.z;

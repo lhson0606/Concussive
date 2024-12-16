@@ -6,10 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D body = null;
-    private Animator animator = null;
     private SpriteRenderer spriteRenderer = null;
-    private bool isEnabled = true;
     private BaseCharacter baseCharacter = null;
     public float pickUpRange = 2.0f; // Define the range within which the player can pick up items
     private PickUpComponent selectedPickUp;
@@ -33,20 +30,16 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        animator = baseCharacter.GetComponent<Animator>();
-        body = baseCharacter.GetComponent<Rigidbody2D>();
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         playerCamera = transform.Find("Main Camera").gameObject;
         pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
-
-        body.freezeRotation = true;
     }
 
     void Update()
     {
-        if(!isEnabled)
+        if(!baseCharacter.CanMove())
         {
             return;
         }
@@ -92,21 +85,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetEnabled(bool enabled)
-    {
-        isEnabled = enabled;
-    }
-
-    public void ResetMovement()
-    {
-        body.linearVelocity = Vector2.zero;
-        animator.SetFloat("MovingSpeed", 0);
-        animator.SetBool("IsMoving", false);
-    }
-
     private void FixedUpdate()
     {
-        if(!isEnabled)
+        if(!baseCharacter.IsMovementEnabled)
         {
             return;
         }
@@ -118,9 +99,9 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
         Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
-        body.linearVelocity = moveVector;
-        animator.SetFloat("MovingSpeed", moveVector.magnitude);
-        animator.SetBool("IsMoving", moveVector.magnitude > 0);
+        baseCharacter.GetRigidbody().velocity = moveVector;
+        baseCharacter.GetAnimator().SetFloat("MovingSpeed", moveVector.magnitude);
+        baseCharacter.GetAnimator().SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     private void HandleMouseClick()
@@ -206,5 +187,12 @@ public class PlayerController : MonoBehaviour
         Vector3 mousePos = Mouse.current.position.ReadValue();
         mousePos.z = Camera.main.nearClipPlane;
         return Camera.main.ScreenToWorldPoint(mousePos);
+    }
+
+    internal void AddCoins(int coinAmount)
+    {
+        Debug.Log("Player collected " + coinAmount + " coins");
+        string text = $"+{coinAmount} coins";
+        baseCharacter.SpawnText(text, Color.yellow, 0.5f, Vector2.up);
     }
 }

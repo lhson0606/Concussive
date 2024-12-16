@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 8347750349538637727}
   - component: {fileID: 8651333642439640499}
   - component: {fileID: 724027056349166629}
-  - component: {fileID: 5622269122506075826}
   - component: {fileID: 7670960257044469722}
   m_Layer: 0
   m_Name: KatanaPrefab
@@ -381,18 +380,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5622269122506075826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2519646079485683144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &7670960257044469722
 AudioSource:
   m_ObjectHideFlags: 0
