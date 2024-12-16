@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class ControlButtonComponent : MonoBehaviour
     Animator animator;
 
     private int overlapCount = 0;
+
+    public event Action<bool> onButtonStateChange;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,6 +62,9 @@ public class ControlButtonComponent : MonoBehaviour
         {
             control.OnControlButtonStateChange(true);
         }
+
+        // Invoke the event
+        onButtonStateChange?.Invoke(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -88,5 +94,8 @@ public class ControlButtonComponent : MonoBehaviour
         {
             control.OnControlButtonStateChange(false);
         }
+
+        // Invoke the event
+        onButtonStateChange?.Invoke(false);
     }
 }
