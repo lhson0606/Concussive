@@ -1,6 +1,7 @@
 using System;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAIEssentials : MonoBehaviour
 {
@@ -8,12 +9,17 @@ public class EnemyAIEssentials : MonoBehaviour
     BehaviorGraphAgent behaviorGraphAgent;
     Blackboard blackboard;
     GameObject player;
+    NavMeshAgent navMeshAgent;
     private void Awake()
     {
         character = GetComponent<BaseCharacter>();
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        // fix rotation issues since we are using 2D
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
 
-        if(behaviorGraphAgent == null)
+        if (behaviorGraphAgent == null)
         {
             Debug.LogError("behaviorGraphAgent is missing on " + gameObject.name);
         }
@@ -42,6 +48,11 @@ public class EnemyAIEssentials : MonoBehaviour
         if(canSeePlayer)
         {
             character.LookAtPosition = player.transform.position;
+        }
+        // testing
+        if(canSeePlayer)
+        {
+            navMeshAgent.SetDestination(player.transform.position);
         }
     }
 
