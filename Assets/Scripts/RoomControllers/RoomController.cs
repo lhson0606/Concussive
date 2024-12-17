@@ -95,6 +95,8 @@ public class RoomController : MonoBehaviour
 
     private void CloseBarriers()
     {
+        Debug.Log("Closing barriers");
+        Debug.Log(barriers.Count);
         foreach (BarrierController barrier in barriers)
         {
             barrier.Close();

@@ -20,7 +20,7 @@ public class BarrierController : MonoBehaviour, IControllable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _collider.enabled = !isOpen;
+        _collider.isTrigger = !isOpen;
         _animator.SetBool("isOpen", isOpen);
 
         ControllableObject controllableObject = GetComponent<ControllableObject>();
