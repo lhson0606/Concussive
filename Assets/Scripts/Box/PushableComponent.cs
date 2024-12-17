@@ -101,13 +101,13 @@ public class PushableComponent : MonoBehaviour, IControlButtonInteractable
                 return;
             }
 
-            if (playerRb.velocity.magnitude < 0.00000001f)
+            if (playerRb.linearVelocity.magnitude < 0.00000001f)
             {
                 isPushing = false;
                 return;
             }
 
-            Vector2 playerDirection = playerRb.velocity.normalized;
+            Vector2 playerDirection = playerRb.linearVelocity.normalized;
             Vector2 contactPoint = collision.contacts[0].point;
             Vector2 center = collision.collider.bounds.center;
             Vector2 direction = (contactPoint - center).normalized;

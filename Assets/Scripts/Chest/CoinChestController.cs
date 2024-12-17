@@ -101,6 +101,6 @@ public class CoinChestController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         coinController.SetShouldMove(true);
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
     }
 }

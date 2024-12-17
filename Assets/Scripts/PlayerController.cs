@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDir = new Vector2(horizontal, vertical);
         moveDir.Normalize();
         Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
-        baseCharacter.GetRigidbody().velocity = moveVector;
+        baseCharacter.GetRigidbody().linearVelocity = moveVector;
         baseCharacter.GetAnimator().SetFloat("MovingSpeed", moveVector.magnitude);
         baseCharacter.GetAnimator().SetBool("IsMoving", moveVector.magnitude > 0);
     }

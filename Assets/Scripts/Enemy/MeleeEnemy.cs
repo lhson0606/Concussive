@@ -34,12 +34,12 @@ public class MeleeEnemy : Enemy
 
             base.LookAtPosition = direction;
 
-            rb.velocity = new Vector2(direction.normalized.x * runSpeed, direction.normalized.y * runSpeed);
+            rb.linearVelocity = new Vector2(direction.normalized.x * runSpeed, direction.normalized.y * runSpeed);
         }
         else
         {
             animator.SetBool("run", false);
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
     }
 

@@ -43,7 +43,7 @@ public class ArrowScript : SlowMotionObject
         // Detach the arrow from the bow
         transform.parent = null;
         // add impulse to the arrow
-        rb.velocity = transform.up * speed;
+        rb.linearVelocity = transform.up * speed;
         isFlying = true;
         // start coroutine to destroy the arrow after some time
         StartCoroutine(DestroyAfterTime());
@@ -97,7 +97,7 @@ public class ArrowScript : SlowMotionObject
         }
 
         rb.isKinematic = true;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         transform.parent = collision.gameObject.transform;
         audioSource?.PlayOneShot(arrowHitSound);
         isFlying = false;

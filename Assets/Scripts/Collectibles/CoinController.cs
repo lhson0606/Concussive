@@ -43,7 +43,7 @@ public class CoinController : MonoBehaviour
 
         if(isCollected)
         {
-            rb.velocity = DirectionToPlayer() * collectSpeed * Time.deltaTime;
+            rb.linearVelocity = DirectionToPlayer() * collectSpeed * Time.deltaTime;
         }
 
         if(DistanceToPlayer() < 0.5f)
