@@ -203,6 +203,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             }
         }
         OnDeath?.Invoke();
+        if(gameObject.tag == "Player")
+        {
+            gameObject.SetActive(false);
+            return;
+        }
         Destroy(gameObject);
     }
 

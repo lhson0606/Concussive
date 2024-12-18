@@ -188,7 +188,11 @@ public class BaseWeapon : GameItem
 
     private bool IsCriticalHit(BaseCharacter owner)
     {
-        return Random.value < owner.GetCriticalChance() + this.weaponCriticalChance;
+        if(owner == null)
+        {
+            return Random.value < this.weaponCriticalChance;
+        }
+        else return Random.value < owner.GetCriticalChance() + this.weaponCriticalChance;
     }
 
     public virtual void DoAttack()

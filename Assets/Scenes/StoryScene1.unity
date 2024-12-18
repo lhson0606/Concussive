@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feac21545ab376c40925d78fa37996b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSon: {fileID: 4900000, guid: 52405ad43d8664446b5f914b77b116d8, type: 3}
+  inkJSon: {fileID: 4900000, guid: d66ec20b457cf30449220876171739eb, type: 3}
 --- !u!4 &1877129904
 Transform:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public class ArcherEnemy : RangedEnemy
 
     private IEnumerator Fire()
     {
-        // wait for the bow to be fully drawn .. about 2.5 seconds
+        // wait for the bow to be fully drawn .. about 1.5 seconds
         yield return new WaitForSeconds(1.5f);
         bowScript.ReleaseAttack();
     }
