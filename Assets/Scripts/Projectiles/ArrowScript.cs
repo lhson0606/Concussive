@@ -19,7 +19,7 @@ public class ArrowScript : SlowMotionObject
     private SimpleFlashEffect flashEffect;
     private Rigidbody2D rb;
 
-    private List<string> collideTags = new() { "Obstacle", "Door", "Enemy"};
+    private List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player"};
     private BaseCharacter owner;
     private BaseWeapon parentWeapon;
     private TrailRenderer trailRenderer;
@@ -86,7 +86,6 @@ public class ArrowScript : SlowMotionObject
         {
             return;
         }
-
 
         BaseCharacter hitTarget = collision.gameObject.GetComponent<BaseCharacter>();
 

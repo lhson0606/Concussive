@@ -221,22 +221,25 @@ public class BaseWeapon : GameItem
         return owner.IsAttacking;
     }
 
-    public virtual void OnHit()
+    protected virtual void OnHit()
     {
         PlayOnHitSound();
     }
 
     public void OnEquipped()
     {
-        PlayEquipSound();
+        if(owner.tag == "Player")
+        {
+            PlayEquipSound();
+        }
     }
 
-    public virtual void OnAttackStarted()
+    protected virtual void OnAttackStarted()
     {
         PlayOnAttackSound();
     }
 
-    public void OnAttackMissed()
+    protected void OnAttackMissed()
     {
         PlayOnAttackMissSound();
     }

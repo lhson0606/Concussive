@@ -398,6 +398,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             weaponControl.characterRenderer = characterRenderer;
             weaponControl.weaponRenderer = weaponRenderer;
             weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
+
             primaryWeapon.OnEquipped();
             // Call the OnEquipWeapon method
             OnEquipWeapon(weapon);
@@ -414,7 +415,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             weaponControl.weaponRenderer = primaryWeapon.GetComponent<SpriteRenderer>();
             weaponControl.ShouldAlterRenderOrder = weapon.ShouldAlterRenderOrder;
             primaryWeapon.SetAsMainWeapon(this);
-            primaryWeapon.OnEquipped();
         }
     }
 
