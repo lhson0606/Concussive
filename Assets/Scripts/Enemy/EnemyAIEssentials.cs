@@ -64,21 +64,21 @@ public class EnemyAIEssentials : MonoBehaviour
         }
 
         //// testing
-        if (canSeePlayer)
-        {
-            navMeshAgent.SetDestination(player.transform.position);
+        //if (canSeePlayer)
+        //{
+        //    navMeshAgent.SetDestination(player.transform.position);
 
-            // move towards the player
-            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
-            {
-                Vector2 direction = (player.transform.position - transform.position).normalized;
-                rb.linearVelocity = direction * character.GetRunSpeed() * Time.deltaTime;
-                // draw debug line
-                Debug.DrawRay(transform.position, direction * 10, Color.red);
-                // stop the agent after a while
-                StartCoroutine(StopAgent());
-            }
-        }
+        //    // move towards the player
+        //    if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+        //    {
+        //        Vector2 direction = (player.transform.position - transform.position).normalized;
+        //        rb.linearVelocity = direction * character.GetRunSpeed() * Time.deltaTime;
+        //        // draw debug line
+        //        Debug.DrawRay(transform.position, direction * 10, Color.red);
+        //        // stop the agent after a while
+        //        StartCoroutine(StopAgent());
+        //    }
+        //}
     }
 
     private IEnumerator StopAgent()

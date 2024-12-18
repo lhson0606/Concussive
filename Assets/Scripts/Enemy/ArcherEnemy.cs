@@ -25,10 +25,10 @@ public class ArcherEnemy : RangedEnemy
 
     public override void Attack()
     {
-        base.Attack();
-        bowScript = base.primaryWeapon.GetComponent<BowScript>();
+        base.Attack();        
         if (bowScript == null)
         {
+            bowScript = base.primaryWeapon.GetComponent<BowScript>();
             return;
         }
 

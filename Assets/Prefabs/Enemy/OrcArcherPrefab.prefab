@@ -408,18 +408,18 @@ MonoBehaviour:
   bareHandAttackSpeed: 1
   characterText: {fileID: 0}
   race: 0
-  hurtSound: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: a3b26e6f06f7efa488771341abf7bcb7, type: 3}
   effectSizeScale: 1
-  dropOnDeath: []
+  dropOnDeath:
+  - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
+  - {fileID: 7634671602991504475, guid: 1de520993df00a043a08f5be3ccd93ba, type: 3}
   initialPrimaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   isActivated: 0
   currentHealth: 0
   enemyName: 
-  target: {fileID: 0}
   chaseRadius: 0
   attackRadius: 8
-  homePosition: {fileID: 0}
 --- !u!1 &3535707165324796008
 GameObject:
   m_ObjectHideFlags: 0
