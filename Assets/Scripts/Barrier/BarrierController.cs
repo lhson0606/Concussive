@@ -1,20 +1,34 @@
+using System;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Collider2D))]
-public class BarrierController : MonoBehaviour
+public class BarrierController : MonoBehaviour, IControllable
 {
     Animator _animator;
     Collider2D _collider;
-    bool _isOpen = true;
+    [SerializeField]
+    bool isOpen = true;
+
+    void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider2D>();
-        _collider.enabled = !_isOpen;
-        _animator.SetBool("isOpen", _isOpen);
+        _collider.isTrigger = !isOpen;
+        _animator.SetBool("isOpen", isOpen);
+
+        ControllableObject controllableObject = GetComponent<ControllableObject>();
+        if(controllableObject != null)
+        {
+            controllableObject.OnControlStateChange -= OnControlButtonStateChange;
+            controllableObject.OnControlStateChange += OnControlButtonStateChange;
+        }
     }
 
     // Update is called once per frame
@@ -36,14 +50,24 @@ public class BarrierController : MonoBehaviour
     // call from animation to open barrier
     public void OpenBarrier()
     {
-        _collider.enabled = false;
-        _isOpen = true;
+        _collider.isTrigger = true;
+        isOpen = true;
     }
 
     // call from animation to close barrier
     public void CloseBarrier()
     {
-        _collider.enabled = true;
-        _isOpen = false;
+        _collider.isTrigger = false;
+        isOpen = false;
+    }
+
+    public void OnControlButtonStateChange(bool isPressed)
+    {
+        if(isPressed == isOpen)
+        {
+            return;
+        }
+        isOpen = isPressed;
+        _animator.SetBool("isOpen", isPressed);
     }
 }
