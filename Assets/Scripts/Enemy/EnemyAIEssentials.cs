@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,14 +11,22 @@ public class EnemyAIEssentials : MonoBehaviour
     Blackboard blackboard;
     GameObject player;
     NavMeshAgent navMeshAgent;
+    Rigidbody2D rb;
     private void Awake()
     {
         character = GetComponent<BaseCharacter>();
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody2D>();
         // fix rotation issues since we are using 2D
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
+        // check if agent is a ranged enemy (RangedEnemy)
+        RangedEnemy rangedEnemy = GetComponent<RangedEnemy>();
+        if(rangedEnemy != null)
+        {
+            navMeshAgent.stoppingDistance = rangedEnemy.AttackRange;
+        }
 
         if (behaviorGraphAgent == null)
         {
@@ -32,13 +41,15 @@ public class EnemyAIEssentials : MonoBehaviour
         character.OnActivated += OnActivated;
         character.OnDeactivated += OnDeactivated;
 
-        behaviorGraphAgent.SetVariableValue<bool>("IsActivated", character.IsActivated());
+        behaviorGraphAgent.SetVariableValue<bool>("IsAdctivated", character.IsActivated());
     }
+
+    Vector2 lastAgentPos = Vector2.zero;
 
     // Update is called once per frame
     void Update()
     {
-        if(!character.IsActivated())
+        if(!character.IsActivated() || !character.CanMove())
         {
             return;
         }
@@ -48,12 +59,32 @@ public class EnemyAIEssentials : MonoBehaviour
         if(canSeePlayer)
         {
             character.LookAtPosition = player.transform.position;
+            behaviorGraphAgent.SetVariableValue<Vector2>("PlayerLastPosition", player.transform.position);
+            behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", false);
         }
-        // testing
-        if(canSeePlayer)
+
+        //// testing
+        if (canSeePlayer)
         {
             navMeshAgent.SetDestination(player.transform.position);
+
+            // move towards the player
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            {
+                Vector2 direction = (player.transform.position - transform.position).normalized;
+                rb.linearVelocity = direction * character.GetRunSpeed() * Time.deltaTime;
+                // draw debug line
+                Debug.DrawRay(transform.position, direction * 10, Color.red);
+                // stop the agent after a while
+                StartCoroutine(StopAgent());
+            }
         }
+    }
+
+    private IEnumerator StopAgent()
+    {
+        yield return new WaitForSeconds(0.2f);
+        rb.linearVelocity = Vector2.zero;
     }
 
     private bool CanSeePlayer()

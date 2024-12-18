@@ -45,8 +45,11 @@ GameObject:
   - component: {fileID: 6874329304477324756}
   - component: {fileID: 7783847361743455237}
   - component: {fileID: 4407333971824893921}
-  - component: {fileID: 4024762404836268615}
   - component: {fileID: 4012947819710793351}
+  - component: {fileID: 1786363052470233861}
+  - component: {fileID: 4916719724998475804}
+  - component: {fileID: 8796309881330656701}
+  - component: {fileID: 4150835456130592657}
   m_Layer: 0
   m_Name: OrcArcherPrefab
   m_TagString: Enemy
@@ -63,7 +66,7 @@ Transform:
   m_GameObject: {fileID: 2255084046879478348}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.83, y: 20.24, z: 0}
+  m_LocalPosition: {x: -20.17, y: 19.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -309,35 +312,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4024762404836268615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2255084046879478348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee48df6bebdec284e815d804b1be046e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 50
-  maxArmor: 3
-  maxMana: 200
-  runSpeed: 240
-  criticalHitChance: 0.05
-  criticalHitMultiplier: 2
-  bareHandDamage: 1
-  bareHandAttackSpeed: 1
-  characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
-  race: 0
-  hurtSound: {fileID: 8300000, guid: a3b26e6f06f7efa488771341abf7bcb7, type: 3}
-  effectSizeScale: 1
-  dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
-  initialSecondaryWeapon: {fileID: 0}
-  isActivated: 0
-  currentHealth: 0
 --- !u!114 &4012947819710793351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +338,88 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 2255084046879478348}
+--- !u!114 &1786363052470233861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255084046879478348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfb2cecbbd9c264dab33ecfadd7b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &4916719724998475804
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255084046879478348}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.28
+  m_Speed: 3.5
+  m_Acceleration: 100
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 4
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.01
+  m_BaseOffset: 0.71875
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8796309881330656701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255084046879478348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ecf6519c6345e49beee2cbe733792f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &4150835456130592657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255084046879478348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f8b1a139d54794dbf57f1033216231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 7
+  maxArmor: 3
+  maxMana: 200
+  runSpeed: 240
+  criticalHitChance: 0.05
+  criticalHitMultiplier: 2
+  bareHandDamage: 1
+  bareHandAttackSpeed: 1
+  characterText: {fileID: 0}
+  race: 0
+  hurtSound: {fileID: 0}
+  effectSizeScale: 1
+  dropOnDeath: []
+  initialPrimaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
+  initialSecondaryWeapon: {fileID: 0}
+  isActivated: 0
+  currentHealth: 0
+  enemyName: 
+  target: {fileID: 0}
+  chaseRadius: 0
+  attackRadius: 8
+  homePosition: {fileID: 0}
 --- !u!1 &3535707165324796008
 GameObject:
   m_ObjectHideFlags: 0

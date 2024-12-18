@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangedEnemy : BaseCharacter
+public class RangedEnemy : Enemy
 {
     protected override void Awake()
     {
@@ -16,5 +16,18 @@ public class RangedEnemy : BaseCharacter
     public override void Update()
     {
         base.Update();
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            return attackRadius;
+        }
     }
 }

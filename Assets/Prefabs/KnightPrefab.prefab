@@ -347,8 +347,8 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: a6661336f55421246a4138c4527480ba, type: 3}
   effectSizeScale: 1
   dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 0}
-  initialSecondaryWeapon: {fileID: 0}
+  initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
+  initialSecondaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
   isActivated: 0
   currentHealth: 0
 --- !u!82 &4701075225539131842
