@@ -5,14 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MeleeEnemy : Enemy
 {
+    private Transform target;
+
     public override void Start()
     {
         base.Start();
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        target = player.transform;
+        BaseCharacter playerChar = player.GetComponent<BaseCharacter>();
+        playerChar.OnDeath += OnPlayerDie;
     }
     
     public void FixedUpdate(){
@@ -20,7 +20,7 @@ public class MeleeEnemy : Enemy
     }
     void CheckDistance()
     {
-        if(!base.CanMove())
+        if(!base.CanMove() || target == null)
         {
             return;
         }
@@ -61,5 +61,25 @@ public class MeleeEnemy : Enemy
                     damageable.TakeDamage(damageData);
                 }
             }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        if(player != null)
+        {
+            BaseCharacter playerChar = player.GetComponent<BaseCharacter>();
+            if (playerChar != null)
+            {
+                playerChar.OnDeath -= OnPlayerDie;
+            }
+        }        
+    }
+
+    void OnPlayerDie()
+    {
+        animator.SetBool("run", false);
+        rb.linearVelocity = Vector2.zero;
+        target = null;
     }
 }
