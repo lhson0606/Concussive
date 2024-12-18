@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 4161453968628333627}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -0.66, z: 0}
+  m_LocalPosition: {x: 0.058, y: -0.533, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -156,7 +156,7 @@ Transform:
   m_GameObject: {fileID: 7926035947026390022}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.28, y: -0.09, z: 0}
+  m_LocalPosition: {x: -0.301, y: 0.096, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220,7 +220,7 @@ MonoBehaviour:
   pickUpRange: 2
 --- !u!50 &673790349636588402
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -231,8 +231,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 80
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -347,8 +347,9 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: a6661336f55421246a4138c4527480ba, type: 3}
   effectSizeScale: 1
   dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 0}
-  initialSecondaryWeapon: {fileID: 0}
+  initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
+  initialSecondaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
+  isActivated: 0
   currentHealth: 0
 --- !u!82 &4701075225539131842
 AudioSource:
@@ -495,8 +496,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.010168374, y: -0.2237004}
-  m_Size: {x: 0.77629983, y: 1.3025992}
+  m_Offset: {x: 0.010951221, y: -0.22792435}
+  m_Size: {x: 0.77629983, y: 1.3110471}
   m_Direction: 0
 --- !u!1001 &5799194689595624537
 PrefabInstance:

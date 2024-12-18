@@ -29,7 +29,6 @@ public class MeleeWeapon : BaseWeapon
     {
         var hitColliders = new Collider2D[10];
         var count = Physics2D.OverlapCollider(attackCollider, new ContactFilter2D(), hitColliders);
-        Debug.Log($"Hit {count} colliders");
 
         for (int i = 0; i < count; i++)
         {

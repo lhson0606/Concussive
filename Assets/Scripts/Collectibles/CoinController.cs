@@ -16,6 +16,8 @@ public class CoinController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
 
+    private bool shouldMove = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -28,7 +30,12 @@ public class CoinController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(DistanceToPlayer() < collectRadius && !isCollected)
+        if(!shouldMove)
+        {
+            return;
+        }
+
+        if (DistanceToPlayer() < collectRadius && !isCollected)
         {
             isCollected = true;
             animator.SetBool("IsCollected", true);
@@ -54,5 +61,10 @@ public class CoinController : MonoBehaviour
     private Vector2 DirectionToPlayer()
     {
         return (player.transform.position - transform.position).normalized;
+    }
+
+    public void SetShouldMove(bool shouldMove)
+    {
+        this.shouldMove = shouldMove;
     }
 }

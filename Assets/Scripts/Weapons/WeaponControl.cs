@@ -12,8 +12,8 @@ public class WeaponControl : SlowMotionObject
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateWeaponRotation();
         character = transform.parent.GetComponent<BaseCharacter>();
+        UpdateWeaponRotation();
     }
 
     // Update is called once per frame
@@ -78,6 +78,10 @@ public class WeaponControl : SlowMotionObject
         }
 
         Vector2 direction = (PointerPosition - (Vector2)transform.position).normalized;
+        if(character==null || character.LookDir == null)
+        {
+            return;
+        }
         if(character.LookDir.x<0)
         {
             transform.right = -direction;

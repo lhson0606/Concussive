@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8635459191139007317}
   - component: {fileID: 2578785426916224106}
   - component: {fileID: 455630175268182262}
+  - component: {fileID: 8858833362605228162}
   m_Layer: 0
   m_Name: VerticalBarrierPrefab
   m_TagString: Untagged
@@ -119,7 +120,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744941927382153986}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -168,5 +169,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 924d81bfd89781e439c6d689356e35b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 1
+--- !u!114 &8858833362605228162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744941927382153986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252087bf57cfbe5409b39e9fb8013666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

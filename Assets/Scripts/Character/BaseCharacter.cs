@@ -11,7 +11,7 @@ using static UnityEditor.PlayerSettings;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class BaseCharacter : SlowMotionObject, IDamageable
+public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonInteractable
 {
     [SerializeField]
     protected int maxHealth = 7;
@@ -43,6 +43,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     protected GameObject initialPrimaryWeapon = null;
     [SerializeField]
     protected GameObject initialSecondaryWeapon = null;
+    [SerializeField]
+    protected bool isActivated = false;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -72,6 +74,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public bool IsFreezing { get; set; } = false;
 
     protected bool isHurt = false;
+
+    // delegates
+    public event Action OnDeath;
+    public event Action OnActivated;
+    public event Action OnDeactivated;
 
     public void SetIsHurtTrue()
     {
@@ -195,6 +202,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable
                 Instantiate(drop, transform.position, Quaternion.identity);
             }
         }
+        OnDeath?.Invoke();
         Destroy(gameObject);
     }
 
@@ -578,5 +586,22 @@ public class BaseCharacter : SlowMotionObject, IDamageable
     public Rigidbody2D GetRigidbody()
     {
         return rb;
+    }
+
+    internal void Activate()
+    {
+        isActivated = true;
+        OnActivated?.Invoke();
+    }
+
+    internal void Deactivate()
+    {
+        isActivated = false;
+        OnDeactivated?.Invoke();
+    }
+
+    public bool IsActivated()
+    {
+        return isActivated;
     }
 }
