@@ -415,11 +415,11 @@ MonoBehaviour:
   - {fileID: 7634671602991504475, guid: 1de520993df00a043a08f5be3ccd93ba, type: 3}
   initialPrimaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
   initialSecondaryWeapon: {fileID: 0}
-  isActivated: 0
   currentHealth: 0
   enemyName: 
   chaseRadius: 0
-  attackRadius: 8
+  attackRadius: 12
+  isActivated: 0
 --- !u!1 &3535707165324796008
 GameObject:
   m_ObjectHideFlags: 0

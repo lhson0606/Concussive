@@ -23,6 +23,11 @@ public class BowScript : BaseWeapon
 
     public override void DoAttack()
     {
+        if(isCharging)
+        {
+            return;
+        }
+
         animator?.SetBool("IsCharging", true);
         isCharging = true;
     }
@@ -41,7 +46,10 @@ public class BowScript : BaseWeapon
         {
             isCharging = false;
             // destroy the arrow
-            Destroy(arrow);            
+            if(arrow != null)
+            {
+                Destroy(arrow);
+            }                    
         }
 
         animator?.SetBool("IsCharging", false);

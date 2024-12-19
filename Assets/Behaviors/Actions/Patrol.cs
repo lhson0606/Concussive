@@ -101,7 +101,7 @@ public partial class PatrolAction : Action
 
     private Vector2 GetRandomCheckingPosition()
     {
-        Vector2 randomPosition = new Vector2(UnityEngine.Random.Range(-10, 10), UnityEngine.Random.Range(-10, 10));
+        Vector2 randomPosition = entity.transform.position + new Vector3(UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(-3, 3), 0);
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPosition, out hit, 1.0f, NavMesh.AllAreas))
         {
@@ -129,16 +129,16 @@ public partial class PatrolAction : Action
         //navMeshAgent.SetDestination(desiredPosition);
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
-        //// Move towards the desired position
-        //if (navMeshAgent.remainingDistance > stoppingDistance + 1)
-        //{
-        //   Vector2 direction = (desiredPosition - entity.transform.position).normalized;
-        //    rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
-        //    // Draw debug line
-        //    Debug.DrawRay(entity.transform.position, direction * 10, Color.black);
-        //    // Stop the agent after a while
-        //    entity.StartCoroutine(StopAgent());
-        //}
+        // Move towards the desired position
+        if (navMeshAgent.remainingDistance > stoppingDistance + 1)
+        {
+            Vector2 direction = (desiredPosition - entity.transform.position).normalized;
+            rb.linearVelocity += direction * entity.GetRunSpeed() * Time.deltaTime;
+            // Draw debug line
+            Debug.DrawRay(entity.transform.position, direction * 10, Color.black);
+            // Stop the agent after a while
+            entity.StartCoroutine(StopAgent());
+        }
     }
 
     private IEnumerator StopAgent()

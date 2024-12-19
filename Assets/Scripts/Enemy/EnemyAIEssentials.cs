@@ -37,6 +37,7 @@ public class EnemyAIEssentials : MonoBehaviour
 
         character.SafeAddActivationDelegate(OnActivated);
         character.SafeAddDeactivationDelegate(OnDeactivated);
+        character.SafeDelegateOnHurt(OnHurt);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -134,5 +135,18 @@ public class EnemyAIEssentials : MonoBehaviour
     {
         character.SafeRemoveActivationDelegate(OnActivated);
         character.SafeRemoveDeactivationDelegate(OnDeactivated);
+        character.RemoveDelegateOnHurt(OnHurt);
+    }
+
+    public void OnHurt(DamageData damage)
+    {
+        if (!character.IsActivated())
+        {
+            character.Activate();
+        }
+
+        // check the direction of the damage
+        behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", false);
+        behaviorGraphAgent.SetVariableValue<Vector2>("PlayerLastPosition", damage.SourcePosition);
     }
 }

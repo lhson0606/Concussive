@@ -74,6 +74,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected bool isHurt = false;
 
     // delegates
+    private event Action<DamageData> OnHurt;
     public event Action OnDeath;
 
     public void SetIsHurtTrue()
@@ -480,6 +481,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
 
         SetIsHurtTrue();
+        OnHurt?.Invoke(damageData);
     }
 
     public virtual void TakeDamage(DamageData damageData)
@@ -590,5 +592,16 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public Rigidbody2D GetRigidbody()
     {
         return rb;
+    }
+
+    public void SafeDelegateOnHurt(Action<DamageData> onHurtHandler)
+    {
+        OnHurt -= onHurtHandler;
+        OnHurt += onHurtHandler;
+    }
+
+    public void RemoveDelegateOnHurt(Action<DamageData> onHurtHandler)
+    {
+        OnHurt -= onHurtHandler;
     }
 }
