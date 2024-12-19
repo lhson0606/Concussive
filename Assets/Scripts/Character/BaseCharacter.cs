@@ -454,7 +454,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         return primaryWeapon;
     }
-
+    public BaseWeapon GetSecondaryWeapon()
+    {
+        return secondaryWeapon;
+    }
     public Transform GetPrimaryWeaponSlotTransform()
     {
         return primaryWeaponSlot?.transform;

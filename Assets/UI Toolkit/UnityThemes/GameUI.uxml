@@ -5,8 +5,8 @@
         </ui:VisualElement>
         <ui:VisualElement name="Icon" style="flex-grow: 0; height: 80%; align-self: center; width: 10%;">
             <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
-            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
-            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto;" />
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=5763611896518549006&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_29&quot;); width: auto; height: auto; -unity-background-image-tint-color: rgb(12, 51, 241);" />
+            <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=6351020794609289427&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_84&quot;); width: auto; height: auto; -unity-background-image-tint-color: rgb(255, 255, 2);" />
         </ui:VisualElement>
         <ui:VisualElement name="Stats" style="flex-grow: 0; width: 55%; height: 80%; flex-direction: column; align-self: center; right: auto;">
             <ui:VisualElement name="HealthBar" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/Health%20Bar%20Asset%20Pack%202%20by%20Adwit%20Rahman/rpg%20(1).png?fileID=3321681590055085053&amp;guid=07cfe2a0b97150b4ba8d859d13a78efd&amp;type=3#rpg (1)_2&quot;);">
@@ -20,7 +20,10 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:GroupBox>
-    <ui:GroupBox name="Ability" style="justify-content: center; align-items: auto; position: absolute; top: auto; left: auto; height: 70px; width: 40px; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=-4566373158413014706&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_9&quot;); -unity-background-scale-mode: stretch-to-fill; bottom: 0; right: 0;">
-        <ui:VisualElement name="Weapon" data-source="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4413694071827464959&amp;guid=c8a8740b34e328846afce8212c7aaf19&amp;type=3#default" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/frames/weapon_anime_sword.png?fileID=21300000&amp;guid=b922f39604264b84081e46387f7c102b&amp;type=3#weapon_anime_sword&quot;); -unity-text-align: upper-center; align-self: center; height: 70%; width: 30%; justify-content: flex-end;" />
+    <ui:GroupBox name="Ability" style="justify-content: center; align-items: auto; position: absolute; top: auto; left: auto; height: 87px; width: 74px; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=-4566373158413014706&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_9&quot;); -unity-background-scale-mode: stretch-to-fill; bottom: 0; right: 0;">
+        <ui:VisualElement name="PrimaryWeapon" data-source="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4413694071827464959&amp;guid=c8a8740b34e328846afce8212c7aaf19&amp;type=3#default" style="flex-grow: 0; background-image: none; -unity-text-align: upper-center; align-self: center; height: 70%; width: 30%; justify-content: flex-end;" />
+    </ui:GroupBox>
+    <ui:GroupBox name="Ability" style="justify-content: center; align-items: auto; position: absolute; top: auto; left: auto; height: 53px; width: 49px; background-image: url(&quot;project://database/Assets/UI/dungeonui.v1.png?fileID=-4566373158413014706&amp;guid=6b0d2479ee15ac544875f9864eb4b5b8&amp;type=3#dungeonui.v1_9&quot;); -unity-background-scale-mode: stretch-to-fill; bottom: 0; right: 73px;">
+        <ui:VisualElement name="SecondaryWeapon" data-source="project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4413694071827464959&amp;guid=c8a8740b34e328846afce8212c7aaf19&amp;type=3#default" style="flex-grow: 0; background-image: none; -unity-text-align: upper-center; align-self: center; height: 70%; width: 30%; justify-content: flex-end;" />
     </ui:GroupBox>
 </ui:UXML>

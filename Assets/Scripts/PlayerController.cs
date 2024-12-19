@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
 
     float horizontal;
     float vertical;
-
+    public delegate void WeaponChangedHandler(BaseWeapon primaryWeapon, BaseWeapon secondaryWeapon);
+    public event WeaponChangedHandler OnWeaponChanged;
     private void Awake()
     {
         baseCharacter = GetComponent<BaseCharacter>();
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour
         if(Input.mouseScrollDelta.y != 0)
         {
             baseCharacter.SwitchToSecondaryWeapon();
+            OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
         }
     }
 
@@ -142,6 +144,11 @@ public class PlayerController : MonoBehaviour
             float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
             if (distance <= pickUpRange)
             {
+                BaseWeapon newWeapon = selectedPickUp.GetComponent<BaseWeapon>();
+                if (newWeapon != null)
+                {
+                    OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
+                }
                 selectedPickUp.OnPickUp();
                 selectedPickUp = null; // Clear the selection after picking up
             }
