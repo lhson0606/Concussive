@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1715374496884926189}
   - component: {fileID: 2233876909502225130}
   - component: {fileID: 6571165940221083037}
+  - component: {fileID: 5770720571511741102}
   m_Layer: 0
   m_Name: BowPrefab
   m_TagString: Untagged
@@ -358,10 +359,6 @@ MonoBehaviour:
   rarity: 2
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
-  baseDamage: 3
-  weaponCriticalChance: 0.16
-  attackSpeed: 1
-  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
   animator: {fileID: 0}
   onAttackSound: {fileID: 0}
   onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
@@ -392,3 +389,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5770720571511741102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146041445369256103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240b3a4f4c909dc429b72e1189e37470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  criticalChance: 0.05
+  criticalMultiplier: 0
+  damage: 0
+  hasPushEffect: 0
+  pushScale: 0
+  damageType: 0
+  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
+  coolDown: 0
+  coolDownMultiplier: 1

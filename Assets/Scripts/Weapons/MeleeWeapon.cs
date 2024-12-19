@@ -32,13 +32,11 @@ public class MeleeWeapon : BaseWeapon
 
         for (int i = 0; i < count; i++)
         {
-            IDamageable damageable = hitColliders[i].GetComponent<IDamageable>();
             BaseCharacter target = hitColliders[i].GetComponent<BaseCharacter>();
 
-            if (damageable != null)
+            if (target != null)
             {
-                DamageData damageData = base.CalculateDamage(owner, target);
-                damageable.TakeDamage(damageData);
+                damageSource.ApplyDamageTo(target, this.transform.position);
                 base.OnHit();
             }
         }

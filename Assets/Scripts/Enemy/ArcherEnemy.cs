@@ -23,19 +23,6 @@ public class ArcherEnemy : RangedEnemy
         base.Update();
     }
 
-    public override void Attack()
-    {
-        base.Attack();        
-        if (bowScript == null)
-        {
-            bowScript = base.primaryWeapon.GetComponent<BowScript>();
-            return;
-        }
-
-        bowScript.DoAttack();
-        StartCoroutine(Fire());
-    }
-
     private IEnumerator Fire()
     {
         // wait for the bow to be fully drawn .. about 1.5 seconds

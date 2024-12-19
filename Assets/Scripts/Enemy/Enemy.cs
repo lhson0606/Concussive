@@ -12,10 +12,10 @@ public class Enemy : BaseCharacter
     [SerializeField]
     protected bool isActivated = false;
 
-    private event Action OnActivated;
-    private event Action OnDeactivated;
-
+    protected event Action OnActivated;
+    protected event Action OnDeactivated;
     protected GameObject player;
+    protected BaseCharacter target;
 
     protected override void Awake()
     {
@@ -29,7 +29,10 @@ public class Enemy : BaseCharacter
         base.Start();
     }
 
-    public virtual void Attack() { }
+    public void SetTarget(BaseCharacter target) 
+    {
+        this.target = target;
+    }
 
     internal void Activate()
     {
@@ -68,5 +71,10 @@ public class Enemy : BaseCharacter
     public void SafeRemoveDeactivationDelegate(Action action)
     {
         OnDeactivated -= action;
+    }
+
+    public BaseCharacter GetCurrentTarget()
+    {
+        return target;
     }
 }

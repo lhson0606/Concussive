@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 3956753236499101640}
   - component: {fileID: 5387911795663800431}
   - component: {fileID: 3029582408832271896}
-  - component: {fileID: 2860717365918975264}
   - component: {fileID: 6121615097725384071}
+  - component: {fileID: 1780189593579037805}
   m_Layer: 0
   m_Name: MeleeEnemyPrefab
   m_TagString: Enemy
@@ -119,7 +119,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &2297067406705763419
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,8 +130,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -270,7 +270,7 @@ MonoBehaviour:
   maxHealth: 20
   maxArmor: 3
   maxMana: 200
-  runSpeed: 2
+  runSpeed: 240
   criticalHitChance: 0.05
   criticalHitMultiplier: 2
   bareHandDamage: 1
@@ -281,12 +281,13 @@ MonoBehaviour:
   effectSizeScale: 1
   dropOnDeath:
   - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
+  initialPrimaryWeapon: {fileID: 0}
+  initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
   enemyName: Jelly
-  target: {fileID: 0}
   chaseRadius: 4
   attackRadius: 0.7
-  homePosition: {fileID: 0}
+  isActivated: 1
 --- !u!120 &3029582408832271896
 LineRenderer:
   serializedVersion: 2
@@ -394,31 +395,6 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &2860717365918975264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6701079288712103040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe5a842160267e847b1bc4b1338adec4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  description: 
-  uiTextPrefab: {fileID: 0}
-  baseDamage: 2
-  weaponCriticalChance: 0.05
-  attackSpeed: 1
-  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
-  animator: {fileID: 0}
-  onAttackSound: {fileID: 0}
-  onEquipSound: {fileID: 0}
-  onHitSound: {fileID: 0}
-  onAttackMissSound: {fileID: 0}
 --- !u!70 &6121615097725384071
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -456,3 +432,25 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0064706802, y: -0.36882877}
   m_Size: {x: 0.65058327, y: 0.69984245}
   m_Direction: 0
+--- !u!114 &1780189593579037805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701079288712103040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240b3a4f4c909dc429b72e1189e37470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  criticalChance: 0.05
+  criticalMultiplier: 0
+  damage: 0
+  hasPushEffect: 0
+  pushScale: 0
+  damageType: 0
+  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
+  coolDown: 1.5
+  coolDownMultiplier: 1

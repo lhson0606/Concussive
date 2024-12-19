@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -6,16 +7,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(DamageSource))]
 public class BaseWeapon : GameItem
 {
-    [SerializeField]
-    protected int baseDamage = 0;
-    [SerializeField]
-    protected float weaponCriticalChance = 0.05f;
-    [SerializeField]
-    protected float attackSpeed = 1.0f;
-    [SerializeField]
-    protected Element element = null;
     [SerializeField]
     protected Animator animator;
     [SerializeField]
@@ -37,6 +31,7 @@ public class BaseWeapon : GameItem
     protected BaseCharacter owner;
     protected AudioSource audioSource;
     public bool ShouldAlterRenderOrder { get; set; } = true;
+    protected DamageSource damageSource;
 
     protected override void OnValidate()
     {
@@ -49,15 +44,22 @@ public class BaseWeapon : GameItem
         base.Awake();
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        attackSpeed = 1f / GetAnimationClipDuration("WeaponAttackAnim");
         audioSource = GetComponent<AudioSource>();
-        updateState(STATE_ON_GROUND);
+        damageSource = GetComponent<DamageSource>();
+
+        if(damageSource == null)
+        {
+            Debug.LogError("DamageSource is missing on this weapon!");
+        }
+
+        UpdateState(STATE_ON_GROUND);
     }
 
     public override void DropItem(Vector3 position)
     {
         base.DropItem(position);
-        updateState(STATE_ON_GROUND);
+        UpdateState(STATE_ON_GROUND);
+        damageSource.ResetStats();
     }
 
     private float GetAnimationClipDuration(string clipName)
@@ -79,7 +81,7 @@ public class BaseWeapon : GameItem
         return 0f;
     }
 
-    private void updateState(int state)
+    private void UpdateState(int state)
     {
         currentState = state;
 
@@ -106,7 +108,7 @@ public class BaseWeapon : GameItem
     {
         transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
-        updateState(STATE_IDLE);
+        UpdateState(STATE_IDLE);
         OnEquippedAsOffHandWeapon();
     }
 
@@ -115,7 +117,7 @@ public class BaseWeapon : GameItem
         transform.SetParent(owner.GetSecondaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder - 1;
-        updateState(STATE_OFF_HAND);
+        UpdateState(STATE_OFF_HAND);
         OnEquippedAsOffHandWeapon();
     }
 
@@ -132,45 +134,14 @@ public class BaseWeapon : GameItem
         Debug.Log("Weapon picked up");
         owner.EquipWeapon(this, owner.GetCharacterSpriteRenderer(), GetWeaponSpriteRenderer());
         this.owner = owner;
+        SetUpDamageSource(owner);
     }
 
-    public DamageData CalculateDamage(BaseCharacter owner, BaseCharacter target)
+    private void SetUpDamageSource(BaseCharacter owner)
     {
-        DamageData damageData = new DamageData();
-        damageData.Damage = baseDamage;
-        damageData.IsCritical = IsCriticalHit(owner);
-        damageData.SourceElement = element;
-        damageData.SourcePosition = owner.transform.position;
-        damageData.TargetPosition = target.transform.position;
-
-        // Apply critable damage buffs
-        damageData = ApplyCritableDamageBuff(damageData, owner, target);
-
-        if (element == null)
-        {
-            return damageData;
-        }
-
-        // Calculate crit damage
-        if (damageData.IsCritical)
-        {
-            if(element.IsElemental)
-            {
-                // apply elemental effect
-                Effect effectPrefab = element.Effect;
-                if (effectPrefab != null)
-                {
-                    Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
-                    effectInstance.StartEffect(target);
-                }
-            }
-            else
-            {
-                damageData.Damage *= owner.GetCriticalDamageMultiplier();
-            }
-        }
-
-        return damageData;
+        damageSource.ResetStats();
+        damageSource.Owner = owner.gameObject;
+        // #todo: set damage, critical chance, critical multiplier, element, damage type, etc.
     }
 
     public DamageData ApplyCritableDamageBuff(DamageData damageData, BaseCharacter owner, BaseCharacter target)
@@ -183,15 +154,6 @@ public class BaseWeapon : GameItem
     {
         //apply non-critable damage buffs here
         return damageData;
-    }
-
-    public bool IsCriticalHit(BaseCharacter owner)
-    {
-        if(owner == null)
-        {
-            return Random.value < this.weaponCriticalChance;
-        }
-        else return Random.value < owner.GetCriticalChance() + this.weaponCriticalChance;
     }
 
     public virtual void DoAttack()
@@ -280,34 +242,13 @@ public class BaseWeapon : GameItem
         this.owner = baseCharacter;
     }
 
-    internal float GetBaseDamage()
-    {
-        return baseDamage;
-    }
-
-    internal Element GetElement()
-    {
-        return element;
-    }
-
     internal BaseCharacter GetOwner()
     {
         return owner;
     }
 
-    internal void ApplyEffectToTarget(BaseCharacter target)
+    public DamageSource GetDamageSource()
     {
-        if(element == null || !element.IsElemental)
-        {
-            return;
-        }
-
-        // apply elemental effect
-        Effect effectPrefab = element.Effect;
-        if (effectPrefab != null)
-        {
-            Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
-            effectInstance.StartEffect(target);
-        }
+        return damageSource;
     }
 }

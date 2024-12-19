@@ -5,17 +5,69 @@ public class DamageSource : MonoBehaviour
     [SerializeField]
     private GameObject owner;
     [SerializeField]
-    private float criticalChance = 0.05f;
+    private float criticalChance = 0.0f;
     [SerializeField]
     private float criticalMultiplier;
     [SerializeField]
     private float damage = 0f;
     [SerializeField]
-    private bool havePushEffect = false;
+    private bool hasPushEffect = false;
+    [SerializeField]
+    private float pushScale = 0f;
     [SerializeField]
     private DamageType damageType = DamageType.PHYSIC;
     [SerializeField]
-    private Element element = null;
+    private Element element;
+    [SerializeField]
+    private float coolDown = 0f;// 0f means no cooldown by default
+    [SerializeField]
+    private float coolDownMultiplier = 1f;
+
+    private float coolDownTimer = 0f;
+
+    public void Awake()
+    {
+        // save the initial stats
+        initialOwner = owner;
+        initialDamage = damage;
+        initialCriticalChance = criticalChance;
+        initialCriticalMultiplier = criticalMultiplier;
+        initialCoolDown = coolDown;
+        initialHasPushEffect = hasPushEffect;
+        initialPushScale = pushScale;
+        initialDamageType = damageType;
+        initialElement = element;
+        initialCoolDownMultiplier = coolDownMultiplier;
+    }
+
+    /**
+     * Reset the stats of this damage source to the initial values
+     * Notes: will also reset the owner of this damage source
+     */
+    public void ResetStats(bool shouldResetOwner = false)
+    {
+        owner = shouldResetOwner? initialOwner : null;
+        damage = initialDamage;
+        criticalChance = initialCriticalChance;
+        criticalMultiplier = initialCriticalMultiplier;
+        coolDown = initialCoolDown;
+        hasPushEffect = initialHasPushEffect;
+        damageType = initialDamageType;
+        element = initialElement;
+        pushScale = initialPushScale;
+        coolDownMultiplier = initialCoolDownMultiplier;
+    }
+
+    public void Update()
+    {
+        coolDownTimer = Mathf.Max(0f, coolDownTimer - Time.deltaTime * coolDownMultiplier);
+    }
+
+    // Can be used to check if the weapon can attack
+    public bool IsCoolDownReset()
+    {
+        return coolDownTimer <= 0.000001f;
+    }
 
     // Properties
     public GameObject Owner
@@ -42,10 +94,10 @@ public class DamageSource : MonoBehaviour
         set { damage = value; }
     }
 
-    public bool HavePushEffect
+    public bool HasPushEffect
     {
-        get { return havePushEffect; }
-        set { havePushEffect = value; }
+        get { return hasPushEffect; }
+        set { hasPushEffect = value; }
     }
 
     public DamageType DamageType
@@ -60,53 +112,71 @@ public class DamageSource : MonoBehaviour
         set { element = value; }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private bool IsCriticalHit(float chance)
     {
         return Random.value < chance;
     }
 
-    public void ApplyDamageTo(BaseCharacter target)
+    public void ApplyCoolDown()
     {
+        coolDownTimer = coolDown;
+    }
+
+    public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos)
+    {
+        coolDownTimer = coolDown;
         DamageData damageData = new DamageData();
+        damageData.DamageDealer = owner;
         damageData.Damage = damage;
         damageData.IsCritical = IsCriticalHit(criticalChance);
         damageData.SourceElement = element;
-        damageData.SourcePosition = (owner != null)? owner.transform.position : transform.position;
-        damageData.TargetPosition = target.transform.position;
-        damageData.HavePushEffect = havePushEffect;
+        damageData.SourcePosition = sourcePos;
+        damageData.TargetPosition = targetPos;
+        damageData.PushScale = hasPushEffect? pushScale : 0f;
+        return damageData;
+    }
 
-        // Calculate crit damage
-        if (damageData.IsCritical)
+    internal void ApplyDamageTo(BaseCharacter target, Vector2 position)
+    {
+        DamageData damageData = GetDamageData(transform.position, target.transform.position);
+        if(damageData.IsCritical)
         {
-            if (element != null && element.IsElemental)
-            {
-                // apply elemental effect
-                Effect effectPrefab = element.Effect;
-                if (effectPrefab != null)
-                {
-                    Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
-                    effectInstance.StartEffect(target);
-                }
-            }
-            else
+            if(!ApplyElementalEffectToTarget(target))
             {
                 damageData.Damage *= criticalMultiplier;
             }
         }
-
         target.TakeDamage(damageData);
     }
+
+    private bool ApplyElementalEffectToTarget(BaseCharacter target)
+    {
+        if (element == null || !element.IsElemental)
+        {
+            return false;
+        }
+
+        // apply elemental effect
+        Effect effectPrefab = element.Effect;
+        if (effectPrefab != null)
+        {
+            Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            effectInstance.StartEffect(target);
+        }
+
+        return true;
+    }
+
+    // used to reset the stats of this damage source when needed
+    private GameObject initialOwner;
+    private float initialDamage;
+    private float initialCriticalChance;
+    private float initialCriticalMultiplier;
+    private float initialCoolDown;
+    private float initialPushScale;
+    private DamageType initialDamageType;
+    private Element initialElement;
+    private bool initialHasPushEffect;
+    private float initialCoolDownMultiplier;
 }
 

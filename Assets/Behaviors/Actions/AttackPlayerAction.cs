@@ -9,7 +9,7 @@ using Unity.Properties;
 public partial class AttackPlayerAction : Action
 {
     private Enemy entity;
-    
+
     protected override Status OnStart()
     {
         entity = GameObject.GetComponent<Enemy>();
@@ -23,7 +23,7 @@ public partial class AttackPlayerAction : Action
 
     protected override Status OnUpdate()
     {
-        entity.Attack();
+        // entity.Attack();
         return Status.Success;
     }
 

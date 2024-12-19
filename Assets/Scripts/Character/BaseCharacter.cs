@@ -490,7 +490,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         // Add impulse to the character
         Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
-        Vector2 impulse = dir.normalized * 10;
+        Vector2 impulse = dir.normalized * damageData.PushScale;
         if (damageData.IsCritical)
         {
             impulse *= GetCriticalDamageMultiplier();
@@ -502,7 +502,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             
-            if (rb != null)
+            if (rb != null && damageData.PushScale > 0)
             {
                 DisableMovement();
                 rb.linearVelocity += impulse;
