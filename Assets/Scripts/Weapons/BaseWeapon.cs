@@ -3,7 +3,6 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(AudioSource))]
@@ -174,7 +173,7 @@ public class BaseWeapon : GameItem
         return damageData;
     }
 
-    private DamageData ApplyCritableDamageBuff(DamageData damageData, BaseCharacter owner, BaseCharacter target)
+    public DamageData ApplyCritableDamageBuff(DamageData damageData, BaseCharacter owner, BaseCharacter target)
     {
         //apply critable damage buffs here
         return damageData;
@@ -186,7 +185,7 @@ public class BaseWeapon : GameItem
         return damageData;
     }
 
-    private bool IsCriticalHit(BaseCharacter owner)
+    public bool IsCriticalHit(BaseCharacter owner)
     {
         if(owner == null)
         {
@@ -279,5 +278,36 @@ public class BaseWeapon : GameItem
     internal void SetOwner(BaseCharacter baseCharacter)
     {
         this.owner = baseCharacter;
+    }
+
+    internal float GetBaseDamage()
+    {
+        return baseDamage;
+    }
+
+    internal Element GetElement()
+    {
+        return element;
+    }
+
+    internal BaseCharacter GetOwner()
+    {
+        return owner;
+    }
+
+    internal void ApplyEffectToTarget(BaseCharacter target)
+    {
+        if(element == null || !element.IsElemental)
+        {
+            return;
+        }
+
+        // apply elemental effect
+        Effect effectPrefab = element.Effect;
+        if (effectPrefab != null)
+        {
+            Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            effectInstance.StartEffect(target);
+        }
     }
 }

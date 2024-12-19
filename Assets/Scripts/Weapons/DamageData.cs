@@ -8,4 +8,5 @@ public class DamageData
     public float Damage { get; set; } = 0f;
     public Vector2 SourcePosition { get; set; } = Vector2.zero;
     public Vector2 TargetPosition { get; set; } = Vector2.zero;
+    public bool HavePushEffect { get; set; } = false;
 }
