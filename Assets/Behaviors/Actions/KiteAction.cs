@@ -16,11 +16,7 @@ public partial class KiteAction : Action
     private BehaviorGraphAgent behaviorGraphAgent;
     private Rigidbody2D rb;
     private float dodgeRange = 3f;
-    private float dodgeCooldown = 1f;
-    private float dodgeTimer = 0f;
     private float originalStoppingDistance;
-    Vector3 dodgePosition;
-    bool isDodging = false;
 
     protected override Status OnStart()
     {
@@ -49,51 +45,38 @@ public partial class KiteAction : Action
         rb = GameObject.GetComponent<Rigidbody2D>();
 
         originalStoppingDistance = navMeshAgent.stoppingDistance;
-        dodgePosition = entity.transform.position;
 
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
-        if(!isDodging)
-        {
-            dodgePosition = GetRandomDodgePosition();
-            navMeshAgent.stoppingDistance = 0;
-            navMeshAgent.isStopped = false;
-            navMeshAgent.SetDestination(dodgePosition);
-            
-            entity.transform.position = new Vector3(entity.transform.position.x, entity.transform.position.y, 0);
-            isDodging = true;
-        }
+        navMeshAgent.stoppingDistance = 0;
+        navMeshAgent.isStopped = false;
 
-        if (!navMeshAgent.hasPath)
-        {
-            isDodging = false;
-            return Status.Success;
-        }
+        Vector2 dodgePosition = GetRandomDodgePosition();
 
+        navMeshAgent.SetDestination(dodgePosition);
 
         DrawCircle(entity.transform.position, dodgeRange, Color.red);
         DrawCircle(dodgePosition, 0.5f, Color.blue);
 
         if (Vector3.Distance(entity.transform.position, dodgePosition) <= 1.0f)
         {
-            isDodging = false;
-            return Status.Success;
+            rb.linearVelocity = Vector2.zero;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = true;
+                navMeshAgent.stoppingDistance = originalStoppingDistance;
+            }
         }
 
-        return Status.Running;
+        return Status.Success;
     }
 
     protected override void OnEnd()
     {
-        rb.linearVelocity = Vector2.zero;
-        if (navMeshAgent.isOnNavMesh)
-        {
-            navMeshAgent.isStopped = true;
-            navMeshAgent.stoppingDistance = originalStoppingDistance;
-        }
+        
     }
 
     private Vector3 GetRandomDodgePosition()
