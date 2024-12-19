@@ -14,12 +14,8 @@ public partial class PatrolAction : Action
     private NavMeshAgent navMeshAgent;
     private BehaviorGraphAgent behaviorGraphAgent;
     private Vector2 checkingPosition;
-    private bool isPatrolling = false;
     private Rigidbody2D rb;
     private float stoppingDistance = 0.5f;
-    private float patrolTime = 5f;
-    // if it takes too long to reach the destination, change the destination
-    private float patrolTimer = 0f;
 
     protected override Status OnStart()
     {
@@ -59,46 +55,48 @@ public partial class PatrolAction : Action
 
         if(canSeePlayer.Value)
         {
+            rb.linearVelocity = Vector2.zero;
+            // reset the stopping distance
+            navMeshAgent.stoppingDistance = stoppingDistance;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = true;
+            }
             return Status.Success;
         }
 
         BlackboardVariable<bool> checkedPlayerLastPosition = new BlackboardVariable<bool>(false);
         behaviorGraphAgent.GetVariable<bool>("CheckedPlayerLastPosition", out checkedPlayerLastPosition);
 
-        if (!isPatrolling)
+        if (!checkedPlayerLastPosition.Value)
         {
-            if (!checkedPlayerLastPosition.Value)
-            {
-                BlackboardVariable<Vector2> playerLastPosition = new BlackboardVariable<Vector2>(Vector2.zero);
-                behaviorGraphAgent.GetVariable<Vector2>("PlayerLastPosition", out playerLastPosition);
-                checkingPosition = playerLastPosition.Value;
-            }
-            else
-            {
-                checkingPosition = GetRandomCheckingPosition();
-            }
-
-            isPatrolling = true;
-            navMeshAgent.stoppingDistance = 0;
-            navMeshAgent.isStopped = false;
-            patrolTimer = 0f;
-        }
-
-        if (patrolTimer > patrolTime)
-        {
-            isPatrolling = false;
+            BlackboardVariable<Vector2> playerLastPosition = new BlackboardVariable<Vector2>(Vector2.zero);
+            behaviorGraphAgent.GetVariable<Vector2>("PlayerLastPosition", out playerLastPosition);
+            checkingPosition = playerLastPosition.Value;
             behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", true);
-            return Status.Success;
+        }
+        else
+        {
+            checkingPosition = GetRandomCheckingPosition();
         }
 
-        if(!navMeshAgent.hasPath)
-        {
-            return Status.Success;
-        }
+        navMeshAgent.stoppingDistance = 0;
+        navMeshAgent.isStopped = false;
+
+        //if (patrolTimer > patrolTime)
+        //{
+        //    isPatrolling = false;
+        //    behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", true);
+        //    return Status.Success;
+        //}
+
+        //if(!navMeshAgent.hasPath)
+        //{
+        //    return Status.Success;
+        //}
 
         PatrolTo(checkingPosition);
-        patrolTimer += Time.deltaTime;
-        return Status.Running;
+        return Status.Success;
     }
 
     private Vector2 GetRandomCheckingPosition()
@@ -114,25 +112,17 @@ public partial class PatrolAction : Action
 
     protected override void OnEnd()
     {
-        isPatrolling = false;
-        rb.linearVelocity = Vector2.zero;
-        // reset the stopping distance
-        navMeshAgent.stoppingDistance = stoppingDistance;
-        if(navMeshAgent.isOnNavMesh)
-        {
-            navMeshAgent.isStopped = true;
-        }        
+        
     }
 
     private void PatrolTo(Vector3 desiredPosition)
     {
+        DrawDebugDesiredPoint(desiredPosition);
         navMeshAgent.SetDestination(desiredPosition);
         Vector3 currentPosition = entity.transform.position;
 
         if (Vector3.Distance(currentPosition, desiredPosition) < 0.5f || !navMeshAgent.hasPath)
         {
-            isPatrolling = false;
-            behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", true);
             return;
         }
 
@@ -140,20 +130,40 @@ public partial class PatrolAction : Action
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
         //// Move towards the desired position
-        if (navMeshAgent.remainingDistance > stoppingDistance + 1)
-        {
-           Vector2 direction = (desiredPosition - entity.transform.position).normalized;
-            rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
-            // Draw debug line
-            Debug.DrawRay(entity.transform.position, direction * 10, Color.red);
-            // Stop the agent after a while
-            entity.StartCoroutine(StopAgent());
-        }
+        //if (navMeshAgent.remainingDistance > stoppingDistance + 1)
+        //{
+        //   Vector2 direction = (desiredPosition - entity.transform.position).normalized;
+        //    rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
+        //    // Draw debug line
+        //    Debug.DrawRay(entity.transform.position, direction * 10, Color.black);
+        //    // Stop the agent after a while
+        //    entity.StartCoroutine(StopAgent());
+        //}
     }
 
     private IEnumerator StopAgent()
     {
         yield return new WaitForSeconds(0.2f);
         rb.linearVelocity = Vector2.zero;
+    }
+
+    void DrawDebugDesiredPoint(Vector3 desiredPosition)
+    {
+        Debug.DrawLine(entity.transform.position, desiredPosition, Color.green);
+        DrawCircle(desiredPosition, 0.5f, Color.green);
+    }
+
+    void DrawCircle(Vector3 center, float radius, Color color, int segments = 36)
+    {
+        float angleStep = 360f / segments;
+        Vector3 prevPoint = center + new Vector3(radius, 0, 0);
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = i * angleStep * Mathf.Deg2Rad;
+            Vector3 newPoint = center + new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
+            Debug.DrawLine(prevPoint, newPoint, color);
+            prevPoint = newPoint;
+        }
     }
 }

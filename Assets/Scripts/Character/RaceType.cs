@@ -3,8 +3,9 @@ using UnityEngine;
 public enum RaceType
 {
     HUMAN,
-    ELF,
-    HOLY,
+    ORC,
     DEMON,
     UNDEAD,
+    ELF,
+    HOLY,
 }

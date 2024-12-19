@@ -407,7 +407,7 @@ MonoBehaviour:
   bareHandDamage: 1
   bareHandAttackSpeed: 1
   characterText: {fileID: 0}
-  race: 0
+  race: 1
   hurtSound: {fileID: 8300000, guid: a3b26e6f06f7efa488771341abf7bcb7, type: 3}
   effectSizeScale: 1
   dropOnDeath:

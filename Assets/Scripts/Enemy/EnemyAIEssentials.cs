@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class EnemyAIEssentials : MonoBehaviour
 {
-    BaseCharacter character;
+    Enemy character;
     BehaviorGraphAgent behaviorGraphAgent;
     Blackboard blackboard;
     GameObject player;
@@ -14,7 +14,7 @@ public class EnemyAIEssentials : MonoBehaviour
     Rigidbody2D rb;
     private void Awake()
     {
-        character = GetComponent<BaseCharacter>();
+        character = GetComponent<Enemy>();
         behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody2D>();
@@ -34,13 +34,13 @@ public class EnemyAIEssentials : MonoBehaviour
         }
         
         player = GameObject.FindGameObjectWithTag("Player");
+
+        character.SafeAddActivationDelegate(OnActivated);
+        character.SafeAddDeactivationDelegate(OnDeactivated);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        character.OnActivated += OnActivated;
-        character.OnDeactivated += OnDeactivated;
-
         behaviorGraphAgent.SetVariableValue<bool>("IsAdctivated", character.IsActivated());
     }
 
@@ -132,7 +132,7 @@ public class EnemyAIEssentials : MonoBehaviour
 
     private void OnDestroy()
     {
-        character.OnActivated -= OnActivated;
-        character.OnDeactivated -= OnDeactivated;
+        character.SafeRemoveActivationDelegate(OnActivated);
+        character.SafeRemoveDeactivationDelegate(OnDeactivated);
     }
 }

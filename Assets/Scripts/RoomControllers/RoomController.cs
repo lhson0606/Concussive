@@ -9,7 +9,7 @@ public class RoomController : MonoBehaviour
     private RoomTrigger roomTrigger;
 
     private List<BarrierController> barriers = new List<BarrierController>();
-    private List<BaseCharacter> enemies = new List<BaseCharacter>();
+    private List<Enemy> enemies = new List<Enemy>();
 
     private int enemiesDefeated = 0;
 
@@ -61,7 +61,7 @@ public class RoomController : MonoBehaviour
         {
             if (collider.CompareTag("Enemy"))
             {
-                BaseCharacter enemy = collider.GetComponent<BaseCharacter>();
+                Enemy enemy = collider.GetComponent<Enemy>();
                 if (enemy != null)
                 {
                     enemies.Add(enemy);
@@ -120,7 +120,7 @@ public class RoomController : MonoBehaviour
     void OnPlayerEnterRoom()
     {
         CloseBarriers();
-        foreach (BaseCharacter enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
             enemy.Activate();
         }
@@ -137,7 +137,7 @@ public class RoomController : MonoBehaviour
 
     void OnDestroy()
     {
-        foreach (BaseCharacter enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
             enemy.OnDeath -= OnEnemyDie;
         }

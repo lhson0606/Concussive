@@ -43,8 +43,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected GameObject initialPrimaryWeapon = null;
     [SerializeField]
     protected GameObject initialSecondaryWeapon = null;
-    [SerializeField]
-    protected bool isActivated = false;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -77,8 +75,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     // delegates
     public event Action OnDeath;
-    public event Action OnActivated;
-    public event Action OnDeactivated;
 
     public void SetIsHurtTrue()
     {
@@ -591,22 +587,5 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public Rigidbody2D GetRigidbody()
     {
         return rb;
-    }
-
-    internal void Activate()
-    {
-        isActivated = true;
-        OnActivated?.Invoke();
-    }
-
-    internal void Deactivate()
-    {
-        isActivated = false;
-        OnDeactivated?.Invoke();
-    }
-
-    public bool IsActivated()
-    {
-        return isActivated;
     }
 }
