@@ -75,7 +75,7 @@ public partial class PatrolAction : Action
             }
             else
             {
-                checkingPosition = entity.transform.position + new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0);
+                checkingPosition = GetRandomCheckingPosition();
             }
 
             isPatrolling = true;
@@ -91,9 +91,25 @@ public partial class PatrolAction : Action
             return Status.Success;
         }
 
+        if(!navMeshAgent.hasPath)
+        {
+            return Status.Success;
+        }
+
         PatrolTo(checkingPosition);
         patrolTimer += Time.deltaTime;
         return Status.Running;
+    }
+
+    private Vector2 GetRandomCheckingPosition()
+    {
+        Vector2 randomPosition = new Vector2(UnityEngine.Random.Range(-10, 10), UnityEngine.Random.Range(-10, 10));
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPosition, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        return new Vector2(entity.transform.position.x, entity.transform.position.y);
     }
 
     protected override void OnEnd()
@@ -124,15 +140,15 @@ public partial class PatrolAction : Action
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
         //// Move towards the desired position
-        //if (navMeshAgent.remainingDistance > stoppingDistance + 1)
-        //{
-        //    Vector2 direction = (desiredPosition - entity.transform.position).normalized;
-        //    rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
-        //    // Draw debug line
-        //    Debug.DrawRay(entity.transform.position, direction * 10, Color.red);
-        //    // Stop the agent after a while
-        //    entity.StartCoroutine(StopAgent());
-        //}
+        if (navMeshAgent.remainingDistance > stoppingDistance + 1)
+        {
+           Vector2 direction = (desiredPosition - entity.transform.position).normalized;
+            rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
+            // Draw debug line
+            Debug.DrawRay(entity.transform.position, direction * 10, Color.red);
+            // Stop the agent after a while
+            entity.StartCoroutine(StopAgent());
+        }
     }
 
     private IEnumerator StopAgent()

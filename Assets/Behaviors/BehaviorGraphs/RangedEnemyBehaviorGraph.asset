@@ -128,16 +128,16 @@ MonoBehaviour:
   m_Name: RangedEnemyBehaviorGraph
   m_EditorClassIdentifier: 
   Graphs:
-  - rid: 3058395372586009153
+  - rid: 3058395384275010131
   RootGraph:
-    rid: 3058395372586009153
+    rid: 3058395384275010131
   m_DebugInfo: {fileID: 9156232695285250320}
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3058395372586009153
+    - rid: 3058395384275010131
       type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         AuthoringAssetID:
@@ -145,31 +145,31 @@ MonoBehaviour:
           m_Value1: 15755421446341048169
         m_DebugInfo: {fileID: 9156232695285250320}
         Root:
-          rid: 3058395372586009154
+          rid: 3058395384275010132
         BlackboardReference:
-          rid: 3058395372586009155
+          rid: 3058395384275010133
         BlackboardGroupReferences: []
         m_VersionTimestamp: 0
-    - rid: 3058395372586009154
+    - rid: 3058395384275010132
       type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
           m_Value0: 242793636486944166
           m_Value1: 370042332128719412
         Graph:
-          rid: 3058395372586009153
+          rid: 3058395384275010131
         m_Parent:
           rid: -2
         m_Child:
           rid: -2
         Repeat: 1
-    - rid: 3058395372586009155
+    - rid: 3058395384275010133
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         m_Blackboard:
-          rid: 3058395372586009156
+          rid: 3058395384275010134
         m_Source: {fileID: -2323792257872898358}
-    - rid: 3058395372586009156
+    - rid: 3058395384275010134
       type: {class: Blackboard, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         m_Variables: []

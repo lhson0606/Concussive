@@ -5,6 +5,7 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using UnityEngine.AI;
 using System.Collections;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Kite", story: "Try to move around to dodge player attack", category: "Action", id: "29b53629ebc4270ba78b44cfd602c66c")]
@@ -61,14 +62,22 @@ public partial class KiteAction : Action
             navMeshAgent.stoppingDistance = 0;
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(dodgePosition);
+            
+            entity.transform.position = new Vector3(entity.transform.position.x, entity.transform.position.y, 0);
             isDodging = true;
         }
-        
+
+        if (!navMeshAgent.hasPath)
+        {
+            isDodging = false;
+            return Status.Success;
+        }
+
 
         DrawCircle(entity.transform.position, dodgeRange, Color.red);
         DrawCircle(dodgePosition, 0.5f, Color.blue);
 
-        if (Vector3.Distance(entity.transform.position, dodgePosition) <= 0.1f)
+        if (Vector3.Distance(entity.transform.position, dodgePosition) <= 1.0f)
         {
             isDodging = false;
             return Status.Success;
