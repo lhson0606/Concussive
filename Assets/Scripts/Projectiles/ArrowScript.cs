@@ -91,7 +91,7 @@ public class ArrowScript : SlowMotionObject
 
         if (hitTarget != null)
         {
-            parentWeapon.GetDamageSource().ApplyDamageTo(hitTarget, this.transform.position);
+            parentWeapon.GetDamageSource().ApplyDamageTo(hitTarget, this.transform.position, false);
         }
 
         rb.isKinematic = true;

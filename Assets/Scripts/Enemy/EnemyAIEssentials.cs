@@ -8,8 +8,6 @@ public class EnemyAIEssentials : MonoBehaviour
 {
     Enemy character;
     BehaviorGraphAgent behaviorGraphAgent;
-    Blackboard blackboard;
-    GameObject player;
     NavMeshAgent navMeshAgent;
     Rigidbody2D rb;
     private void Awake()
@@ -32,8 +30,6 @@ public class EnemyAIEssentials : MonoBehaviour
         {
             Debug.LogError("behaviorGraphAgent is missing on " + gameObject.name);
         }
-        
-        player = GameObject.FindGameObjectWithTag("Player");
 
         character.SafeAddActivationDelegate(OnActivated);
         character.SafeAddDeactivationDelegate(OnDeactivated);
@@ -42,7 +38,7 @@ public class EnemyAIEssentials : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        behaviorGraphAgent.SetVariableValue<bool>("IsAdctivated", character.IsActivated());
+        behaviorGraphAgent.SetVariableValue<bool>("IsActivated", character.IsActivated());
     }
 
     Vector2 lastAgentPos = Vector2.zero;
@@ -55,13 +51,12 @@ public class EnemyAIEssentials : MonoBehaviour
             return;
         }
 
-        bool canSeePlayer = CanSeePlayer();
-        behaviorGraphAgent.SetVariableValue<bool>("CanSeePlayer", canSeePlayer);
-        if(canSeePlayer)
+        behaviorGraphAgent.SetVariableValue<bool>("CanSeeTarget", character.IsTargetInSight());
+        
+        if(character.IsTargetInSight())
         {
-            character.LookAtPosition = player.transform.position;
-            behaviorGraphAgent.SetVariableValue<Vector2>("PlayerLastPosition", player.transform.position);
-            behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", false);
+            behaviorGraphAgent.SetVariableValue<Vector2>("TargetLastPosition", character.GetCurrentTarget().transform.position);
+            behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", false);
         }
 
         //// testing
@@ -88,39 +83,6 @@ public class EnemyAIEssentials : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
     }
 
-    private bool CanSeePlayer()
-    {
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-        // check distance
-        if (distance > 10)
-        {
-            return false;
-        }
-
-        // check line of sight
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-        ContactFilter2D contactFilter = new ContactFilter2D();
-        contactFilter.useTriggers = false; // Ignore trigger colliders
-        contactFilter.SetLayerMask(Physics2D.AllLayers); // Check all layers
-
-        RaycastHit2D[] hits = new RaycastHit2D[2];
-        int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, distance);
-
-        if(hits.Length > 0)
-        {
-            for (int i = 0; i < hitCount; i++)
-            {
-                if (hits[i].collider.gameObject.tag == "Player")
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-
     void OnActivated()
     {
         behaviorGraphAgent.SetVariableValue<bool>("IsActivated", true);
@@ -146,7 +108,7 @@ public class EnemyAIEssentials : MonoBehaviour
         }
 
         // check the direction of the damage
-        behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", false);
-        behaviorGraphAgent.SetVariableValue<Vector2>("PlayerLastPosition", damage.SourcePosition);
+        behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", false);
+        behaviorGraphAgent.SetVariableValue<Vector2>("TargetLastPosition", damage.SourcePosition);
     }
 }

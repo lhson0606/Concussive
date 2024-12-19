@@ -23,7 +23,7 @@ public class BowScript : BaseWeapon
 
     public override void DoAttack()
     {
-        if(isCharging)
+        if(isCharging || !damageSource.IsCoolDownReset())
         {
             return;
         }
@@ -65,6 +65,8 @@ public class BowScript : BaseWeapon
             {
                 audioSource?.PlayOneShot(arrowReleaseSound);
             }
+
+            damageSource.ApplyCoolDown();
         }
     }
 

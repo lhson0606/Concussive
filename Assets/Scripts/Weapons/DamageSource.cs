@@ -124,7 +124,6 @@ public class DamageSource : MonoBehaviour
 
     public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos)
     {
-        coolDownTimer = coolDown;
         DamageData damageData = new DamageData();
         damageData.DamageDealer = owner;
         damageData.Damage = damage;
@@ -136,8 +135,13 @@ public class DamageSource : MonoBehaviour
         return damageData;
     }
 
-    internal void ApplyDamageTo(BaseCharacter target, Vector2 position)
+    internal void ApplyDamageTo(BaseCharacter target, Vector2 position, bool shouldApplyCoolDown = true)
     {
+        if(shouldApplyCoolDown)
+        {
+            ApplyCoolDown();
+        }
+
         DamageData damageData = GetDamageData(transform.position, target.transform.position);
         if(damageData.IsCritical)
         {

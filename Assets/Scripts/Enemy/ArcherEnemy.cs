@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class ArcherEnemy : RangedEnemy
     public override void Start()
     {
         base.Start();
-        BowScript bowScript = base.primaryWeapon.GetComponent<BowScript>();
+        bowScript = primaryWeapon.GetComponent<BowScript>();
 
         if (bowScript == null)
         {
@@ -17,16 +16,43 @@ public class ArcherEnemy : RangedEnemy
         }
     }
 
+    private bool isCharging = false;
+    private bool isWaitingForNextAttack = false;
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
+
+        if(!IsActivated() || !CanMove())
+        {
+            return;
+        }
+
+        if (HasTarget() && IsTargetInSight() && bowScript && GetPrimaryWeapon().GetDamageSource().IsCoolDownReset())
+        {
+            LookAtPosition = target.transform.position;            
+            if(!isCharging && !isWaitingForNextAttack)
+            {
+                bowScript.DoAttack();
+                StartCoroutine(Fire());
+            }
+        }
     }
 
     private IEnumerator Fire()
     {
-        // wait for the bow to be fully drawn .. about 1.5 seconds
-        yield return new WaitForSeconds(1.5f);
+        isCharging = true;
+        // wait for the bow to be fully drawn .. randomly between 1.5 and 2.5 seconds
+        yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
         bowScript.ReleaseAttack();
+        isCharging = false;
+        StartCoroutine(WaitForNextAttack(Random.Range(1f, 2f)));
+    }
+
+    private IEnumerator WaitForNextAttack(float duration)
+    {
+        isWaitingForNextAttack = true;
+        yield return new WaitForSeconds(duration);
+        isWaitingForNextAttack = false;
     }
 }

@@ -5,9 +5,10 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using UnityEngine.AI;
 using System.Collections;
+using Unity.VisualScripting;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Patrol", story: "Agent searches for random places or last-seen player position", category: "Action", id: "b4277f60e0a7188e5162f27082dad714")]
+[NodeDescription(name: "Patrol", story: "Agent searches for random places or last-seen target's position", category: "Action", id: "b4277f60e0a7188e5162f27082dad714")]
 public partial class PatrolAction : Action
 {
     private Enemy entity;
@@ -45,15 +46,17 @@ public partial class PatrolAction : Action
 
         stoppingDistance = navMeshAgent.stoppingDistance;
 
+        checkingPosition = GetRandomCheckingPosition();
+
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
-        BlackboardVariable<bool> canSeePlayer = new BlackboardVariable<bool>(false);
-        behaviorGraphAgent.GetVariable<bool>("CanSeePlayer", out canSeePlayer);
+        BlackboardVariable<bool> canSeeTarget = new BlackboardVariable<bool>(false);
+        behaviorGraphAgent.GetVariable<bool>("CanSeeTarget", out canSeeTarget);
 
-        if(canSeePlayer.Value)
+        if(canSeeTarget.Value)
         {
             rb.linearVelocity = Vector2.zero;
             // reset the stopping distance
@@ -65,15 +68,15 @@ public partial class PatrolAction : Action
             return Status.Success;
         }
 
-        BlackboardVariable<bool> checkedPlayerLastPosition = new BlackboardVariable<bool>(false);
-        behaviorGraphAgent.GetVariable<bool>("CheckedPlayerLastPosition", out checkedPlayerLastPosition);
+        BlackboardVariable<bool> checkedTargetLastPosition = new BlackboardVariable<bool>(false);
+        behaviorGraphAgent.GetVariable<bool>("CheckedTargetLastPosition", out checkedTargetLastPosition);
 
-        if (!checkedPlayerLastPosition.Value)
+        if (!checkedTargetLastPosition.Value)
         {
-            BlackboardVariable<Vector2> playerLastPosition = new BlackboardVariable<Vector2>(Vector2.zero);
-            behaviorGraphAgent.GetVariable<Vector2>("PlayerLastPosition", out playerLastPosition);
-            checkingPosition = playerLastPosition.Value;
-            behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", true);
+            BlackboardVariable<Vector2> targetLastPosition = new BlackboardVariable<Vector2>(Vector2.zero);
+            behaviorGraphAgent.GetVariable<Vector2>("TargetLastPosition", out targetLastPosition);
+            checkingPosition = targetLastPosition.Value;
+            behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", true);
         }
         else
         {
@@ -86,7 +89,7 @@ public partial class PatrolAction : Action
         //if (patrolTimer > patrolTime)
         //{
         //    isPatrolling = false;
-        //    behaviorGraphAgent.SetVariableValue<bool>("CheckedPlayerLastPosition", true);
+        //    behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", true);
         //    return Status.Success;
         //}
 
@@ -112,7 +115,11 @@ public partial class PatrolAction : Action
 
     protected override void OnEnd()
     {
-        
+    }
+
+    public void OnDrawGizmos()
+    {
+        DrawDebugDesiredPoint(checkingPosition);
     }
 
     private void PatrolTo(Vector3 desiredPosition)
