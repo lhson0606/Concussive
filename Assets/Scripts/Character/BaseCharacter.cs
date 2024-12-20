@@ -508,7 +508,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         // Add impulse to the character
         Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
-        Vector2 impulse = dir.normalized * damageData.PushScale;
+        const float pushForce = 8f;
+        Vector2 impulse = dir.normalized * damageData.PushScale * pushForce;
         if (damageData.IsCritical)
         {
             impulse *= GetCriticalDamageMultiplier();

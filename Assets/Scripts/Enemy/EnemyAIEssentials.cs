@@ -107,6 +107,16 @@ public class EnemyAIEssentials : MonoBehaviour
             character.Activate();
         }
 
+        if(damage.DamageDealer != null)
+        {
+            BaseCharacter baseCharacter = damage.DamageDealer.GetComponent<BaseCharacter>();
+            if (baseCharacter != null)
+            {
+                character.SetTarget(baseCharacter);
+            }
+            character.SetTarget(baseCharacter);
+        }
+        
         // check the direction of the damage
         behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", false);
         behaviorGraphAgent.SetVariableValue<Vector2>("TargetLastPosition", damage.SourcePosition);
