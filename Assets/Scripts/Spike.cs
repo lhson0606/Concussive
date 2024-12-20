@@ -8,13 +8,13 @@ public class Spike : MonoBehaviour
     private bool hit = false;
     private Animator animator;
     private bool aniState = true;
-    private bool hitCooldown = false;
-    private float hitCooldownTime = 1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private DamageSource damageSource;
     void Start()
     {
         animator = this.GetComponent<Animator>();
         animator.SetBool("Hit", aniState);
+        damageSource = this.GetComponent<DamageSource>();
     }
 
     // Update is called once per frame
@@ -28,43 +28,22 @@ public class Spike : MonoBehaviour
             aniState = !aniState;
             animator.SetBool("Hit", aniState);
         }
-
-        if (hitCooldown)
-        {
-            hitCooldownTime -= Time.deltaTime;
-            if (hitCooldownTime <= 0)
-            {
-                hitCooldownTime = 1f;
-                hitCooldown = false;
-            }
-        }
         
     }
 
     void OnTriggerStay2D (Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Player") && hit && !hitCooldown)
+    {   
+        BaseCharacter target = col.gameObject.GetComponent<BaseCharacter>();
+        if (hit && damageSource.IsCoolDownReset() && target != null)
             {
-                IDamageable damageable = col.gameObject.GetComponent<IDamageable>();
-                BaseCharacter target = col.gameObject.GetComponent<BaseCharacter>();
-
-
-                if (damageable != null)
-                {
-                    DamageData damageData = new DamageData();
-                    damageData.SourceElement = this.gameObject.GetComponent<Element>();
-                    damageData.Damage = damage;
-                    damageData.SourcePosition = this.transform.position;
-                    damageData.TargetPosition = target.transform.position;
-                    damageable.TakeDamage(damageData);
-                    hitCooldown = true;
-                }
+                damageSource.ApplyDamageTo(target, this.gameObject.transform.position, true);
             }
     }
-
-    private void switchHit()
+    
+    public void switchHit()
     {
         hit = !hit;
     }
+
 
 }

@@ -3451,6 +3451,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &893414848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5693490457320878835, guid: c9560f5897732d54db334bfff438f3cb, type: 3}
+  m_PrefabInstance: {fileID: 8267153012126989854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &893414849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893414848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240b3a4f4c909dc429b72e1189e37470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  criticalChance: 0
+  criticalMultiplier: 1.6
+  damage: 2
+  hasPushEffect: 1
+  pushScale: 0.5
+  damageType: 0
+  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
+  coolDown: 1
+  coolDownMultiplier: 1
 --- !u!95 &936695950 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 974165148837906658, guid: 798595458d489d84c98f2b7423f7ef86, type: 3}
@@ -9801,10 +9828,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2345000038106719014, guid: c9560f5897732d54db334bfff438f3cb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5693490457320878835, guid: c9560f5897732d54db334bfff438f3cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 893414849}
   m_SourcePrefab: {fileID: 100100000, guid: c9560f5897732d54db334bfff438f3cb, type: 3}
 --- !u!114 &9129592224548852215 stripped
 MonoBehaviour:
