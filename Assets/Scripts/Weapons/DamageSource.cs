@@ -7,7 +7,7 @@ public class DamageSource : MonoBehaviour
     [SerializeField]
     private float criticalChance = 0.0f;
     [SerializeField]
-    private float criticalMultiplier;
+    private float criticalMultiplier = 1.6f;
     [SerializeField]
     private float damage = 0f;
     [SerializeField]
