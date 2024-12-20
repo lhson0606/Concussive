@@ -15,10 +15,10 @@ GameObject:
   - component: {fileID: 2166290497346808799}
   - component: {fileID: 3956753236499101640}
   - component: {fileID: 5387911795663800431}
-  - component: {fileID: 1780189593579037805}
   - component: {fileID: 6121615097725384071}
+  - component: {fileID: 1780189593579037805}
   m_Layer: 0
-  m_Name: MeleeEnemyPrefab
+  m_Name: SmallSkeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: dc42761ec6dce7c4c920a2ce00850018, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6413b6f34e8fef74da7d3d31f0bdebbf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,7 +104,7 @@ Animator:
   m_GameObject: {fileID: 6701079288712103040}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 373a3526b502a8444b7e9133d797effa, type: 2}
+  m_Controller: {fileID: 9100000, guid: 33ff424c44939d349921fc0ee2cd3494, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -269,49 +269,27 @@ MonoBehaviour:
   maxHealth: 20
   maxArmor: 3
   maxMana: 200
-  runSpeed: 240
-  criticalHitChance: 0.05
+  runSpeed: 320
+  criticalHitChance: 0.1
   criticalHitMultiplier: 2
   bareHandDamage: 1
   bareHandAttackSpeed: 1
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
-  hurtSound: {fileID: 8300000, guid: 3365876922cbc0343b3091a7caef7e5e, type: 3}
-  idleSound: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
-  deathSound: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
+  hurtSound: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
+  idleSound: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
+  deathSound: {fileID: 0}
   effectSizeScale: 1
   dropOnDeath:
   - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
   initialPrimaryWeapon: {fileID: 0}
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
-  enemyName: Jelly
+  enemyName: Small Skeleton
   chaseRadius: 4
   attackRadius: 0.7
   isActivated: 0
-  angryNoise: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
---- !u!114 &1780189593579037805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6701079288712103040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 240b3a4f4c909dc429b72e1189e37470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  criticalChance: 0.05
-  criticalMultiplier: 1.6
-  damage: 4
-  hasPushEffect: 1
-  pushScale: 1.2
-  damageType: 0
-  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
-  coolDown: 1.5
-  coolDownMultiplier: 1
+  angryNoise: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
 --- !u!70 &6121615097725384071
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -346,6 +324,28 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0064706802, y: -0.36882877}
-  m_Size: {x: 0.65058327, y: 0.69984245}
+  m_Offset: {x: -0.0064706802, y: -0.2053566}
+  m_Size: {x: 0.65058327, y: 0.70822525}
   m_Direction: 0
+--- !u!114 &1780189593579037805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6701079288712103040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240b3a4f4c909dc429b72e1189e37470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  criticalChance: 0.05
+  criticalMultiplier: 3
+  damage: 2
+  hasPushEffect: 0
+  pushScale: 0
+  damageType: 0
+  element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
+  coolDown: 1
+  coolDownMultiplier: 1

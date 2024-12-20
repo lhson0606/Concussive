@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6121615097725384071}
   - component: {fileID: 1780189593579037805}
   m_Layer: 0
-  m_Name: SmallMeleeEnemy
+  m_Name: 'SmallOrcEnemy '
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: ac9041019348cb24e86e7e21ae620862, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 51034f0ee057b0f4f9756b150af96528, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,7 +104,7 @@ Animator:
   m_GameObject: {fileID: 6701079288712103040}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4a92c2b8b514d5a4584e9f13b298d326, type: 2}
+  m_Controller: {fileID: 9100000, guid: daedf9169c2f5ba4291a7bf053f3188e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   initialPrimaryWeapon: {fileID: 0}
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
-  enemyName: Jelly
+  enemyName: Small Orc
   chaseRadius: 4
   attackRadius: 0.7
   isActivated: 0

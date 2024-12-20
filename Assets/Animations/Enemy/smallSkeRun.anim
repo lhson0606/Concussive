@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: spikeUp
+  m_Name: smallSkeRun
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 1f2d0e39dd1124e488d30e5de83fe96b, type: 3}
+      value: {fileID: 21300000, guid: b37bab009188a134bb67443189f1aba0, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: b83075bd975346043899efe6de1f0d06, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: 4df30ee0fc4082d40906638c0d851758, type: 3}
-    - time: 0.65
-      value: {fileID: 21300000, guid: d66b10d76c68e814e9923de40e3388b2, type: 3}
-    - time: 1
-      value: {fileID: 21300000, guid: 05a1bf7dc9a315841952ea7b9e69aaae, type: 3}
+      value: {fileID: 21300000, guid: 532498bab6a8eab489ddaa840c5130d0, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 8e3415393b1e09b40852211b6d211b90, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 1f2d0e39dd1124e488d30e5de83fe96b, type: 3}
-    - {fileID: 21300000, guid: 4df30ee0fc4082d40906638c0d851758, type: 3}
-    - {fileID: 21300000, guid: d66b10d76c68e814e9923de40e3388b2, type: 3}
-    - {fileID: 21300000, guid: 05a1bf7dc9a315841952ea7b9e69aaae, type: 3}
+    - {fileID: 21300000, guid: b37bab009188a134bb67443189f1aba0, type: 3}
+    - {fileID: 21300000, guid: b83075bd975346043899efe6de1f0d06, type: 3}
+    - {fileID: 21300000, guid: 532498bab6a8eab489ddaa840c5130d0, type: 3}
+    - {fileID: 21300000, guid: 8e3415393b1e09b40852211b6d211b90, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 0.51666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,11 +78,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.65
-    functionName: switchHit
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
