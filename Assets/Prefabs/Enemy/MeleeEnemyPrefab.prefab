@@ -452,7 +452,7 @@ MonoBehaviour:
   criticalMultiplier: 0
   damage: 4
   hasPushEffect: 1
-  pushScale: 0
+  pushScale: 1.2
   damageType: 0
   element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
   coolDown: 1.5
