@@ -32,13 +32,7 @@ public class MeleeWeapon : BaseWeapon
 
         for (int i = 0; i < count; i++)
         {
-            BaseCharacter target = hitColliders[i].GetComponent<BaseCharacter>();
-
-            if (target != null)
-            {
-                damageSource.ApplyDamageTo(target, this.transform.position);
-                base.OnHit();
-            }
+            DamageUtils.TryToApplyDamageTo(owner.gameObject, hitColliders[i], damageSource);
         }
     }
 }

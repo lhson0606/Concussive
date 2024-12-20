@@ -5,6 +5,8 @@ using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
@@ -649,5 +651,17 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public void NotifyCanMoveStateChanged()
     {
         OnCanMoveStateChanged?.Invoke(CanMove());
+    }
+
+    // Check if the ray from the character to the position is not blocked by any collider
+    public bool CanSeePosition(Vector3 position)
+    {
+        Vector2 direction = position - transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, direction.magnitude, LayerMask.GetMask("Obstacle"));
+        if (hit.collider == null)
+        {
+            return true;
+        }
+        return false;
     }
 }
