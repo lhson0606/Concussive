@@ -12,6 +12,8 @@ public class Enemy : BaseCharacter
     protected float attackRadius = 8;
     [SerializeField]
     protected bool isActivated = false;
+    [SerializeField]
+    protected AudioClip angryNoise;
 
     protected event Action OnActivated;
     protected event Action OnDeactivated;
@@ -40,12 +42,14 @@ public class Enemy : BaseCharacter
     {
         isActivated = true;
         OnActivated?.Invoke();
+        NotifyCanMoveStateChanged();
     }
 
     internal void Deactivate()
     {
         isActivated = false;
         OnDeactivated?.Invoke();
+        NotifyCanMoveStateChanged();
     }
 
     public bool IsActivated()
@@ -84,6 +88,11 @@ public class Enemy : BaseCharacter
     {
         base.Update();
 
+        if(!isActivated || IsFreezing || !CanMove())
+        {
+            return;
+        }
+
         // If there is no target, check if the player is in sight
         // If the player is in sight, set the player as the target
         if (target == null)
@@ -97,10 +106,25 @@ public class Enemy : BaseCharacter
         canSeeTarget = CanSeeTarget();
         if (!canSeeTarget && HasTarget())
         {
-            if(!isTryingToResetTarget)
+            if (!isTryingToResetTarget)
             {
                 StartCoroutine(ResetTargetAfter(10f));
             }
+        }
+
+        if (canSeeTarget && HasTarget())
+        {
+            // randomy play angry noise
+            if (angryNoise != null && UnityEngine.Random.value < 0.0001f)
+            {
+                AudioUtils.PlayAudioClipAtPoint(angryNoise, transform.position);
+            }
+        }
+
+        // randomly play idle sound
+        if (idleSound != null && UnityEngine.Random.Range(0, 10000) < 1)
+        {
+            audioSource?.PlayOneShot(idleSound);
         }
     }
 

@@ -487,12 +487,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  criticalChance: 0.05
+  criticalChance: 0.16
   criticalMultiplier: 0
-  damage: 0
-  hasPushEffect: 0
-  pushScale: 0
+  damage: 4
+  hasPushEffect: 1
+  pushScale: 0.2
   damageType: 0
   element: {fileID: 3488396042479631976, guid: 092533ef572df4748888acbe84fd54d9, type: 3}
-  coolDown: 0
+  coolDown: 0.5
   coolDownMultiplier: 1

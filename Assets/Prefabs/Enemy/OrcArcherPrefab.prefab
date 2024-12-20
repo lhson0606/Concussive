@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f8b1a139d54794dbf57f1033216231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 7
+  maxHealth: 14
   maxArmor: 3
   maxMana: 200
   runSpeed: 240
@@ -406,9 +406,11 @@ MonoBehaviour:
   criticalHitMultiplier: 2
   bareHandDamage: 1
   bareHandAttackSpeed: 1
-  characterText: {fileID: 0}
+  characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 1
-  hurtSound: {fileID: 8300000, guid: a3b26e6f06f7efa488771341abf7bcb7, type: 3}
+  hurtSound: {fileID: 8300000, guid: cbe939d8214a1f94eac80929c1e109df, type: 3}
+  idleSound: {fileID: 8300000, guid: 80959258e183a9847b2093f66f0c70d2, type: 3}
+  deathSound: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
   effectSizeScale: 1
   dropOnDeath:
   - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
@@ -420,6 +422,7 @@ MonoBehaviour:
   chaseRadius: 0
   attackRadius: 12
   isActivated: 0
+  angryNoise: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
 --- !u!1 &3535707165324796008
 GameObject:
   m_ObjectHideFlags: 0

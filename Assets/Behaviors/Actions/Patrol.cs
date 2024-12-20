@@ -48,15 +48,22 @@ public partial class PatrolAction : Action
 
         checkingPosition = GetRandomCheckingPosition();
 
+        entity.SafeDelegateOnCanMoveStateChanged(OnEntityCanMoveSateChange);
+
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
+        if (!entity.IsActivated() || !entity.CanMove())
+        {
+            return Status.Success;
+        }
+
         BlackboardVariable<bool> canSeeTarget = new BlackboardVariable<bool>(false);
         behaviorGraphAgent.GetVariable<bool>("CanSeeTarget", out canSeeTarget);
 
-        if(canSeeTarget.Value)
+        if (canSeeTarget.Value)
         {
             rb.linearVelocity = Vector2.zero;
             // reset the stopping distance
@@ -125,6 +132,12 @@ public partial class PatrolAction : Action
     private void PatrolTo(Vector3 desiredPosition)
     {
         DrawDebugDesiredPoint(desiredPosition);
+        
+        if(!entity.CanMove())
+        {
+            return;
+        }
+
         navMeshAgent.SetDestination(desiredPosition);
         Vector3 currentPosition = entity.transform.position;
 
@@ -137,7 +150,7 @@ public partial class PatrolAction : Action
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
         // Move towards the desired position
-        if (navMeshAgent.remainingDistance > stoppingDistance + 1)
+        if (navMeshAgent.remainingDistance > stoppingDistance + 3)
         {
             Vector2 direction = (desiredPosition - entity.transform.position).normalized;
             rb.linearVelocity += direction * entity.GetRunSpeed() * Time.deltaTime;
@@ -171,6 +184,18 @@ public partial class PatrolAction : Action
             Vector3 newPoint = center + new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
             Debug.DrawLine(prevPoint, newPoint, color);
             prevPoint = newPoint;
+        }
+    }
+
+    public void OnEntityCanMoveSateChange(bool canMove)
+    {
+        if (!canMove)
+        {
+            rb.linearVelocity = Vector2.zero;
+            if (navMeshAgent.isOnNavMesh)
+            {
+                navMeshAgent.isStopped = true;
+            }
         }
     }
 }

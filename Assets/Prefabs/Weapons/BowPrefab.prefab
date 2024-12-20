@@ -403,8 +403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   criticalChance: 0.05
-  criticalMultiplier: 0
-  damage: 0
+  criticalMultiplier: 2.5
+  damage: 4
   hasPushEffect: 0
   pushScale: 0
   damageType: 0

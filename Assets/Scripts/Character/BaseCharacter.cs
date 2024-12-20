@@ -36,6 +36,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     [SerializeField]
     protected AudioClip hurtSound = null;
     [SerializeField]
+    protected AudioClip idleSound = null;
+    [SerializeField]
+    protected AudioClip deathSound = null;
+    [SerializeField]
     protected float effectSizeScale = 1f;
     [SerializeField]
     protected List<GameObject> dropOnDeath = new List<GameObject>();
@@ -74,8 +78,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected bool isHurt = false;
 
     // delegates
-    private event Action<DamageData> OnHurt;
+    protected event Action<DamageData> OnHurt;
     public event Action OnDeath;
+    protected event Action<bool> OnCanMoveStateChanged;
 
     public void SetIsHurtTrue()
     {
@@ -149,6 +154,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public void EnableMovement()
     {
         IsMovementEnabled = true;
+        OnCanMoveStateChanged?.Invoke(CanMove());
     }
 
     public void DisableMovement()
@@ -159,10 +165,16 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             rb.linearVelocity = Vector2.zero;
         }
         IsMovementEnabled = false;
+        OnCanMoveStateChanged?.Invoke(CanMove());
     }
 
     public virtual void Update()
     {
+        if(IsFreezing || !CanMove())
+        {
+            return;
+        }
+
         if (currentHealth <= 0)
         {
             Die();
@@ -200,7 +212,13 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             }
         }
         OnDeath?.Invoke();
-        if(gameObject.tag == "Player")
+        // Play the death sound at the current position
+        if(deathSound != null)
+        {
+            AudioUtils.PlayAudioClipAtPoint(deathSound, transform.position);
+        }
+
+        if (gameObject.tag == "Player")
         {
             gameObject.SetActive(false);
             return;
@@ -603,5 +621,32 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public void RemoveDelegateOnHurt(Action<DamageData> onHurtHandler)
     {
         OnHurt -= onHurtHandler;
+    }
+
+    public void SafeDelegateOnDeath(Action onDeathHandler)
+    {
+        OnDeath -= onDeathHandler;
+        OnDeath += onDeathHandler;
+    }
+
+    public void RemoveDelegateOnDeath(Action onDeathHandler)
+    {
+        OnDeath -= onDeathHandler;
+    }
+
+    public void SafeDelegateOnCanMoveStateChanged(Action<bool> onCanMoveStateChangedHandler)
+    {
+        OnCanMoveStateChanged -= onCanMoveStateChangedHandler;
+        OnCanMoveStateChanged += onCanMoveStateChangedHandler;
+    }
+
+    public void RemoveDelegateOnCanMoveStateChanged(Action<bool> onCanMoveStateChangedHandler)
+    {
+        OnCanMoveStateChanged -= onCanMoveStateChangedHandler;
+    }
+
+    public void NotifyCanMoveStateChanged()
+    {
+        OnCanMoveStateChanged?.Invoke(CanMove());
     }
 }
