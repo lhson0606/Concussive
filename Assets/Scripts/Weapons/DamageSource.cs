@@ -143,7 +143,8 @@ public class DamageSource : MonoBehaviour
         }
 
         DamageData damageData = GetDamageData(transform.position, target.transform.position);
-        if(damageData.IsCritical)
+        damageData.DamageDealer = owner;
+        if (damageData.IsCritical)
         {
             if(!ApplyElementalEffectToTarget(target))
             {

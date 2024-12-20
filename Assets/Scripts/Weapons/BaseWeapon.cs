@@ -110,6 +110,7 @@ public class BaseWeapon : GameItem
         transform.localPosition = new Vector3(0, 0, 0);
         UpdateState(STATE_IDLE);
         OnEquippedAsOffHandWeapon();
+        SetUpDamageSource(owner);
     }
 
     public virtual void SetAsOffHandWeapon(BaseCharacter owner)

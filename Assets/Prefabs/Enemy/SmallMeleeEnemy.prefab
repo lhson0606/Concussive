@@ -278,6 +278,8 @@ MonoBehaviour:
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
   hurtSound: {fileID: 0}
+  idleSound: {fileID: 0}
+  deathSound: {fileID: 0}
   effectSizeScale: 1
   dropOnDeath:
   - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
@@ -288,6 +290,7 @@ MonoBehaviour:
   chaseRadius: 4
   attackRadius: 0.7
   isActivated: 1
+  angryNoise: {fileID: 0}
 --- !u!120 &3029582408832271896
 LineRenderer:
   serializedVersion: 2
@@ -447,7 +450,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   criticalChance: 0.05
   criticalMultiplier: 0
-  damage: 0
+  damage: 2
   hasPushEffect: 0
   pushScale: 0
   damageType: 0
