@@ -87,12 +87,7 @@ public class ArrowScript : SlowMotionObject
             return;
         }
 
-        BaseCharacter hitTarget = collision.gameObject.GetComponent<BaseCharacter>();
-
-        if (hitTarget != null)
-        {
-            parentWeapon.GetDamageSource().ApplyDamageTo(hitTarget, this.transform.position, false);
-        }
+        DamageUtils.TryToApplyDamageTo(gameObject, collision, parentWeapon.GetDamageSource(), false);
 
         rb.isKinematic = true;
         rb.linearVelocity = Vector2.zero;

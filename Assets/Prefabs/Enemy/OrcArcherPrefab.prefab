@@ -415,6 +415,7 @@ MonoBehaviour:
   dropOnDeath:
   - {fileID: 5845138981341304640, guid: ac0ee9b3cb4d7f84eaf21837eaf3c463, type: 3}
   - {fileID: 7634671602991504475, guid: 1de520993df00a043a08f5be3ccd93ba, type: 3}
+  - {fileID: 2690447290817744750, guid: c37849f17b6b21043b5e84293da69f30, type: 3}
   initialPrimaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0

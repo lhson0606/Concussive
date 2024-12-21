@@ -132,6 +132,13 @@ public class DamageSource : MonoBehaviour
         damageData.SourcePosition = sourcePos;
         damageData.TargetPosition = targetPos;
         damageData.PushScale = hasPushEffect? pushScale : 0f;
+
+        // check if the damage is critical and not elemental, then apply the critical multiplier
+        if (damageData.IsCritical && !element.IsElemental)
+        {
+            damageData.Damage *= criticalMultiplier;
+        }
+
         return damageData;
     }
 
@@ -144,12 +151,18 @@ public class DamageSource : MonoBehaviour
 
         DamageData damageData = GetDamageData(transform.position, target.transform.position);
         damageData.DamageDealer = owner;
-        if (damageData.IsCritical)
+        if (damageData.IsCritical && element.IsElemental)
         {
-            if(!ApplyElementalEffectToTarget(target))
-            {
-                damageData.Damage *= criticalMultiplier;
-            }
+            ApplyElementalEffectToTarget(target);
+        }
+        target.TakeDamage(damageData);
+    }
+
+    internal void AppyDamageDataTo(DamageData damageData, BaseCharacter target)
+    {
+        if (damageData.IsCritical && damageData.SourceElement.IsElemental)
+        {
+            ApplyElementalEffectToTarget(target);
         }
         target.TakeDamage(damageData);
     }

@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public float pickUpRange = 2.0f; // Define the range within which the player can pick up items
     private PickUpComponent selectedPickUp;
     private AudioSource audioSource;
-    private GameObject playerCamera;
+    private Camera playerCamera;
+    private Vector3 cameraOriginalPosition;
 
     private Vector2 pointerPosition;
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         baseCharacter = GetComponent<BaseCharacter>();
+        playerCamera = FindAnyObjectByType<Camera>();
+        cameraOriginalPosition = playerCamera.transform.localPosition;
     }
 
     private void OnEnable()
@@ -33,7 +36,6 @@ public class PlayerController : MonoBehaviour
     {
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        playerCamera = transform.Find("Main Camera").gameObject;
         pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
     }
@@ -201,5 +203,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player collected " + coinAmount + " coins");
         string text = $"+{coinAmount} coins";
         baseCharacter.SpawnText(text, Color.yellow, 0.5f, Vector2.up);
+    }
+
+    public Vector3 GetCameraOriginalPosition()
+    {
+        return cameraOriginalPosition;
     }
 }

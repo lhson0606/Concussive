@@ -10,4 +10,6 @@ public class DamageData
     public Vector2 SourcePosition { get; set; } = Vector2.zero;
     public Vector2 TargetPosition { get; set; } = Vector2.zero;
     public float PushScale { get; set; } = 0f;
+
+    public static DamageData empty = new DamageData();
 }

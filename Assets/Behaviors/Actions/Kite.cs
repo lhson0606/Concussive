@@ -52,9 +52,18 @@ public partial class KiteAction : Action
     protected override Status OnUpdate()
     {
         navMeshAgent.stoppingDistance = 0;
-        navMeshAgent.isStopped = false;
+        if(navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.isStopped = false;
+        }
+        
 
         Vector2 dodgePosition = GetRandomDodgePosition();
+
+        if(!entity.CanSeePosition(dodgePosition))
+        {
+            return Status.Failure;
+        }
 
         navMeshAgent.SetDestination(dodgePosition);
 
