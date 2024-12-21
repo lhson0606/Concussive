@@ -269,17 +269,25 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         Vector2 initVel = new Vector2(0, 1);
         float scale = 1;
 
-        if (damageData.IsCritical)
-        {
-            color = damageData.SourceElement.IsElemental
-                ? EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType)
-                : Color.red;
-            initVel *= GetCriticalDamageMultiplier();
-            scale = 1.5f;
-        }
-        else if (damageData.SourceElement.IsElemental)
+        if (damageData.SourceElement.IsElemental)
         {
             color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
+        }
+
+        if (damageData.IsCritical)
+        {
+            if(damageData.SourceElement.IsElemental)
+            {
+                String effectName = damageData.SourceElement.Effect.effectName;
+                // Spawn the effect name
+                this.SpawnText(effectName, color, lifeTime, initVel, scale);
+            }
+            else
+            {
+                initVel *= 1.5f;
+                scale = 1.5f;
+                color = Color.red;
+            }
         }
 
         this.SpawnText(text, color, lifeTime, initVel, scale);
@@ -495,7 +503,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         SpawnDamageText(damageData);
 
-        if (hurtSound)
+        if (hurtSound && !audioSource.isPlaying)
         {
             audioSource?.PlayOneShot(hurtSound);
         }

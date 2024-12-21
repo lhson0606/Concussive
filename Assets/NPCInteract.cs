@@ -6,6 +6,7 @@ public class NPCInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.CompareTag("Player"))
             OpenShop();
     }
 

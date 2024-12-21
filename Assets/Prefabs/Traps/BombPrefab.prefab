@@ -310,7 +310,7 @@ MonoBehaviour:
   ignitedSound: {fileID: 8300000, guid: 814a47110a3d5cc4b9ac870b16335bf1, type: 3}
   fuseBurningSound: {fileID: 8300000, guid: 37edd996518c8804e8faf0a1570396be, type: 3}
   shakeDuration: 0.5
-  maxShakeMagnitude: 0.1
+  maxShakeMagnitude: 0.4
   shakeDistanceThreshold: 10
   isIgnited: 0
 --- !u!114 &5210954046877373695

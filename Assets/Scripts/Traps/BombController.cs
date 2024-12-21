@@ -19,7 +19,7 @@ public class BombController : MonoBehaviour, IDamageable
     [SerializeField]
     private float shakeDuration = 0.5f;
     [SerializeField]
-    private float maxShakeMagnitude = 0.1f;
+    private float maxShakeMagnitude = 0.4f;
     [SerializeField]
     private float shakeDistanceThreshold = 10.0f;
     [SerializeField]
@@ -37,6 +37,7 @@ public class BombController : MonoBehaviour, IDamageable
     private Collider2D col;
     private Rigidbody2D rb;
     private Coroutine flashCoroutine;
+    private Vector3 cameraOriginalPosition;
 
     private void Awake()
     {
@@ -63,6 +64,8 @@ public class BombController : MonoBehaviour, IDamageable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // need to call this in start because the camera might not be initialized in PlayerController's Awake
+        cameraOriginalPosition = FindAnyObjectByType<PlayerController>().GetCameraOriginalPosition();
     }
 
     // Update is called once per frame
@@ -118,6 +121,11 @@ public class BombController : MonoBehaviour, IDamageable
             StopCoroutine(flashCoroutine);
         }
 
+        if(isExploded)
+        {
+            return;
+        }
+
         if (explosionSound)
         {
             audioSource.PlayOneShot(explosionSound);
@@ -146,25 +154,6 @@ public class BombController : MonoBehaviour, IDamageable
         {
             StartCoroutine(CameraShake(distance));
         }
-
-        // just for fun here we will check if there is any arrows as a child of the bomb
-        // we will send them flying in a random direction
-        foreach (Transform child in transform)
-        {
-            ArrowScript arrow = child.GetComponent<ArrowScript>();
-            if (arrow != null)
-            {
-                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
-                // re enable the collider of the arrow
-                // detach the arrow from the bomb
-                arrow.transform.parent = null;
-                arrow.GetComponent<Collider2D>().enabled = true;
-                rb.linearVelocity = GetRandomDirection() * 10f;
-                // apply random rotation
-                rb.freezeRotation = false;
-                rb.angularVelocity = Random.Range(-360f, 360f);
-            }
-        }
     }
 
     private Vector2 GetRandomDirection()
@@ -180,7 +169,6 @@ public class BombController : MonoBehaviour, IDamageable
 
     private IEnumerator CameraShake(float distance)
     {
-        Vector3 originalPosition = playerCamera.transform.position;
         float elapsed = 0.0f;
 
         // Calculate shake magnitude based on distance
@@ -191,64 +179,71 @@ public class BombController : MonoBehaviour, IDamageable
             float x = Random.Range(-1f, 1f) * shakeMagnitude;
             float y = Random.Range(-1f, 1f) * shakeMagnitude;
 
-            playerCamera.transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+            playerCamera.transform.localPosition = new Vector3(cameraOriginalPosition.x + x, cameraOriginalPosition.y + y, cameraOriginalPosition.z);
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        playerCamera.transform.position = originalPosition;
+        playerCamera.transform.localPosition = cameraOriginalPosition;
     }
 
     private void ApplyExplosionDamage()
     {
-        List<BaseCharacter> innerVictims = GetCharactersInRadius(innerCol);
-        List<BaseCharacter> outerVictims = GetCharactersInRadius(outerCol);
+        List<Collider2D> innerVictims = GetCharactersInRadius(innerCol);
+        List<Collider2D> outerVictims = GetCharactersInRadius(outerCol);
 
-        foreach (BaseCharacter victim in innerVictims)
+        foreach (Collider2D victim in innerVictims)
         {
             ApplyExplosionTo(true, victim);
         }
 
-        foreach (BaseCharacter victim in outerVictims)
+        foreach (Collider2D victim in outerVictims)
         {
             if (!innerVictims.Contains(victim))
             {
                 ApplyExplosionTo(false, victim);
             }
+
+            // just for fun here we will check if there is any arrows as a child of the bomb
+            // we will send them flying in a random direction
+            ArrowScript arrow = victim.GetComponent<ArrowScript>();
+            if (arrow != null)
+            {
+                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
+                // re enable the collider of the arrow
+                // detach the arrow from the bomb
+                arrow.transform.parent = null;
+                arrow.GetComponent<Collider2D>().enabled = true;
+                rb.linearVelocity = GetRandomDirection() * 10f;
+                // apply random rotation
+                rb.freezeRotation = false;
+                rb.angularVelocity = Random.Range(-360f, 360f);
+            }
         }
     }
 
-    private List<BaseCharacter> GetCharactersInRadius(Collider2D radius)
+    private List<Collider2D> GetCharactersInRadius(Collider2D radius)
     {
-        List<BaseCharacter> characters = new List<BaseCharacter>();
         ContactFilter2D contactFilter = new ContactFilter2D();
         List<Collider2D> colliders = new List<Collider2D>();
 
         radius.Overlap(contactFilter, colliders);
 
-        foreach (Collider2D collider in colliders)
-        {
-            BaseCharacter character = collider.GetComponent<BaseCharacter>();
-            if (character != null)
-            {
-                characters.Add(character);
-            }
-        }
-
-        return characters;
+        return colliders;
     }
 
-    public void ApplyExplosionTo(bool isInInnerRadius, BaseCharacter victim)
+    public void ApplyExplosionTo(bool isInInnerRadius, Collider2D victim)
     {
         DamageData damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
         if(isInInnerRadius)
         {
             damageData.Damage *= 2;
+            damageData.PushScale *= 2;
         }
 
-        damageSource.AppyDamageDataTo(damageData, victim);
+        DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData);
     }
 
     public void TakeDamage(DamageData damageData)

@@ -21,4 +21,24 @@ public class DamageUtils
             return true;
         }
     }
+
+    public static bool TryToApplyDamageDataTo(GameObject damageDealer, Collider2D collider, DamageData damageData)
+    {
+        IDamageable damageable = collider.GetComponent<IDamageable>();
+        if (damageable == null)
+        {
+            return false;
+        }
+        BaseCharacter target = collider.GetComponent<BaseCharacter>();
+        if (target != null)
+        {
+            target.TakeDamage(damageData);
+            return true;
+        }
+        else
+        {
+            damageable.TakeDamage(DamageData.empty);
+            return true;
+        }
+    }
 }
