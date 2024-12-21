@@ -1,49 +1,63 @@
+using Ink.Parsed;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(DamageSource))]
+[RequireComponent(typeof(Collider2D))]
 public class Spike : MonoBehaviour
 {
-    public float damage = 1;
-    public float changedTime = 2.5f;
-    private float hitTimer = 0f;
-    private bool hit = false;
-    private Animator animator;
-    private bool aniState = true;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private DamageSource damageSource;
-    void Start()
+    private Collider2D col;
+
+    private bool isUp = false;
+
+    private void Awake()
     {
-        animator = this.GetComponent<Animator>();
-        animator.SetBool("Hit", aniState);
         damageSource = this.GetComponent<DamageSource>();
+        col = this.GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        hitTimer += Time.deltaTime; 
-        if (hitTimer >= changedTime)
+        if(!isUp)
         {
-            hitTimer = 0f; 
-            aniState = !aniState;
-            animator.SetBool("Hit", aniState);
+            return;
         }
-        
+
+        if(damageSource.IsCoolDownReset())
+        {
+            DealDamage();
+        }
     }
 
-    void OnTriggerStay2D (Collider2D col)
-    {   
-        BaseCharacter target = col.gameObject.GetComponent<BaseCharacter>();
-        if (hit && damageSource.IsCoolDownReset() && target != null)
-            {
-                damageSource.ApplyDamageTo(target, this.gameObject.transform.position, true);
-            }
-    }
-    
-    public void switchHit()
+    public void SpikeUp()
     {
-        hit = !hit;
+        isUp = true;
     }
 
+    public void SpikeDown()
+    {
+        isUp = false;
+    }
 
+    private void DealDamage()
+    {
+        List<Collider2D> victims = GetVictims();
+
+        foreach(Collider2D victim in victims)
+        {
+            DamageUtils.TryToApplyDamageTo(gameObject, victim, damageSource);
+        }
+    }
+
+    private List<Collider2D> GetVictims()
+    {
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        List<Collider2D> colliders = new List<Collider2D>();
+        col.Overlap(contactFilter, colliders);
+        return colliders;
+    }
 }
+
