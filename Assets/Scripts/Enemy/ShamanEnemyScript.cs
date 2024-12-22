@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class ShamanEnemyScript : MonoBehaviour
+public class ShamanEnemyScript : RangedEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void AttackCurrentTarget()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.AttackCurrentTarget();
+        GetPrimaryWeapon()?.DoAttack();
     }
 }

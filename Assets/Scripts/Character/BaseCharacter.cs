@@ -131,6 +131,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         LookAtPosition = transform.position;
+        // LookDir is set to right by default
+        LookAtPosition = (Vector2)transform.position + Vector2.right;
         LookDir = Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();

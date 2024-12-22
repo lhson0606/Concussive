@@ -55,6 +55,7 @@ public partial class KiteAwayAction : Action
 
         Vector3 kitingPosition = entity.GetRandomKitingPosition();
         entity.MovingToPosition = kitingPosition;
+        navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(kitingPosition);
 
         return Status.Success;

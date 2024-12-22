@@ -54,12 +54,16 @@ public class StaffProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!damageSource || damageSource.Owner?.tag == collision.gameObject.tag || collision.gameObject == parentWeapon.gameObject)
+        if (collision.isTrigger)
         {
             return;
         }
 
-        if(collision.isTrigger)
+        // Ensure the collision is not with the damage source owner or the parent weapon
+        if (damageSource == null ||
+            damageSource.Owner?.tag == collision.gameObject.tag ||
+            ReferenceEquals(collision.gameObject, parentWeapon.gameObject) ||
+            ReferenceEquals(collision.gameObject, damageSource.Owner))
         {
             return;
         }
