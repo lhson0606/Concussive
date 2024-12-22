@@ -3,19 +3,19 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class StaffProjectile : MonoBehaviour, IDamageable
+public class StaffProjectile : BaseProjectile
 {
     [SerializeField]
     private float speed = 10f;
 
     private DamageSource damageSource;
     private Vector2 direction;
-    private Rigidbody2D rb;
     private Collider2D col;
     private BaseWeapon parentWeapon;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
     }
@@ -71,11 +71,6 @@ public class StaffProjectile : MonoBehaviour, IDamageable
         Debug.Log($"StaffProjectile: OnTriggerEnter2D: {collision.gameObject.name}");
 
         DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
-        Destroy(gameObject);
-    }
-
-    public void TakeDamage(DamageData damageData)
-    {
         Destroy(gameObject);
     }
 }

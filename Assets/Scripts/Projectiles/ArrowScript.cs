@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class ArrowScript : SlowMotionObject, IDamageable
+public class ArrowScript : BaseProjectile
 {
     [SerializeField]
     private float speed = 16f;
@@ -17,7 +17,6 @@ public class ArrowScript : SlowMotionObject, IDamageable
     private AudioSource audioSource;
 
     private SimpleFlashEffect flashEffect;
-    private Rigidbody2D rb;
 
     private List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player"};
     private BaseCharacter owner;
@@ -61,7 +60,6 @@ public class ArrowScript : SlowMotionObject, IDamageable
     {
         trailRenderer = GetComponent<TrailRenderer>();
         flashEffect = GetComponent<SimpleFlashEffect>();
-        rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -108,11 +106,5 @@ public class ArrowScript : SlowMotionObject, IDamageable
         {
             trailRenderer.enabled = false;
         }
-    }
-
-    public void TakeDamage(DamageData damageData)
-    {
-        // reverse the arrow direction
-        rb.linearVelocity = -rb.linearVelocity;
     }
 }
