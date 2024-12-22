@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class ArrowScript : SlowMotionObject
+public class ArrowScript : SlowMotionObject, IDamageable
 {
     [SerializeField]
     private float speed = 16f;
@@ -107,5 +107,10 @@ public class ArrowScript : SlowMotionObject
         {
             trailRenderer.enabled = false;
         }
+    }
+
+    public void TakeDamage(DamageData damageData)
+    {
+        Destroy(gameObject);
     }
 }

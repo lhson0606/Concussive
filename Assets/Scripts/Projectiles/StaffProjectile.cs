@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class StaffProjectile : MonoBehaviour
+public class StaffProjectile : MonoBehaviour, IDamageable
 {
     [SerializeField]
     private float speed = 10f;
@@ -71,6 +71,11 @@ public class StaffProjectile : MonoBehaviour
         Debug.Log($"StaffProjectile: OnTriggerEnter2D: {collision.gameObject.name}");
 
         DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(DamageData damageData)
+    {
         Destroy(gameObject);
     }
 }
