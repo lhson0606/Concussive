@@ -22,6 +22,10 @@ public class DamageSource : MonoBehaviour
     private float coolDown = 0f;// 0f means no cooldown by default
     [SerializeField]
     private float coolDownMultiplier = 1f;
+    [SerializeField]
+    private float accuracy = 0.5f;
+    [SerializeField]
+    private float dispersion = 10f;
 
     private float coolDownTimer = 0f;
 
@@ -204,6 +208,8 @@ public class DamageSource : MonoBehaviour
     private Element initialElement;
     private bool initialHasPushEffect;
     private float initialCoolDownMultiplier;
+    private float initialAccuracy;
+    private float initialDispersion;
 
     //get set methods
     public float PushScale
@@ -277,6 +283,22 @@ public class DamageSource : MonoBehaviour
     public void SetOwner(GameObject value)
     {
         owner = value;
+    }
+
+    public void SetAccuracy(float value)
+    {
+        accuracy = value;
+    }
+
+    public void SetDispersion(float value)
+    {
+        dispersion = value;
+    }
+
+    public Vector2 GetDispersedLookDir(Vector2 dir)
+    {
+        float angle = Random.Range(-dispersion, dispersion) * (1-accuracy);
+        return Quaternion.Euler(0, 0, angle) * dir.normalized;
     }
 }
 

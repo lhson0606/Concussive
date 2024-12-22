@@ -259,6 +259,8 @@ MonoBehaviour:
   element: {fileID: 0}
   coolDown: 0
   coolDownMultiplier: 1
+  accuracy: 0.5
+  dispersion: 10
 --- !u!70 &684211092920634008
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -454,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937c6d071e5350243bcd35f4f3771864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 7
+  maxHealth: 14
   maxArmor: 3
   maxMana: 200
   runSpeed: 240

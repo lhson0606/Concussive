@@ -69,7 +69,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     protected SimpleFlashEffect flashEffect;
 
-    public Vector2 LookDir { get; private set; }
+    public Vector2 LookDir 
+    { 
+        get
+        {
+            return LookAtPosition - (Vector2)transform.position;
+        } 
+    }
+
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
@@ -133,7 +140,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         LookAtPosition = transform.position;
         // LookDir is set to right by default
         LookAtPosition = (Vector2)transform.position + Vector2.right;
-        LookDir = Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();
 
@@ -189,13 +195,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             return;
         }
 
-        LookDir = (LookAtPosition - (Vector2)transform.position).normalized;
+        Vector2 currentLookDir = LookDir;
+        currentLookDir = (LookAtPosition - (Vector2)transform.position).normalized;
 
-        if (LookDir.x < 0)
+        if (currentLookDir.x < 0)
         {
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
         }
-        else if (LookDir.x > 0)
+        else if (currentLookDir.x > 0)
         {
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }

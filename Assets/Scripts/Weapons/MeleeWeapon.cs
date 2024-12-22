@@ -30,9 +30,12 @@ public class MeleeWeapon : BaseWeapon
     public void TriggerAttack()
     {
         var hitColliders = new Collider2D[10];
-        var count = Physics2D.OverlapCollider(attackCollider, new ContactFilter2D(), hitColliders);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = true; // Include trigger colliders
 
-        if(damageSource == null )
+        var count = Physics2D.OverlapCollider(attackCollider, contactFilter, hitColliders);
+
+        if (damageSource == null)
         {
             return;
         }

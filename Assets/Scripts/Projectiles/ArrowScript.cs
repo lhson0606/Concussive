@@ -43,7 +43,8 @@ public class ArrowScript : SlowMotionObject, IDamageable
         // Detach the arrow from the bow
         transform.parent = null;
         // add impulse to the arrow
-        rb.linearVelocity = transform.up * speed;
+        rb.linearVelocity = parentWeapon.GetDamageSource().GetDispersedLookDir(transform.up) * speed;
+        transform.up = rb.linearVelocity.normalized;
         isFlying = true;
         // start coroutine to destroy the arrow after some time
         StartCoroutine(DestroyAfterTime());
@@ -111,6 +112,7 @@ public class ArrowScript : SlowMotionObject, IDamageable
 
     public void TakeDamage(DamageData damageData)
     {
-        Destroy(gameObject);
+        // reverse the arrow direction
+        rb.linearVelocity = -rb.linearVelocity;
     }
 }
