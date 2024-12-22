@@ -20,6 +20,10 @@ public class Enemy : BaseCharacter
     protected AudioClip angryNoise;
     [SerializeField]
     protected float enemyAttackSpeed = 1f;
+    [SerializeField]
+    protected float aggression = 0.2f; // the higher the value, the more likely they won't kite away from target
+    [SerializeField]
+    protected float maxKitingDistance = 5f;
 
     protected event Action OnActivated;
     protected event Action OnDeactivated;
@@ -28,6 +32,7 @@ public class Enemy : BaseCharacter
     protected bool canSeeTarget = false;
     protected bool isTargetInAttackRange = false;
     protected DamageSource damageSource;
+    protected bool shouldKiteAway = false;
 
     protected override void Awake()
     {
@@ -122,13 +127,13 @@ public class Enemy : BaseCharacter
         {
             if (!isTryingToResetTarget)
             {
-                StartCoroutine(ResetTargetAfter(10f));
+                StartCoroutine(ResetTargetAfter(8f));
             }
         }
 
         if (canSeeTarget && HasTarget())
         {
-            LookAtPosition = MovingToPosition;
+            LookAtPosition = target.transform.position;
             // randomy play angry noise
             if (angryNoise != null && UnityEngine.Random.value < 0.0001f)
             {
@@ -148,6 +153,15 @@ public class Enemy : BaseCharacter
             {
                 isTargetInAttackRange = false;
             }
+
+            if(distance < kiteRadius)
+            {
+                shouldKiteAway = true;
+            }
+            else
+            {
+                shouldKiteAway = false;
+            }
         }
 
         // randomly play idle sound
@@ -160,7 +174,7 @@ public class Enemy : BaseCharacter
     public virtual void AttackCurrentTarget() 
     {
         LookAtPosition = target.transform.position;
-        damageSource?.ApplyCoolDown();
+        // damageSource?.ApplyCoolDown();
     }
 
     private bool isTryingToResetTarget = false;
@@ -265,15 +279,11 @@ public class Enemy : BaseCharacter
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-        // if is activated or when the game is not running
-        if (isActivated || !Application.isPlaying)
-        {
-            DebugUtils.DrawDebugCircle(transform.position, chaseRadius, Color.green);
-            DebugUtils.DrawDebugCircle(transform.position, attackRadius, Color.red);
-            DebugUtils.DrawDebugCircle(transform.position, kiteRadius, Color.blue);
-        }
+        DebugUtils.DrawDebugCircle(transform.position, chaseRadius, Color.green);
+        DebugUtils.DrawDebugCircle(transform.position, attackRadius, Color.red);
+        DebugUtils.DrawDebugCircle(transform.position, kiteRadius, Color.blue);
     }
 
     internal float DistanceToCurrenTarget()
@@ -283,6 +293,35 @@ public class Enemy : BaseCharacter
             return float.MaxValue;
         }
         return Vector3.Distance(target.transform.position, transform.position);
+    }
+
+    internal bool ShouldKiteAway()
+    {
+        return shouldKiteAway && UnityEngine.Random.value > aggression;
+    }
+
+    internal float GetAggression()
+    {
+        return aggression;
+    }
+
+    public Vector2 GetRadomKitingDirection()
+    {
+        Vector2 directionAwayFromTarget = (transform.position - target.transform.position).normalized;
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+
+        // Ensure the random direction is biased away from the target
+        float bias = 0.8f; // Adjust this value to control the bias strength (0.0 to 1.0)
+        Vector2 kitingDirection = Vector2.Lerp(randomDirection, directionAwayFromTarget, bias).normalized;
+
+        return kitingDirection;
+    }
+
+    public Vector2 GetRandomKitingPosition()
+    {
+        Vector2 kitingDirection = GetRadomKitingDirection();
+        Vector2 kitingPosition = (Vector2)transform.position + kitingDirection * UnityEngine.Random.Range(3f, maxKitingDistance);
+        return kitingPosition;
     }
 
     public Vector3 MovingToPosition;

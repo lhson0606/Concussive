@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
-  m_Name: OrcArcherAI
+  m_Name: RangedEnemyAI
   m_EditorClassIdentifier: 
   Graphs:
   - rid: 3058395449245565931

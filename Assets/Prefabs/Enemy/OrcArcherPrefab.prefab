@@ -324,13 +324,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Graph: {fileID: -536064044834174753, guid: b8701034e66a69647b40c2949db3fb00, type: 2}
+  m_Graph: {fileID: 11400000, guid: a62ea4e64a00cb84ea5777e1b1101308, type: 2}
   m_BlackboardVariableOverridesList:
-  - rid: 3058395344048488684
+  - rid: 3058395449537855730
   references:
     version: 2
     RefIds:
-    - rid: 3058395344048488684
+    - rid: 3058395449537855730
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -422,8 +422,13 @@ MonoBehaviour:
   enemyName: 
   chaseRadius: 16
   attackRadius: 8
+  kiteRadius: 5
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
+  enemyAttackSpeed: 1
+  aggression: 0.2
+  maxKitingDistance: 5
+  MovingToPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3535707165324796008
 GameObject:
   m_ObjectHideFlags: 0

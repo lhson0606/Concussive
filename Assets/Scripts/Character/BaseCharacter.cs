@@ -202,6 +202,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             weaponControl.PointerPosition = LookAtPosition;
         }
+
+        Vector2 moveVector = rb.linearVelocity;
+
+        animator?.SetFloat("MovingSpeed", moveVector.magnitude);
+        animator?.SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     public virtual void Die()

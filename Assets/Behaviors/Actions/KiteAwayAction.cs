@@ -6,65 +6,62 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "ApproachTarget", story: "Approach target", category: "Action", id: "f98ff2e03257b01226ffd08c29a54cbb")]
-public partial class ApproachPlayerAction : Action
+[NodeDescription(name: "KiteAway", story: "Kite away from target for more space", category: "Action", id: "73c9daa940f6ffdab00a5ccff571f2e2")]
+public partial class KiteAwayAction : Action
 {
     private Enemy entity;
     private NavMeshAgent navMeshAgent;
     private BehaviorGraphAgent behaviorGraphAgent;
+    private Rigidbody2D rb;
+    private bool isKiting = false;
 
     protected override Status OnStart()
     {
         entity = GameObject.GetComponent<Enemy>();
+
         if (entity == null)
         {
             Debug.LogError("Enemy component is missing on " + GameObject.name);
             return Status.Failure;
         }
+
         navMeshAgent = GameObject.GetComponent<NavMeshAgent>();
         if (navMeshAgent == null)
         {
             Debug.LogError("NavMeshAgent component is missing on " + GameObject.name);
             return Status.Failure;
         }
+
         behaviorGraphAgent = GameObject.GetComponent<BehaviorGraphAgent>();
         if (behaviorGraphAgent == null)
         {
             Debug.LogError("BehaviorGraphAgent component is missing on " + GameObject.name);
             return Status.Failure;
         }
+
+        rb = GameObject.GetComponent<Rigidbody2D>();
+        navMeshAgent.stoppingDistance = 0;
+
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
-        if (!entity.HasTarget() || !entity.IsActivated() || !entity.CanMove())
+        if(!entity.ShouldKiteAway() || !entity.HasTarget())
         {
+            navMeshAgent.isStopped = true;
             return Status.Success;
         }
 
-        navMeshAgent.stoppingDistance = entity.AttackRange - 0.6f;
+        Vector3 kitingPosition = entity.GetRandomKitingPosition();
+        entity.MovingToPosition = kitingPosition;
+        navMeshAgent.SetDestination(kitingPosition);
 
-        navMeshAgent.SetDestination(entity.GetCurrentTarget().transform.position);
-
-
-        //if we are stucked and the target is reset, we should stop
-        if (!entity.HasTarget())
-        {
-            return Status.Success;
-        }
-
-        if (entity.DistanceToCurrenTarget() <= entity.AttackRange)
-        {
-            return Status.Success;
-        }
-
-        return Status.Running;
+        return Status.Success;
     }
 
     protected override void OnEnd()
     {
-        navMeshAgent.isStopped = true;
     }
 }
 

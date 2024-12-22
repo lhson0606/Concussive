@@ -8,7 +8,7 @@ using System.Collections;
 using static UnityEngine.EventSystems.EventTrigger;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Kite", story: "Try to move around to dodge target attack", category: "Action", id: "29b53629ebc4270ba78b44cfd602c66c")]
+[NodeDescription(name: "DodgeRandom", story: "Try to move around to dodge target attack", category: "Action", id: "29b53629ebc4270ba78b44cfd602c66c")]
 public partial class KiteAction : Action
 {
     private Enemy entity;

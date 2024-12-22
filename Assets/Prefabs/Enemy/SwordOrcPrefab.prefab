@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 1145305034874291698}
   - component: {fileID: 8997316630331535900}
   - component: {fileID: 1939440123789760958}
+  - component: {fileID: 7634535087342262748}
   m_Layer: 0
   m_Name: SwordOrcPrefab
   m_TagString: Untagged
@@ -402,7 +403,7 @@ Animator:
   m_GameObject: {fileID: 3847334096586406085}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3b7e76922159ab64198cf71a2cd9c75a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -463,9 +464,9 @@ MonoBehaviour:
   bareHandAttackSpeed: 1
   characterText: {fileID: 0}
   race: 0
-  hurtSound: {fileID: 0}
-  idleSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
+  idleSound: {fileID: 8300000, guid: 3365876922cbc0343b3091a7caef7e5e, type: 3}
+  deathSound: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
   effectSizeScale: 1
   dropOnDeath: []
   initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
@@ -476,5 +477,22 @@ MonoBehaviour:
   attackRadius: 2
   kiteRadius: 5
   isActivated: 1
-  angryNoise: {fileID: 0}
+  angryNoise: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
+  enemyAttackSpeed: 1
+  aggression: 0.2
+  maxKitingDistance: 5
   MovingToPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &7634535087342262748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847334096586406085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ecf6519c6345e49beee2cbe733792f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}

@@ -62,6 +62,7 @@ public class EnemyAIEssentials : MonoBehaviour
         behaviorGraphAgent.SetVariableValue<bool>("IsInRange", character.IsTargetInAttackRange());
         behaviorGraphAgent.SetVariableValue<bool>("IsInChaseRadius", character.IsTargetInChaseRadius());
         behaviorGraphAgent.SetVariableValue<bool>("AttackReset", character.IsAttackReset());
+        behaviorGraphAgent.SetVariableValue<bool>("ShouldKiteAway", character.ShouldKiteAway());
 
 
         //// testing
