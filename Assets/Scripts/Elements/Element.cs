@@ -10,4 +10,5 @@ public class Element : MonoBehaviour
     public bool IsElemental => type != ElementType.NONE;
     public ElementType Type => type;
     public Effect Effect => effect;
+    public bool AttachToTarget => effect.AttachToTarget;
 }

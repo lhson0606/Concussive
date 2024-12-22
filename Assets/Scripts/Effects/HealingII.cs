@@ -8,6 +8,6 @@ public class HealingII : Effect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
-        target.Heal(healPerTick);
+        target?.Heal(healPerTick);
     }
 }

@@ -20,7 +20,7 @@ public class BurntI : Effect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
-        target.TakeDirectEffectDamage(damagePerTick, this);
+        target?.TakeDirectEffectDamage(damagePerTick, this);
     }
 
     private int CalculateDamage()

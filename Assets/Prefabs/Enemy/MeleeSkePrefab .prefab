@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: f1c63bc1657a97745a301c2b25937680, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -288,8 +288,13 @@ MonoBehaviour:
   enemyName: Skeleton
   chaseRadius: 4
   attackRadius: 0.7
+  kiteRadius: 5
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
+  enemyAttackSpeed: 1
+  aggression: 0.2
+  maxKitingDistance: 5
+  MovingToPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1780189593579037805
 MonoBehaviour:
   m_ObjectHideFlags: 0

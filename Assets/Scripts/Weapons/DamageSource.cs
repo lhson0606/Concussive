@@ -169,7 +169,7 @@ public class DamageSource : MonoBehaviour
 
     private bool ApplyElementalEffectToTarget(BaseCharacter target)
     {
-        if (element == null || !element.IsElemental)
+        if (element == null || !element.IsElemental || target == null)
         {
             return false;
         }
@@ -178,7 +178,15 @@ public class DamageSource : MonoBehaviour
         Effect effectPrefab = element.Effect;
         if (effectPrefab != null)
         {
-            Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            Effect effectInstance = null;
+            if(effectPrefab.AttachToTarget)
+            {
+                effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            }
+            else
+            {
+                effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity);
+            }
             effectInstance.StartEffect(target);
         }
 

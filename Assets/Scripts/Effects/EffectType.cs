@@ -7,4 +7,5 @@ public enum EffectType
     POSION,
     FREEZE,
     FIRE,
+    LIGHTNING,
 }

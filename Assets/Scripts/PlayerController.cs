@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -206,5 +207,45 @@ public class PlayerController : MonoBehaviour
     public Vector3 GetCameraOriginalPosition()
     {
         return cameraOriginalPosition;
+    }
+
+    public void ShakePlayerCamera(Vector3 pos, float shakeDuration = 0.5f, float maxShakeMagnitude = 0.4f, float shakeDistanceThreshold = 10.0f)
+    {
+        float distance = Vector3.Distance(transform.position, pos);
+
+        if (distance <= shakeDistanceThreshold)
+        {
+            StartCoroutine(CameraShake(distance, shakeDuration, maxShakeMagnitude, shakeDistanceThreshold));
+        }
+    }
+
+    public void ShakePlayerCamera(float distance, float shakeDuration = 0.5f, float maxShakeMagnitude = 0.4f, float shakeDistanceThreshold = 10.0f)
+    {
+        if (distance <= shakeDistanceThreshold)
+        {
+            StartCoroutine(CameraShake(distance, shakeDuration, maxShakeMagnitude, shakeDistanceThreshold));
+        }
+    }
+
+    private IEnumerator CameraShake(float distance, float shakeDuration = 0.5f, float maxShakeMagnitude = 0.4f, float shakeDistanceThreshold = 10.0f)
+    {
+        float elapsed = 0.0f;
+
+        // Calculate shake magnitude based on distance
+        float shakeMagnitude = maxShakeMagnitude * (1 - (distance / shakeDistanceThreshold));
+
+        while (elapsed < shakeDuration)
+        {
+            float x = UnityEngine.Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = UnityEngine.Random.Range(-1f, 1f) * shakeMagnitude;
+
+            playerCamera.transform.localPosition = new Vector3(cameraOriginalPosition.x + x, cameraOriginalPosition.y + y, cameraOriginalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        playerCamera.transform.localPosition = cameraOriginalPosition;
     }
 }

@@ -29,7 +29,7 @@ public class BombController : MonoBehaviour, IDamageable
     private Collider2D outerCol;
     private bool isExploded = false;
 
-    private Camera playerCamera;
+    private PlayerController playerController;
     private SimpleFlashEffect flashEffect;
     private AudioSource audioSource;
     private Animator animator;
@@ -37,7 +37,6 @@ public class BombController : MonoBehaviour, IDamageable
     private Collider2D col;
     private Rigidbody2D rb;
     private Coroutine flashCoroutine;
-    private Vector3 cameraOriginalPosition;
     private ParticleSystem smokeParticle;
 
     private void Awake()
@@ -50,7 +49,7 @@ public class BombController : MonoBehaviour, IDamageable
             Debug.LogError("BombController: Inner or Outer collider is missing");
         }
 
-        playerCamera = GameObject.FindAnyObjectByType<Camera>();
+        playerController = GameObject.FindAnyObjectByType<PlayerController>();
         flashEffect = GetComponent<SimpleFlashEffect>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
@@ -61,13 +60,6 @@ public class BombController : MonoBehaviour, IDamageable
 
         // freeze rotation
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // need to call this in start because the camera might not be initialized in PlayerController's Awake
-        cameraOriginalPosition = FindAnyObjectByType<PlayerController>().GetCameraOriginalPosition();
     }
 
     // Update is called once per frame
@@ -150,13 +142,7 @@ public class BombController : MonoBehaviour, IDamageable
 
     private void OnExplosionEffect()
     {
-        // check if the camera is close enough to shake
-        float distance = Vector2.Distance(transform.position, playerCamera.transform.position);
-        if (distance <= shakeDistanceThreshold)
-        {
-            StartCoroutine(CameraShake(distance));
-        }
-
+        playerController.ShakePlayerCamera(transform.position, shakeDuration, maxShakeMagnitude, shakeDistanceThreshold);
         // just for fun here we will check if there is any arrows as a child of the bomb
         // we will send them flying in a random direction
         // Go through every child of the bomb to find if there are any arrows
@@ -194,28 +180,6 @@ public class BombController : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
-    }
-
-    private IEnumerator CameraShake(float distance)
-    {
-        float elapsed = 0.0f;
-
-        // Calculate shake magnitude based on distance
-        float shakeMagnitude = maxShakeMagnitude * (1 - (distance / shakeDistanceThreshold));
-
-        while (elapsed < shakeDuration)
-        {
-            float x = Random.Range(-1f, 1f) * shakeMagnitude;
-            float y = Random.Range(-1f, 1f) * shakeMagnitude;
-
-            playerCamera.transform.localPosition = new Vector3(cameraOriginalPosition.x + x, cameraOriginalPosition.y + y, cameraOriginalPosition.z);
-
-            elapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        playerCamera.transform.localPosition = cameraOriginalPosition;
     }
 
     private void ApplyExplosionDamage()

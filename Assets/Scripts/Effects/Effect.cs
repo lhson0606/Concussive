@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -11,6 +12,10 @@ public class Effect : SlowMotionObject
     public EffectType effectType = EffectType.NONE;
     [SerializeField]
     protected AudioClip effectStartAudio;
+    [SerializeField]
+    protected float disposeDelay = 0f;
+    [SerializeField]
+    protected bool attachToTarget = true;
 
 
     protected BaseCharacter target;
@@ -38,12 +43,23 @@ public class Effect : SlowMotionObject
         InvokeRepeating("ApplyEffect", delay, tickRate);
         Invoke("EndEffect", duration);
 
-        transform.SetParent(target.transform);
+        if(attachToTarget)
+        {
+            transform.SetParent(target.transform);
+        }
 
         if (particles != null)
         {
             // spawn particles at the target's position
-            particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity,transform);
+            if(attachToTarget)
+            {
+                particlesInstance = Instantiate(particles, target.transform.position, Quaternion.identity,transform);
+            }
+            else
+            {
+                particlesInstance = Instantiate(particles, transform.position, Quaternion.identity);
+            }
+
             particlesInstance.transform.localScale *= target.GetEffectSizeScale();
 
             var mainModule = particlesInstance.main;
@@ -83,8 +99,16 @@ public class Effect : SlowMotionObject
             Destroy(particlesInstance.gameObject, particlesInstance.main.duration);
         }
         OnEffectEnd();
-        Destroy(this.gameObject);
+        StartCoroutine(DestroyEffect(disposeDelay));
     }
+
+    private IEnumerator DestroyEffect(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+    }
+
+    public bool AttachToTarget => attachToTarget;
 
     public EffectType EffectType => effectType;
 }

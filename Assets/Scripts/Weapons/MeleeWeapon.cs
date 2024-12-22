@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MeleeWeapon : BaseWeapon
@@ -31,9 +32,21 @@ public class MeleeWeapon : BaseWeapon
         var hitColliders = new Collider2D[10];
         var count = Physics2D.OverlapCollider(attackCollider, new ContactFilter2D(), hitColliders);
 
+        if(damageSource == null )
+        {
+            return;
+        }
+
         for (int i = 0; i < count; i++)
         {
-            DamageUtils.TryToApplyDamageTo(owner.gameObject, hitColliders[i], damageSource);
+            try
+            {
+                DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
+            }
+            catch (NullReferenceException)
+            {
+                Debug.LogError("Error while trying to apply damage to " + hitColliders[i].name);
+            }
         }
     }
 }
