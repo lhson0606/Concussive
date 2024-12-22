@@ -288,8 +288,13 @@ MonoBehaviour:
   enemyName: Orc
   chaseRadius: 4
   attackRadius: 0.7
+  kiteRadius: 5
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
+  enemyAttackSpeed: 1
+  aggression: 0.2
+  maxKitingDistance: 5
+  MovingToPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1780189593579037805
 MonoBehaviour:
   m_ObjectHideFlags: 0

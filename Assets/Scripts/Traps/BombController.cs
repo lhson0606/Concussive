@@ -38,6 +38,7 @@ public class BombController : MonoBehaviour, IDamageable
     private Rigidbody2D rb;
     private Coroutine flashCoroutine;
     private Vector3 cameraOriginalPosition;
+    private ParticleSystem smokeParticle;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class BombController : MonoBehaviour, IDamageable
         damageSource = GetComponent<DamageSource>();
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
+        smokeParticle = GetComponentInChildren<ParticleSystem>();
 
         // freeze rotation
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -154,6 +156,33 @@ public class BombController : MonoBehaviour, IDamageable
         {
             StartCoroutine(CameraShake(distance));
         }
+
+        // just for fun here we will check if there is any arrows as a child of the bomb
+        // we will send them flying in a random direction
+        // Go through every child of the bomb to find if there are any arrows
+        // If there are, send them flying in a random direction
+        foreach (Transform child in transform)
+        {
+            ArrowScript arrow = child.GetComponent<ArrowScript>();
+            if (arrow != null)
+            {
+                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
+                // Re-enable the collider of the arrow
+                // Detach the arrow from the bomb
+                arrow.transform.parent = null;
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.simulated = true;
+                arrow.GetComponent<Collider2D>().enabled = true;
+                // change collider type not trigger
+                arrow.GetComponent<Collider2D>().isTrigger = false;
+                rb.linearVelocity = GetRandomDirection() * 10f;
+                // Apply random rotation
+                rb.freezeRotation = false;
+                rb.angularVelocity = Random.Range(-360f, 360f);
+            }
+        }
+
+        smokeParticle.Play();
     }
 
     private Vector2 GetRandomDirection()
@@ -205,22 +234,6 @@ public class BombController : MonoBehaviour, IDamageable
             {
                 ApplyExplosionTo(false, victim);
             }
-
-            // just for fun here we will check if there is any arrows as a child of the bomb
-            // we will send them flying in a random direction
-            ArrowScript arrow = victim.GetComponent<ArrowScript>();
-            if (arrow != null)
-            {
-                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
-                // re enable the collider of the arrow
-                // detach the arrow from the bomb
-                arrow.transform.parent = null;
-                arrow.GetComponent<Collider2D>().enabled = true;
-                rb.linearVelocity = GetRandomDirection() * 10f;
-                // apply random rotation
-                rb.freezeRotation = false;
-                rb.angularVelocity = Random.Range(-360f, 360f);
-            }
         }
     }
 
@@ -243,7 +256,7 @@ public class BombController : MonoBehaviour, IDamageable
             damageData.PushScale *= 2;
         }
 
-        DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData);
+        DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData, damageSource, false);
     }
 
     public void TakeDamage(DamageData damageData)

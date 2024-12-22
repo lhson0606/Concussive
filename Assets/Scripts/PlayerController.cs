@@ -104,8 +104,6 @@ public class PlayerController : MonoBehaviour
         moveDir.Normalize();
         Vector2 moveVector = moveDir * baseCharacter.GetRunSpeed() * Time.deltaTime;
         baseCharacter.GetRigidbody().linearVelocity = moveVector;
-        baseCharacter.GetAnimator().SetFloat("MovingSpeed", moveVector.magnitude);
-        baseCharacter.GetAnimator().SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     private void HandleMouseClick()

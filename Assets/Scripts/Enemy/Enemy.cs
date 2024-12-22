@@ -46,6 +46,17 @@ public class Enemy : BaseCharacter
     {
         base.Start();
         damageSource = GetPrimaryWeapon()?.GetDamageSource();
+
+        if(damageSource == null)
+        {
+            damageSource = GetComponent<DamageSource>();
+        }
+
+        if(damageSource == null)
+        {
+            Debug.LogError("DamageSource is missing on this enemy!");
+        }
+
         if (damageSource != null)
         {
             damageSource.CoolDown = enemyAttackSpeed;

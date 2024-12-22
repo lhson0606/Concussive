@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7634535087342262748}
   m_Layer: 0
   m_Name: SwordOrcPrefab
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,11 +472,11 @@ MonoBehaviour:
   initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
-  enemyName: 
-  chaseRadius: 8
+  enemyName: Orc Warrior
+  chaseRadius: 12
   attackRadius: 2
-  kiteRadius: 5
-  isActivated: 1
+  kiteRadius: 4
+  isActivated: 0
   angryNoise: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
   enemyAttackSpeed: 1
   aggression: 0.6

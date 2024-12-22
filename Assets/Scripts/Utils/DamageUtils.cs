@@ -22,7 +22,7 @@ public class DamageUtils
         }
     }
 
-    public static bool TryToApplyDamageDataTo(GameObject damageDealer, Collider2D collider, DamageData damageData)
+    public static bool TryToApplyDamageDataTo(GameObject damageDealer, Collider2D collider, DamageData damageData, DamageSource damageSource, bool shouldApplyCoolDown = true)
     {
         IDamageable damageable = collider.GetComponent<IDamageable>();
         if (damageable == null)
@@ -32,7 +32,7 @@ public class DamageUtils
         BaseCharacter target = collider.GetComponent<BaseCharacter>();
         if (target != null)
         {
-            target.TakeDamage(damageData);
+            damageSource.ApplyDamageTo(target, damageDealer.transform.position, shouldApplyCoolDown);
             return true;
         }
         else

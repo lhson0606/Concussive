@@ -269,7 +269,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
 
         var color = Color.white;
-        var text = damageData.Damage.ToString();
+        var text = ((int)damageData.Damage).ToString();
         float lifeTime = 0.8f;
         Vector2 initVel = new Vector2(0, 1);
         float scale = 1;
@@ -522,33 +522,59 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
 
         // Add impulse to the character
-        Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
-        const float pushForce = 8f;
-        Vector2 impulse = dir.normalized * damageData.PushScale * pushForce;
-        if (damageData.IsCritical)
+        if(damageData.PushScale > 0)
         {
-            impulse *= GetCriticalDamageMultiplier();
-        }
-
-        OnDamageTaken(damageData);
-        
-        if(IsMovementEnabled)
-        {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            
-            if (rb != null && damageData.PushScale > 0)
+            Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
+            const float pushForce = 8f;
+            Vector2 impulse = dir.normalized * damageData.PushScale * pushForce;
+            if (damageData.IsCritical)
             {
-                DisableMovement();
-                rb.linearVelocity += impulse;
-                StartCoroutine(KnockCo());
-            }           
-            
-        }    
+                impulse *= GetCriticalDamageMultiplier();
+            }
+
+            if (IsMovementEnabled)
+            {
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+                if (rb != null && damageData.PushScale > 0)
+                {
+                    DisableMovement();
+                    rb.linearVelocity += impulse;
+                    StartCoroutine(KnockCo());
+                }
+
+            }
+        }        
+
+        OnDamageTaken(damageData);         
         
         if(currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    internal void TakeDirectEffectDamage(int amount, Effect effect)
+    {
+        currentHealth = (int)Math.Max(0, currentHealth - amount);
+        flashEffect?.Flash();
+
+        if (hurtSound && !audioSource.isPlaying)
+        {
+            audioSource?.PlayOneShot(hurtSound);
+        }
+
+        var color = Color.white;
+        var text = amount.ToString();
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+        float scale = 1;
+
+        color = EffectConfig.Instance.GetEffectTextColor(effect.EffectType);
+
+        this.SpawnText(text, color, lifeTime, initVel, scale);
+
+        SetIsHurtTrue();
     }
 
     private IEnumerator KnockCo()

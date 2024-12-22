@@ -21,3 +21,5 @@ MonoBehaviour:
     textColor: {r: 0, g: 0.5471698, b: 0.034266472, a: 1}
   - effectType: 3
     textColor: {r: 0, g: 0.73043776, b: 1, a: 1}
+  - effectType: 4
+    textColor: {r: 1, g: 0.35308412, b: 0, a: 1}
