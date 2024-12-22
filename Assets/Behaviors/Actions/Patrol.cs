@@ -46,7 +46,7 @@ public partial class PatrolAction : Action
 
         stoppingDistance = navMeshAgent.stoppingDistance;
 
-        checkingPosition = GetRandomCheckingPosition();
+        checkingPosition = entity.transform.position;
 
         entity.SafeDelegateOnCanMoveStateChanged(OnEntityCanMoveSateChange);
 
@@ -57,6 +57,7 @@ public partial class PatrolAction : Action
     {
         if (!entity.IsActivated() || !entity.CanMove())
         {
+            navMeshAgent.isStopped = true;
             return Status.Success;
         }
 
@@ -131,8 +132,8 @@ public partial class PatrolAction : Action
 
     private void PatrolTo(Vector3 desiredPosition)
     {
-        DrawDebugDesiredPoint(desiredPosition);
-        
+        //DrawDebugDesiredPoint(desiredPosition);
+        entity.MovingToPosition = desiredPosition;
         if(!entity.CanMove())
         {
             return;

@@ -59,6 +59,11 @@ public class EnemyAIEssentials : MonoBehaviour
             behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", false);
         }
 
+        behaviorGraphAgent.SetVariableValue<bool>("IsInRange", character.IsTargetInAttackRange());
+        behaviorGraphAgent.SetVariableValue<bool>("IsInChaseRadius", character.IsTargetInChaseRadius());
+        behaviorGraphAgent.SetVariableValue<bool>("AttackReset", character.IsAttackReset());
+
+
         //// testing
         //if (canSeePlayer)
         //{

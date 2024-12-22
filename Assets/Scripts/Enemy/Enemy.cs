@@ -1,36 +1,50 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Enemy : BaseCharacter
 {
     [SerializeField]
     protected string enemyName;
     [SerializeField]
-    protected float chaseRadius;
+    protected float chaseRadius = 8;
     [SerializeField]
-    protected float attackRadius = 8;
+    protected float attackRadius = 4;
+    [SerializeField]
+    protected float kiteRadius = 5;
     [SerializeField]
     protected bool isActivated = false;
     [SerializeField]
     protected AudioClip angryNoise;
+    [SerializeField]
+    protected float enemyAttackSpeed = 1f;
 
     protected event Action OnActivated;
     protected event Action OnDeactivated;
     protected GameObject player;
     protected BaseCharacter target;
     protected bool canSeeTarget = false;
+    protected bool isTargetInAttackRange = false;
+    protected DamageSource damageSource;
 
     protected override void Awake()
     {
         base.Awake();
         animator = this.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        MovingToPosition = transform.position;
     }
 
     public override void Start()
     {
         base.Start();
+        damageSource = GetPrimaryWeapon()?.GetDamageSource();
+        if (damageSource != null)
+        {
+            damageSource.CoolDown = enemyAttackSpeed;
+        }
     }
 
     public void SetTarget(BaseCharacter target) 
@@ -114,10 +128,25 @@ public class Enemy : BaseCharacter
 
         if (canSeeTarget && HasTarget())
         {
+            LookAtPosition = MovingToPosition;
             // randomy play angry noise
             if (angryNoise != null && UnityEngine.Random.value < 0.0001f)
             {
                 AudioUtils.PlayAudioClipAtPoint(angryNoise, transform.position);
+            }
+
+            float distance = Vector3.Distance(target.transform.position, transform.position);
+
+            if (distance <= attackRadius)
+            {
+                isTargetInAttackRange = true;
+                if (GetPrimaryWeapon()?.GetDamageSource().IsCoolDownReset() ?? false)
+                {
+                    AttackCurrentTarget();
+                }
+            } else
+            {
+                isTargetInAttackRange = false;
             }
         }
 
@@ -126,6 +155,12 @@ public class Enemy : BaseCharacter
         {
             audioSource?.PlayOneShot(idleSound);
         }
+    }
+
+    public virtual void AttackCurrentTarget() 
+    {
+        LookAtPosition = target.transform.position;
+        damageSource?.ApplyCoolDown();
     }
 
     private bool isTryingToResetTarget = false;
@@ -149,7 +184,7 @@ public class Enemy : BaseCharacter
         }
         float distance = Vector3.Distance(target.transform.position, transform.position);
         // if the distance is too far away, return false
-        if (distance > attackRadius)
+        if (distance > chaseRadius)
         {
             return false;
         }
@@ -192,4 +227,63 @@ public class Enemy : BaseCharacter
     {
         return canSeeTarget;
     }
+
+    internal bool IsTargetInAttackRange()
+    {
+        return isTargetInAttackRange;
+    }
+
+    public bool IsTargetInChaseRadius()
+    {
+        if(!HasTarget())
+        {
+            return false;
+        }
+
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        return distance <= chaseRadius;
+    }
+
+    public bool IsAttackReset()
+    {
+        return damageSource != null && damageSource.IsCoolDownReset();
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            return attackRadius;
+        }
+    }
+
+    public float ChaseRange
+    {
+        get
+        {
+            return chaseRadius;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // if is activated or when the game is not running
+        if (isActivated || !Application.isPlaying)
+        {
+            DebugUtils.DrawDebugCircle(transform.position, chaseRadius, Color.green);
+            DebugUtils.DrawDebugCircle(transform.position, attackRadius, Color.red);
+            DebugUtils.DrawDebugCircle(transform.position, kiteRadius, Color.blue);
+        }
+    }
+
+    internal float DistanceToCurrenTarget()
+    {
+        if (target == null)
+        {
+            return float.MaxValue;
+        }
+        return Vector3.Distance(target.transform.position, transform.position);
+    }
+
+    public Vector3 MovingToPosition;
 }

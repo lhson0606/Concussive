@@ -196,5 +196,79 @@ public class DamageSource : MonoBehaviour
     private Element initialElement;
     private bool initialHasPushEffect;
     private float initialCoolDownMultiplier;
+
+    //get set methods
+    public float PushScale
+    {
+        get { return pushScale; }
+        set { pushScale = value; }
+    }
+
+    public float CoolDown
+    {
+        get { return coolDown; }
+        set { coolDown = value; }
+    }
+
+    public float CoolDownTimer
+    {
+        get { return coolDownTimer; }
+    }
+
+    public float CoolDownMultiplier
+    {
+        get { return coolDownMultiplier; }
+        set { coolDownMultiplier = value; }
+    }
+
+    public void SetCoolDownTimer(float value)
+    {
+        coolDownTimer = value;
+    }
+
+    public void SetCoolDownMultiplier(float value)
+    {
+        coolDownMultiplier = value;
+    }
+
+    public void SetCriticalChance(float value)
+    {
+        criticalChance = value;
+    }
+
+    public void SetCriticalMultiplier(float value)
+    {
+        criticalMultiplier = value;
+    }
+
+    public void SetDamage(float value)
+    {
+        damage = value;
+    }
+
+    public void SetHasPushEffect(bool value)
+    {
+        hasPushEffect = value;
+    }
+
+    public void SetDamageType(DamageType value)
+    {
+        damageType = value;
+    }
+
+    public void SetElement(Element value)
+    {
+        element = value;
+    }
+
+    public void SetPushScale(float value)
+    {
+        pushScale = value;
+    }
+
+    public void SetOwner(GameObject value)
+    {
+        owner = value;
+    }
 }
 

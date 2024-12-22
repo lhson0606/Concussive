@@ -51,6 +51,12 @@ public partial class KiteAction : Action
 
     protected override Status OnUpdate()
     {
+        if (!entity.IsActivated() || !entity.CanMove())
+        {
+            navMeshAgent.isStopped = true;
+            return Status.Success;
+        }
+
         navMeshAgent.stoppingDistance = 0;
         if(navMeshAgent.isOnNavMesh)
         {

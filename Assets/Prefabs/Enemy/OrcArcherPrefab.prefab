@@ -420,8 +420,8 @@ MonoBehaviour:
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
   enemyName: 
-  chaseRadius: 0
-  attackRadius: 12
+  chaseRadius: 16
+  attackRadius: 8
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
 --- !u!1 &3535707165324796008
