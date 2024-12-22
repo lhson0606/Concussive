@@ -7,6 +7,7 @@ public class MeleeWeapon : BaseWeapon
 
     public override void DoAttack()
     {
+        base.DoAttack();
         //if on cooldown, return
         if (owner.IsAttacking)
         {

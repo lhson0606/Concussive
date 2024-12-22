@@ -5,16 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MeleeEnemy : Enemy
 {
-    private DamageSource damageSource;
 
     protected override void Awake()
     {
         base.Awake();
-        damageSource = GetComponent<DamageSource>();
-        if (damageSource == null)
-        {
-            Debug.LogError("DamageSource is missing on this Melee ememy!");
-        }
         BaseCharacter playerChar = player.GetComponent<BaseCharacter>();
         playerChar.OnDeath += OnPlayerDie;
     }

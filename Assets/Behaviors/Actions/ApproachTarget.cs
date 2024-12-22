@@ -64,7 +64,10 @@ public partial class ApproachPlayerAction : Action
 
     protected override void OnEnd()
     {
-        navMeshAgent.isStopped = true;
+        if(navMeshAgent.isOnNavMesh)
+        {
+            navMeshAgent.isStopped = true;
+        }
     }
 }
 

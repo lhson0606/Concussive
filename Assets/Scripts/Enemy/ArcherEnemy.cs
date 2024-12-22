@@ -22,11 +22,7 @@ public class ArcherEnemy : RangedEnemy
     public override void AttackCurrentTarget()
     {
         base.AttackCurrentTarget();
-        //if(!GetPrimaryWeapon().GetDamageSource().IsCoolDownReset() && target != null)
-        //{
-        //    LookAtPosition = target.transform.position;
-        //}
-        LookAtPosition = target.transform.position;
+
         if (!isCharging && !isWaitingForNextAttack)
         {
             bowScript.DoAttack();
