@@ -82,6 +82,11 @@ public class ArrowScript : SlowMotionObject
             return;
         }
 
+        if(collision.isTrigger)
+        {
+            return;
+        }
+
         if (collision.gameObject.tag == owner.tag || collision.gameObject == parentWeapon.gameObject || !collideTags.Contains(collision.gameObject.tag))
         {
             return;
