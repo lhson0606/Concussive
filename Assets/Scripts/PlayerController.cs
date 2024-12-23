@@ -248,4 +248,22 @@ public class PlayerController : MonoBehaviour
 
         playerCamera.transform.localPosition = cameraOriginalPosition;
     }
+
+    // return vector zero if no input
+    // else return the major input axis direction Up/Down/Left/Right
+    public Vector2 GetMajorInputAxisDirection()
+    {
+        if (horizontal == 0 && vertical == 0)
+        {
+            return Vector2.zero;
+        }
+        if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
+        {
+            return new Vector2(Mathf.Sign(horizontal), 0).normalized;
+        }
+        else
+        {
+            return new Vector2(0, Mathf.Sign(vertical)).normalized;
+        }
+    }
 }
