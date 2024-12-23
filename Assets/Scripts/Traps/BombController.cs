@@ -213,14 +213,21 @@ public class BombController : MonoBehaviour, IDamageable
 
     public void ApplyExplosionTo(bool isInInnerRadius, Collider2D victim)
     {
-        DamageData damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
+        DamageData damageData = null;
         if(isInInnerRadius)
         {
-            damageData.Damage *= 2;
-            damageData.PushScale *= 2;
+            damageSource.CriticalChance = 1f;
+            damageSource.PushScale *= 1.2f;
+            damageSource.Damage *= 2f;
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
+        }
+        else
+        {
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
         }
 
         DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData, damageSource, false);
+        damageSource.ResetStats();
     }
 
     public void TakeDamage(DamageData damageData)

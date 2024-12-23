@@ -171,7 +171,7 @@ public class DamageSource : MonoBehaviour
         target.TakeDamage(damageData);
     }
 
-    private bool ApplyElementalEffectToTarget(BaseCharacter target)
+    public bool ApplyElementalEffectToTarget(BaseCharacter target)
     {
         if (element == null || !element.IsElemental || target == null)
         {

@@ -337,7 +337,7 @@ MonoBehaviour:
   maxHealth: 32
   maxArmor: 5
   maxMana: 200
-  runSpeed: 200
+  runSpeed: 3.4
   criticalHitChance: 0.05
   criticalHitMultiplier: 2
   bareHandDamage: 1
@@ -345,11 +345,12 @@ MonoBehaviour:
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
   hurtSound: {fileID: 8300000, guid: a6661336f55421246a4138c4527480ba, type: 3}
+  idleSound: {fileID: 0}
+  deathSound: {fileID: 0}
   effectSizeScale: 1
   dropOnDeath: []
   initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
   initialSecondaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
-  isActivated: 0
   currentHealth: 0
 --- !u!82 &4701075225539131842
 AudioSource:

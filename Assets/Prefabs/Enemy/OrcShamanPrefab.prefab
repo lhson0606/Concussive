@@ -304,7 +304,7 @@ Animator:
   m_GameObject: {fileID: 2019573082574802805}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7920a7553004034c98f812ad4a20374, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -358,7 +358,7 @@ MonoBehaviour:
   maxHealth: 12
   maxArmor: 3
   maxMana: 200
-  runSpeed: 240
+  runSpeed: 1.6
   criticalHitChance: 0.05
   criticalHitMultiplier: 2
   bareHandDamage: 1
@@ -379,7 +379,7 @@ MonoBehaviour:
   kiteRadius: 8
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: cbe939d8214a1f94eac80929c1e109df, type: 3}
-  enemyAttackSpeed: 1
+  enemyAttackSpeed: 1.8
   aggression: 0.1
   maxKitingDistance: 5
   MovingToPosition: {x: 0, y: 0, z: 0}

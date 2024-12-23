@@ -269,7 +269,7 @@ MonoBehaviour:
   maxHealth: 30
   maxArmor: 4
   maxMana: 200
-  runSpeed: 340
+  runSpeed: 3.4
   criticalHitChance: 0.1
   criticalHitMultiplier: 2
   bareHandDamage: 1
@@ -288,8 +288,13 @@ MonoBehaviour:
   enemyName: Small Jelly
   chaseRadius: 4
   attackRadius: 0.7
+  kiteRadius: 5
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
+  enemyAttackSpeed: 1
+  aggression: 0.2
+  maxKitingDistance: 5
+  MovingToPosition: {x: 0, y: 0, z: 0}
 --- !u!70 &6121615097725384071
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -349,3 +354,5 @@ MonoBehaviour:
   element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
   coolDown: 1
   coolDownMultiplier: 1
+  accuracy: 0.5
+  dispersion: 10

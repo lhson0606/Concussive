@@ -45,7 +45,7 @@ public class MeleeEnemy : Enemy
                 RunToTarget();
             } else
             {
-                rb.linearVelocity = GetRandomDirection() * runSpeed * Time.deltaTime;
+                rb.linearVelocity = GetRandomDirection() * runSpeed;
             }
         }        
     }
@@ -64,7 +64,7 @@ public class MeleeEnemy : Enemy
             animator.SetBool("run", true);
 
             Vector3 direction = target.transform.position - this.transform.position;
-            rb.linearVelocity = direction.normalized * runSpeed * Time.deltaTime;
+            rb.linearVelocity = direction.normalized * runSpeed;
 
         }
         else

@@ -1,5 +1,7 @@
+using Ink.Parsed;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -218,18 +220,34 @@ public class Enemy : BaseCharacter
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.useTriggers = false; // Ignore trigger colliders
         contactFilter.SetLayerMask(Physics2D.AllLayers); // Check all layers
-        RaycastHit2D[] hits = new RaycastHit2D[2];
+        //RaycastHit2D[] hits = new RaycastHit2D[2];
+        //int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, distance);
+        //if (hits.Length > 0)
+        //{
+        //    for (int i = 0; i < hitCount; i++)
+        //    {
+        //        if (hits[i].collider.gameObject == target)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //}
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
         int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, distance);
-        if (hits.Length > 0)
+        
+        foreach(RaycastHit2D hit in hits)
         {
-            for (int i = 0; i < hitCount; i++)
+            if(hit.collider.isTrigger == false && hit.collider.gameObject.tag != gameObject.tag && hit.collider.gameObject != target)
             {
-                if (hits[i].collider.gameObject == target)
-                {
-                    return true;
-                }
+                return false;
+            }
+
+            if (hit.collider.gameObject == target)
+            {
+                return true;
             }
         }
+
         return false;
     }
 

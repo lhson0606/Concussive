@@ -34,6 +34,8 @@ public class EnemyAIEssentials : MonoBehaviour
         character.SafeAddActivationDelegate(OnActivated);
         character.SafeAddDeactivationDelegate(OnDeactivated);
         character.SafeDelegateOnHurt(OnHurt);
+
+        navMeshAgent.speed = character.GetRunSpeed();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

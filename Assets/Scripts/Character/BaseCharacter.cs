@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.GraphicsBuffer;
@@ -22,7 +23,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     [SerializeField]
     protected int maxMana = 200;
     [SerializeField]
-    protected float runSpeed = 240.0f;
+    protected float runSpeed = 2.4f;
     [SerializeField]
     protected float criticalHitChance = 0.05f;
     [SerializeField]
@@ -66,6 +67,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected AudioSource audioSource;
     protected Animator animator = null;
     protected Rigidbody2D rb = null;
+    private NavMeshAgent navMeshAgent;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -137,6 +139,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         LookAtPosition = transform.position;
         // LookDir is set to right by default
         LookAtPosition = (Vector2)transform.position + Vector2.right;
@@ -215,7 +218,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         Vector2 moveVector = rb.linearVelocity;
 
         animator?.SetFloat("MovingSpeed", moveVector.magnitude);
-        animator?.SetBool("IsMoving", moveVector.magnitude > 0);
+        if(navMeshAgent == null)
+        {
+            animator?.SetBool("IsMoving", moveVector.magnitude > 0);
+        }
+        else
+        {
+            animator?.SetBool("IsMoving", navMeshAgent.isOnNavMesh && !navMeshAgent.isStopped);
+        }
     }
 
     public virtual void Die()

@@ -401,7 +401,7 @@ MonoBehaviour:
   maxHealth: 9
   maxArmor: 3
   maxMana: 200
-  runSpeed: 240
+  runSpeed: 4
   criticalHitChance: 0.05
   criticalHitMultiplier: 2
   bareHandDamage: 1

@@ -57,7 +57,7 @@ public partial class ApproachPlayerAction : Action
         {
             Vector3 desiredPosition = entity.GetCurrentTarget().transform.position;
             Vector2 direction = (desiredPosition - entity.transform.position).normalized;
-            rb.linearVelocity = direction * entity.GetRunSpeed() * Time.deltaTime;
+            rb.linearVelocity = direction * entity.GetRunSpeed();
             // Draw debug line
             Debug.DrawRay(entity.transform.position, direction * 10, Color.black);
             // Stop the agent after a while

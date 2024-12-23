@@ -6,7 +6,7 @@ public class CoinController : MonoBehaviour
     [SerializeField]
     private float collectRadius = 4f;
     [SerializeField]
-    private float collectSpeed = 320f;
+    private float collectSpeed = 8f;
     [SerializeField]
     bool isCollected = false;
 
@@ -43,7 +43,7 @@ public class CoinController : MonoBehaviour
 
         if(isCollected)
         {
-            rb.linearVelocity = DirectionToPlayer() * collectSpeed * Time.deltaTime;
+            rb.linearVelocity = DirectionToPlayer() * collectSpeed;
         }
 
         if(DistanceToPlayer() < 0.5f)

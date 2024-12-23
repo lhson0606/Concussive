@@ -32,7 +32,11 @@ public class DamageUtils
         BaseCharacter target = collider.GetComponent<BaseCharacter>();
         if (target != null)
         {
-            damageSource.ApplyDamageTo(target, damageDealer.transform.position, shouldApplyCoolDown);
+            damageable.TakeDamage(damageData);
+            if(damageData.IsCritical && damageData.SourceElement.IsElemental)
+            {
+                damageSource.ApplyElementalEffectToTarget(target);
+            }
             return true;
         }
         else
