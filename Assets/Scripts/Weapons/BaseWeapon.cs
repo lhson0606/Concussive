@@ -30,7 +30,19 @@ public class BaseWeapon : GameItem
     protected int currentState = 0;
     protected BaseCharacter owner;
     protected AudioSource audioSource;
-    public bool ShouldAlterRenderOrder { get; set; } = true;
+    private bool _shouldAlterRenderOrder = false;
+    public bool ShouldAlterRenderOrder { 
+        get => _shouldAlterRenderOrder;
+        set
+        {
+            _shouldAlterRenderOrder = value;
+            WeaponControl weaponControl = owner?.GetWeaponControl();
+            if (weaponControl != null)
+            {
+                weaponControl.ShouldAlterRenderOrder = value;
+            }
+        }
+    }
     protected DamageSource damageSource;
 
     protected override void OnValidate()
@@ -251,5 +263,9 @@ public class BaseWeapon : GameItem
     public DamageSource GetDamageSource()
     {
         return damageSource;
+    }
+
+    public virtual void OnSpecialModeTriggered()
+    {
     }
 }

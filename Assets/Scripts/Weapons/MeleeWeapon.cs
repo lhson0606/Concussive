@@ -42,14 +42,7 @@ public class MeleeWeapon : BaseWeapon
 
         for (int i = 0; i < count; i++)
         {
-            try
-            {
-                DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
-            }
-            catch (NullReferenceException)
-            {
-                Debug.LogError("Error while trying to apply damage to " + hitColliders[i].name);
-            }
+            DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
         }
     }
 }

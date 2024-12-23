@@ -136,6 +136,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if(Input.GetMouseButton(1)) // Right mouse button
+        {
+            if(baseCharacter.GetPrimaryWeapon()!=null)
+            {
+                baseCharacter.GetPrimaryWeapon().OnSpecialModeTriggered();
+            }
+        }
     }
 
     private void HandlePickUp()

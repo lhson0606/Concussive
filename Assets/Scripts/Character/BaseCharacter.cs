@@ -68,6 +68,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected Animator animator = null;
     protected Rigidbody2D rb = null;
     private NavMeshAgent navMeshAgent;
+    private Coroutine impulseCoroutine = null;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -727,5 +728,30 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             return true;
         }
         return false;
+    }
+
+    public bool ApplyImpulse(Vector2 velocity, float duration = 0.1f)
+    {
+        if (impulseCoroutine != null)
+        {
+            return false;
+        }
+        impulseCoroutine = StartCoroutine(ApplyImpulseCo(velocity, duration));
+        return true;
+    }
+
+    private IEnumerator ApplyImpulseCo(Vector2 velocity, float duration)
+    {
+        DisableMovement();
+        rb.linearVelocity += velocity;
+        yield return new WaitForSeconds(duration);
+        rb.linearVelocity -= Vector2.zero;
+        impulseCoroutine = null;
+        EnableMovement();
+    }
+
+    internal WeaponControl GetWeaponControl()
+    {
+        return weaponControl;
     }
 }
