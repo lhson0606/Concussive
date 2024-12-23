@@ -219,11 +219,11 @@ public class BombController : MonoBehaviour, IDamageable
             damageSource.CriticalChance = 1f;
             damageSource.PushScale *= 1.2f;
             damageSource.Damage *= 2f;
-            damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position, true);
         }
         else
         {
-            damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position, true);
         }
 
         DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData, damageSource, false);

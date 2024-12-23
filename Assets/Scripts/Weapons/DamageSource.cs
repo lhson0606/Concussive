@@ -126,7 +126,7 @@ public class DamageSource : MonoBehaviour
         coolDownTimer = coolDown;
     }
 
-    public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos)
+    public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos, bool ignoreIsElemental = false)
     {
         DamageData damageData = new DamageData();
         damageData.DamageDealer = owner;
@@ -138,7 +138,7 @@ public class DamageSource : MonoBehaviour
         damageData.PushScale = hasPushEffect? pushScale : 0f;
 
         // check if the damage is critical and not elemental, then apply the critical multiplier
-        if (damageData.IsCritical && !element.IsElemental)
+        if (damageData.IsCritical && (!element.IsElemental || ignoreIsElemental))
         {
             damageData.Damage *= criticalMultiplier;
         }
