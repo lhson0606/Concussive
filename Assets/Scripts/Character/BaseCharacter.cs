@@ -536,12 +536,15 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         OnHurt?.Invoke(damageData);
     }
 
-    public virtual void TakeDamage(DamageData damageData)
+    public virtual void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
-        currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
+        if (!isInvisible)
+        {
+            currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
+        }          
 
         // Add impulse to the character
-        if(damageData.PushScale > 0)
+        if(damageData.PushScale > 0 && !isInvisible)
         {
             Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
             const float pushForce = 8f;
@@ -573,9 +576,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
-    internal void TakeDirectEffectDamage(int amount, Effect effect)
+    public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
     {
-        currentHealth = (int)Math.Max(0, currentHealth - amount);
+        if (!isInvisible)
+        {
+            currentHealth = (int)Math.Max(0, currentHealth - amount);
+        }
         flashEffect?.Flash();
 
         if (hurtSound && !audioSource.isPlaying)

@@ -230,8 +230,12 @@ public class BombController : MonoBehaviour, IDamageable
         damageSource.ResetStats();
     }
 
-    public void TakeDamage(DamageData damageData)
+    public void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
         IgniteBomb();
+    }
+
+    public void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
+    {
     }
 }

@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1804668506170069383}
   m_Layer: 0
   m_Name: TrainingSandbagPrefab
-  m_TagString: Enemy
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,8 +235,12 @@ MonoBehaviour:
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
   race: 0
   hurtSound: {fileID: 8300000, guid: d79000afcc2b782458b337aad9eb93f4, type: 3}
+  idleSound: {fileID: 0}
+  deathSound: {fileID: 0}
   effectSizeScale: 1.5
   dropOnDeath: []
+  initialPrimaryWeapon: {fileID: 0}
+  initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
 --- !u!114 &2655603607001535303
 MonoBehaviour:
@@ -291,7 +295,7 @@ CapsuleCollider2D:
   m_Direction: 0
 --- !u!50 &1804668506170069383
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -302,8 +306,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
