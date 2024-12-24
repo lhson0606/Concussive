@@ -471,7 +471,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
   effectSizeScale: 1
   dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
+  initialPrimaryWeapon: {fileID: 3808507833137881544, guid: b1bfdca7a96936f4aba9ff2a2f711c11, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   currentHealth: 0
   enemyName: Orc Warrior

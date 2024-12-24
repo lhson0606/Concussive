@@ -142,9 +142,9 @@ MonoBehaviour:
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
-  onAttackSound: {fileID: 8300000, guid: 0264bc6b3dc83a4419a396547bca16e1, type: 3}
+  onAttackSound: {fileID: 8300000, guid: 1e63148a42cc00841b9783b6c7106d53, type: 3}
   onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
-  onHitSound: {fileID: 0}
+  onHitSound: {fileID: 8300000, guid: 9e67bfe71ae2692489d28987d2ae2468, type: 3}
   onAttackMissSound: {fileID: 0}
   staffTip: {fileID: 4840846394950963917}
   staffProjectilePrefab: {fileID: 7092825922332225434, guid: 7e6e427ebab3d1a4a8796fb6ae0b7073, type: 3}
@@ -435,7 +435,7 @@ BoxCollider2D:
   m_Offset: {x: -0.002683863, y: 0.2522813}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5080516, y: 0.29817498}
+    pivot: {x: 0.5040258, y: 0.28636608}
     oldSize: {x: 0.33333334, y: 1.25}
     newSize: {x: 0.5, y: 1.875}
     adaptiveTilingThreshold: 0.5

@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   criticalChance: 0.8
-  criticalMultiplier: 1.6
+  criticalMultiplier: 2
   damage: 6
   hasPushEffect: 1
   pushScale: 0.4
@@ -461,18 +461,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Javelin
-  rarity: 0
+  rarity: 2
   description: 
-  uiTextPrefab: {fileID: 0}
+  uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
   onAttackSound: {fileID: 8300000, guid: 0c9922e3b1068bf4f8707e680d7fd0e1, type: 3}
-  onEquipSound: {fileID: 0}
+  onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
   SwitchCooldown: 0.4
   mode: 0
   spearTip: {fileID: 2413964449517575943}
   spearProjectilePrefab: {fileID: 1117219892923466677, guid: afa300ee8d9ea9246bab13944907fff3, type: 3}
+  rangedAttackSound: {fileID: 8300000, guid: af66e6d0558f1e84a8a14ae74c70b9e1, type: 3}
+  meleeAttackSound: {fileID: 8300000, guid: 0c9922e3b1068bf4f8707e680d7fd0e1, type: 3}
+  rangedHitSound: {fileID: 8300000, guid: 11f4a3afe0ad01e4185eb17308f775b4, type: 3}
+  rangedHitObstacleSound: {fileID: 8300000, guid: 1b759276476379e48a4aca245a33a146, type: 3}
 --- !u!61 &2709814974268819593
 BoxCollider2D:
   m_ObjectHideFlags: 0

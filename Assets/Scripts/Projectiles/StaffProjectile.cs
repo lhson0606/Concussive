@@ -3,7 +3,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(AudioSource))]
 public class StaffProjectile : BaseProjectile
 {
     [SerializeField]
@@ -20,6 +19,7 @@ public class StaffProjectile : BaseProjectile
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     internal void Launch()
@@ -80,6 +80,9 @@ public class StaffProjectile : BaseProjectile
         }
 
         DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
-        Destroy(gameObject);
+        // make it invisible but still active to play the sound, then destroy it
+        col.enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, 0.5f);
     }
 }

@@ -190,7 +190,7 @@ public partial class PatrolAction : Action
 
     public void OnEntityCanMoveSateChange(bool canMove)
     {
-        if (!canMove)
+        if (!canMove && rb)
         {
             rb.linearVelocity = Vector2.zero;
             if (navMeshAgent.isOnNavMesh)

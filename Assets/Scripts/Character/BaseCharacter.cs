@@ -86,6 +86,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public bool IsMovementEnabled { get; set; } = true;
     private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
+    public bool IsDead { get; set; } = false;
 
     protected bool isHurt = false;
 
@@ -231,6 +232,13 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     public virtual void Die()
     {
+        if(IsDead)
+        {
+            return;
+        }
+
+        IsDead = true;
+
         foreach (GameObject drop in dropOnDeath)
         {
             if (drop != null)
@@ -250,7 +258,15 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             gameObject.SetActive(false);
             return;
         }
-        Destroy(gameObject);
+
+        // make the character invisible and schedule it for destruction
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null)
+        {
+            col.enabled = false;
+        }
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, 0.2f);
     }
 
     public void AddEffect(Effect effect)

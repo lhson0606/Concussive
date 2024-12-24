@@ -8,14 +8,16 @@ public class SpearProjectile : BaseProjectile
     private DamageSource damageSource;
     private Vector2 direction;
     private Collider2D col;
-    private BaseWeapon parentWeapon;
+    private SpearScript parentWeapon;
     private GameObject owner;
+    private AudioSource audioSource;
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     internal void Launch()
@@ -35,7 +37,7 @@ public class SpearProjectile : BaseProjectile
 
     internal void SetParentWeapon(BaseWeapon parentWeapon)
     {
-        this.parentWeapon = parentWeapon;
+        this.parentWeapon = parentWeapon as SpearScript;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -65,12 +67,24 @@ public class SpearProjectile : BaseProjectile
         {
             return;
         }
-        DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
+        int damageRes = DamageUtils.TryToApplyDamageToWithResult(damageSource.Owner, collision, damageSource, false);
         
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
         transform.parent = collision.gameObject.transform;
         //disable the collider
         col.enabled = false;
+
+        if (audioSource && !audioSource.isPlaying)
+        {
+            if(damageRes > 0 && parentWeapon.GetRangedHitSound())
+            {
+                audioSource.PlayOneShot(parentWeapon.GetRangedHitSound());
+            }
+            else if(parentWeapon.GetRangedHitObstacleSound())
+            {
+                audioSource.PlayOneShot(parentWeapon.GetRangedHitObstacleSound());
+            }
+        }
     }
 }

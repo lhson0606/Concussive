@@ -19,6 +19,14 @@ public class StaffScript : BaseWeapon
         damageSource.ApplyCoolDown();
     }
 
+    public override void SetAsMainWeapon(BaseCharacter owner)
+    {
+        base.SetAsMainWeapon(owner);
+        base.ShouldAlterRenderOrder = false;
+        // set render order to character +1
+        weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
+    }
+
     // Call from animation
     public void SpawnProjectile()
     {

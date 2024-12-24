@@ -171,7 +171,7 @@ public class BaseWeapon : GameItem
 
     public virtual void DoAttack()
     {
-        
+        OnAttackStarted();
     }
 
 
@@ -244,7 +244,7 @@ public class BaseWeapon : GameItem
 
     public void PlayOnAttackSound()
     {
-        if (onAttackSound != null)
+        if (audioSource && !audioSource.isPlaying && onAttackSound != null)
         {
             audioSource.PlayOneShot(onAttackSound);
         }
