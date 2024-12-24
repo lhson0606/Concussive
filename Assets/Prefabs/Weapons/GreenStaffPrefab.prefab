@@ -166,9 +166,9 @@ MonoBehaviour:
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
-  onAttackSound: {fileID: 0}
-  onEquipSound: {fileID: 0}
-  onHitSound: {fileID: 0}
+  onAttackSound: {fileID: 8300000, guid: 1e63148a42cc00841b9783b6c7106d53, type: 3}
+  onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
+  onHitSound: {fileID: 8300000, guid: 9e67bfe71ae2692489d28987d2ae2468, type: 3}
   onAttackMissSound: {fileID: 0}
   staffTip: {fileID: 4614458197363595226}
   staffProjectilePrefab: {fileID: 1970712677557608409, guid: 13507df705a4d14438aa462097f1a2f2, type: 3}

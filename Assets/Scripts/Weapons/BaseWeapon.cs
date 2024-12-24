@@ -108,7 +108,7 @@ public class BaseWeapon : GameItem
 
     }
 
-    private void SetOwnerIsAttackingFalse()
+    public void SetOwnerIsAttackingFalse()
     {
         if (owner != null)
         {
@@ -267,5 +267,10 @@ public class BaseWeapon : GameItem
 
     public virtual void OnSpecialModeTriggered()
     {
+    }
+
+    internal AudioClip GetOnHitSound()
+    {
+        return onHitSound;
     }
 }

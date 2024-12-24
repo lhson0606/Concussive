@@ -45,4 +45,12 @@ public class MeleeWeapon : BaseWeapon
             DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
         }
     }
+
+    public void SetMeleeOwnerIsAttackingFalse()
+    {
+        if (owner != null)
+        {
+            owner.IsAttacking = false;
+        }
+    }
 }

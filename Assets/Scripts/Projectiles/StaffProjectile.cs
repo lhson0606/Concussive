@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(AudioSource))]
 public class StaffProjectile : BaseProjectile
 {
     [SerializeField]
@@ -12,6 +13,7 @@ public class StaffProjectile : BaseProjectile
     private Vector2 direction;
     private Collider2D col;
     private BaseWeapon parentWeapon;
+    private AudioSource audioSource;
 
     protected override void Awake()
     {
@@ -68,7 +70,14 @@ public class StaffProjectile : BaseProjectile
             return;
         }
 
-        Debug.Log($"StaffProjectile: OnTriggerEnter2D: {collision.gameObject.name}");
+        if(audioSource && !audioSource.isPlaying)
+        {
+            var onHitSound = parentWeapon.GetOnHitSound();
+            if (onHitSound != null)
+            {
+                audioSource.PlayOneShot(onHitSound);
+            }
+        }
 
         DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
         Destroy(gameObject);
