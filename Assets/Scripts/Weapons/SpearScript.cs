@@ -4,6 +4,10 @@ using UnityEngine;
 public class SpearScript : HybridWeapon
 {
     [SerializeField]
+    private float meleeReloadTime = 0.5f;
+    [SerializeField]
+    private float rangedReloadTime = 1.2f;
+    [SerializeField]
     GameObject spearTip;
     [SerializeField]
     GameObject spearProjectilePrefab;
@@ -17,6 +21,8 @@ public class SpearScript : HybridWeapon
     AudioClip rangedHitObstacleSound;
 
     private Collider2D spearTipCol;
+
+    public HybridMode CurrentMode => mode;
 
     protected override void Awake()
     {
@@ -42,18 +48,26 @@ public class SpearScript : HybridWeapon
             damageSource.Owner = owner.gameObject;
             damageSource.Damage *= 1.5f;
             damageSource.CriticalMultiplier *= 1.25f;
+            damageSource.CoolDown = rangedReloadTime;
         }
         else
         {
             base.ShouldAlterRenderOrder = true;
             damageSource.ResetStats();
             damageSource.Owner = owner.gameObject;
+            damageSource.CoolDown = meleeReloadTime;
         }
     }
 
     public override void DoAttack()
     {
         base.DoAttack();
+
+        if(!damageSource.IsCoolDownReset())
+        {
+            return;
+        }
+
         if (mode == HybridMode.Melee)
         {
             base.ShouldAlterRenderOrder = true;
@@ -66,6 +80,8 @@ public class SpearScript : HybridWeapon
             weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
             RangedAttack();
         }
+
+        damageSource.ApplyCoolDown();
     }
 
     private void RangedAttack()
@@ -100,18 +116,6 @@ public class SpearScript : HybridWeapon
         }
     }
 
-    public override void ReleaseAttack()
-    {
-        base.ReleaseAttack();
-
-        if(mode == HybridMode.Melee)
-        {
-            return;
-        }
-
-        animator?.SetTrigger("Release");        
-    }
-
     public void OnProjectileRelease()
     {
         GameObject projectile = Instantiate(spearProjectilePrefab, spearTip.transform.position, spearTip.transform.rotation);
@@ -124,6 +128,8 @@ public class SpearScript : HybridWeapon
         {
             audioSource.PlayOneShot(rangedAttackSound);
         }
+
+        animator?.SetTrigger("Release");
     }
 
     public AudioClip GetRangedHitSound()

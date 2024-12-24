@@ -141,7 +141,6 @@ GameObject:
   - component: {fileID: 2715766364587725719}
   - component: {fileID: 2709814974268819593}
   - component: {fileID: 2232945836303753868}
-  - component: {fileID: 5700887124762949969}
   m_Layer: 0
   m_Name: SpearPrefab
   m_TagString: Untagged
@@ -233,14 +232,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  criticalChance: 0.8
-  criticalMultiplier: 2
+  criticalChance: 0.3
+  criticalMultiplier: 1.6
   damage: 6
   hasPushEffect: 1
   pushScale: 0.4
   damageType: 0
   element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
-  coolDown: 0
+  coolDown: 0.3
   coolDownMultiplier: 1
   accuracy: 0.9
   dispersion: 4
@@ -460,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c258e681ceb8c9c4883dc013a2f484b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Javelin
+  itemName: Ogre Giant Spear
   rarity: 2
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
@@ -545,15 +544,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5700887124762949969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8087445438139880221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

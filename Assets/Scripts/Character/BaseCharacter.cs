@@ -50,6 +50,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected GameObject initialPrimaryWeapon = null;
     [SerializeField]
     protected GameObject initialSecondaryWeapon = null;
+    [SerializeField]
+    protected bool pushable = true;
+    [SerializeField]
+    [Range(0, 1)]
+    protected float pushScale = 1f;
 
     protected List<Effect> effects = new List<Effect>();
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
@@ -188,11 +193,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         if(IsFreezing || !CanMove())
         {
             return;
-        }
-
-        if (currentHealth <= 0)
-        {
-            Die();
         }
 
         if (IsAttacking)
@@ -561,7 +561,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }          
 
         // Add impulse to the character
-        if(damageData.PushScale > 0 && !isInvisible)
+        if(pushable && damageData.PushScale > 0 && !isInvisible)
         {
             Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
             const float pushForce = 8f;
@@ -578,7 +578,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
                 if (rb != null && damageData.PushScale > 0)
                 {
                     DisableMovement();
-                    rb.linearVelocity += impulse;
+                    rb.linearVelocity += impulse * pushScale;
                     StartCoroutine(KnockCo());
                 }
 
@@ -759,7 +759,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     private IEnumerator ApplyImpulseCo(Vector2 velocity, float duration)
     {
         DisableMovement();
-        rb.linearVelocity += velocity;
+        rb.linearVelocity += velocity*pushScale;
         yield return new WaitForSeconds(duration);
         rb.linearVelocity -= Vector2.zero;
         impulseCoroutine = null;
