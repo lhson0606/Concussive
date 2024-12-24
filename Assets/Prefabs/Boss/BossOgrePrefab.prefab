@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 6604257017918422994}
   - component: {fileID: 7417086637041954153}
   - component: {fileID: 6821954120244466120}
+  - component: {fileID: 6064218390280886773}
   m_Layer: 0
   m_Name: BossOgrePrefab
   m_TagString: Enemy
@@ -249,11 +250,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5058473837877123773}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 1000
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_GravityScale: 0
@@ -375,7 +376,7 @@ Animator:
   m_GameObject: {fileID: 5058473837877123773}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1544eb31ca6eb8b4e9a02f44627d00f4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -414,10 +415,10 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
   effectSizeScale: 2
   dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
+  initialPrimaryWeapon: {fileID: 1540561243107446225, guid: c4981ea0a0c67d14aa418e4bfab40d8a, type: 3}
   initialSecondaryWeapon: {fileID: 0}
-  pushable: 1
-  pushScale: 0
+  pushable: 0
+  pushScale: 0.106
   currentHealth: 0
   enemyName: Ogre
   chaseRadius: 20
@@ -427,11 +428,25 @@ MonoBehaviour:
   angryNoise: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
   enemyAttackSpeed: 0.8
   aggression: 1
-  maxKitingDistance: 5
+  maxKitingDistance: 2
   MovingToPosition: {x: 0, y: 0, z: 0}
   meleeAttackRange: 3
   rangedAttackRange: 12
   spearModeThreshold: 6
+--- !u!114 &6064218390280886773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058473837877123773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ecf6519c6345e49beee2cbe733792f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &7106302801623662435
 GameObject:
   m_ObjectHideFlags: 0

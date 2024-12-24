@@ -16,6 +16,7 @@ public class OgreBoss : Enemy
     public override void Start()
     {
         base.Start();
+        SafeAddActivationDelegate(DoBossIntro);
         spear = GetPrimaryWeapon() as SpearScript;
     }
 
@@ -45,7 +46,7 @@ public class OgreBoss : Enemy
 
         if(spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
         {
-            StartCoroutine(ReleaseCharge(0.5f));
+            rb.linearVelocity = (target.transform.position - transform.position).normalized * runSpeed;
         }
     }
 
@@ -53,5 +54,17 @@ public class OgreBoss : Enemy
     {
         yield return new WaitForSeconds(duration);
         spear.ReleaseAttack();
+    }
+
+    public void DoBossIntro()
+    {
+        // Show the boss intro screen
+        FlashScreenController flashScreenController = FindAnyObjectByType<FlashScreenController>();
+        if (flashScreenController != null)
+        {
+            GameObject bossSkillPrefab = Resources.Load<GameObject>("Prefabs/UI/Boss/OgreIntro");
+
+            flashScreenController.ShowFlashScreen(bossSkillPrefab);
+        }
     }
 }

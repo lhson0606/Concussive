@@ -216,18 +216,13 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             weaponControl.PointerPosition = LookAtPosition;
         }
+        UpdateMovingAnimation();
+    }
 
+    public virtual void UpdateMovingAnimation()
+    {
         Vector2 moveVector = rb.linearVelocity;
-
-        animator?.SetFloat("MovingSpeed", moveVector.magnitude);
-        if(navMeshAgent == null)
-        {
-            animator?.SetBool("IsMoving", moveVector.magnitude > 0);
-        }
-        else
-        {
-            animator?.SetBool("IsMoving", navMeshAgent.isOnNavMesh && !navMeshAgent.isStopped);
-        }
+        animator?.SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     public virtual void Die()

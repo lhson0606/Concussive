@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 
 public class Enemy : BaseCharacter
@@ -351,6 +352,15 @@ public class Enemy : BaseCharacter
         Vector2 kitingDirection = GetRadomKitingDirection();
         Vector2 kitingPosition = (Vector2)transform.position + kitingDirection * UnityEngine.Random.Range(3f, maxKitingDistance);
         return kitingPosition;
+    }
+
+    public override void UpdateMovingAnimation()
+    {
+        NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+        if(navMeshAgent)
+        {
+            animator?.SetBool("IsMoving", navMeshAgent.velocity.magnitude > 0.1f);
+        }
     }
 
     public Vector3 MovingToPosition;
