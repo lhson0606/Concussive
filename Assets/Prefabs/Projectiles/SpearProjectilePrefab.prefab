@@ -104,6 +104,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
+  lifeTime: 5
+  delayDestroyTime: 1.5
+  stickToTarget: 1
+  collideTags:
+  - Obstacle
+  - Door
+  - Enemy
+  - Player
 --- !u!70 &193453505406548682
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

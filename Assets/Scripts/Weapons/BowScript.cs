@@ -58,7 +58,8 @@ public class BowScript : BaseWeapon
         {
             // release the arrow
             ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
-            arrowScript.OnProjectileRelease();
+            arrowScript.SetAllNecessities(damageSource, arrow.transform.up, this);
+            arrowScript.Launch();
             arrow = null;
 
             if(arrowReleaseSound)
@@ -87,7 +88,6 @@ public class BowScript : BaseWeapon
         //rotate the arrow to match the bow
         arrow.transform.Rotate(0, 0, -90);
         ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
-        arrowScript.OnProjectileSpawn(owner, this);
 
         if(arrowNockSound)
         {

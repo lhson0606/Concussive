@@ -33,6 +33,11 @@ public class SimpleFlashEffect : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
+        if(!spriteRenderer)
+        {
+            yield break;
+        }
+
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
