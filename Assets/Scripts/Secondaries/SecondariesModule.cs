@@ -62,8 +62,7 @@ public class SecondariesModule : MonoBehaviour
         this.owner = owner;
         foreach (BaseWeapon secondary in secondaries)
         {
-            secondary.SetOwner(owner);
-            secondary.SetAsMainWeapon(owner);
+            secondary.SetUpAsAutoSecondary(owner);
         }
     }
 
@@ -71,7 +70,7 @@ public class SecondariesModule : MonoBehaviour
     {
         foreach(GameObject secondarySlot in secondarySlots)
         {
-            GameObject secondary = Instantiate(secondarySlot, transform.position, Quaternion.identity, transform);
+            GameObject secondary = Instantiate(secondarySlot, transform.position, Quaternion.identity, gameObject.transform);
             BaseWeapon secondaryWeapon = secondary.GetComponent<BaseWeapon>();
 
             if(secondaryWeapon == null)

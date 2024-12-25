@@ -81,6 +81,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2715766364587725719, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
+      propertyPath: meleeReloadTime
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715766364587725719, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
+      propertyPath: rangedReloadTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715766364587725719, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
       propertyPath: spearProjectilePrefab
       value: 
       objectReference: {fileID: 5820556333068569865, guid: ab314c792fbc8e34b879260ae70c5dda, type: 3}

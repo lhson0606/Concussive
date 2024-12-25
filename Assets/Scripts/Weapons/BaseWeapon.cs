@@ -121,7 +121,15 @@ public class BaseWeapon : GameItem
         transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         UpdateState(STATE_IDLE);
-        OnEquippedAsOffHandWeapon();
+        OnEquippedAsMainWeapon();
+        SetUpDamageSource(owner);
+    }
+
+    public void SetUpAsAutoSecondary(BaseCharacter owner)
+    {
+        SetOwner(owner);
+        UpdateState(STATE_IDLE);
+        OnEquippedAsMainWeapon();
         SetUpDamageSource(owner);
     }
 

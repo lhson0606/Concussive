@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 469116762443834944}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -0.47, z: 0}
+  m_LocalPosition: {x: 0.29, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -474,12 +474,12 @@ MonoBehaviour:
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
   enemyAttackSpeed: 0.8
-  aggression: 1
+  aggression: 0.5
   maxKitingDistance: 2
   MovingToPosition: {x: 0, y: 0, z: 0}
-  meleeAttackRange: 3
-  rangedAttackRange: 12
-  spearModeThreshold: 6
+  meleeAttackRange: 2
+  rangedAttackRange: 8
+  spearModeThreshold: 4
 --- !u!114 &6064218390280886773
 MonoBehaviour:
   m_ObjectHideFlags: 0

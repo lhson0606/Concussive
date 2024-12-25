@@ -11757,6 +11757,8 @@ MonoBehaviour:
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
   projectilePrefab: {fileID: 7092825922332225434, guid: 7e6e427ebab3d1a4a8796fb6ae0b7073, type: 3}
+  angleBetweenProjectiles: 15
+  timeBetweenWaves: 0.1
 --- !u!82 &969056227
 AudioSource:
   m_ObjectHideFlags: 0
@@ -31662,11 +31664,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4
+      value: 33.1
       objectReference: {fileID: 0}
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.8
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31913,14 +31915,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2832792326430256208, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: secondarySlots.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2832792326430256208, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: 'secondarySlots.Array.data[1]'
-      value: 
-      objectReference: {fileID: 4384351537615872358, guid: 296f326959dfb9642a6f20b0a3d1843c, type: 3}
     - target: {fileID: 2937425409828501157, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 42.68
@@ -31961,9 +31955,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4644949484459560761, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4644949484459560761, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 5058473837877123773, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
       propertyPath: m_Name
       value: BossOgrePrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821954120244466120, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: aggression
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821954120244466120, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: meleeAttackRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821954120244466120, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: maxKitingDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821954120244466120, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: spearModeThreshold
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802659217850415673, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923488863650654402, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923488863650654402, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_Acceleration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923488863650654402, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

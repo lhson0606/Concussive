@@ -31,14 +31,22 @@ public class OgreBoss : Enemy
             float distance = Vector3.Distance(target.transform.position, transform.position);
             if (distance > spearModeThreshold && spear.CurrentMode == HybridWeapon.HybridMode.Melee)
             {
-                attackRadius = rangedAttackRange;
                 spear.OnSpecialModeTriggered();
-            } else if (distance <= spearModeThreshold && spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
+            }
+            else if (distance <= spearModeThreshold && spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
             {
                 attackRadius = meleeAttackRange;
                 spear.OnSpecialModeTriggered();
             }
             secondariesModule.Activate();
+
+            if (spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
+            {
+                if (damageSource.IsCoolDownReset())
+                {
+                    AttackCurrentTarget();
+                }
+            }
         }
         else
         {
@@ -51,11 +59,6 @@ public class OgreBoss : Enemy
         LookAtPosition = target.transform.position;
         // damageSource?.ApplyCoolDown();
         spear.DoAttack();
-
-        if(spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
-        {
-            rb.linearVelocity = (target.transform.position - transform.position).normalized * runSpeed;
-        }
     }
 
     private IEnumerator ReleaseCharge(float duration)
