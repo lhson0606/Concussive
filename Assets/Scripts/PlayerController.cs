@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(DialogueManager.GetInstance().dialogueIsPlaying){
+        if(DialogueManager.GetInstance() && DialogueManager.GetInstance().dialogueIsPlaying){
             return;
         }
 
