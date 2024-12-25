@@ -12,18 +12,21 @@ public class OgreBoss : Enemy
     private float spearModeThreshold = 6f;
 
     private SpearScript spear;
+    private SecondariesModule secondariesModule;
 
     public override void Start()
     {
         base.Start();
         SafeAddActivationDelegate(DoBossIntro);
         spear = GetPrimaryWeapon() as SpearScript;
+        secondariesModule = GetComponentInChildren<SecondariesModule>();
+        secondariesModule.SetOwner(this);
     }
 
     public override void Update()
     {
         base.Update();
-        if (HasTarget() && IsTargetInSight())
+        if (HasTarget() && IsTargetInSight() && isActivated)
         {
             float distance = Vector3.Distance(target.transform.position, transform.position);
             if (distance > spearModeThreshold && spear.CurrentMode == HybridWeapon.HybridMode.Melee)
@@ -35,6 +38,11 @@ public class OgreBoss : Enemy
                 attackRadius = meleeAttackRange;
                 spear.OnSpecialModeTriggered();
             }
+            secondariesModule.Activate();
+        }
+        else
+        {
+            secondariesModule.Deactivate();
         }
     }
 
