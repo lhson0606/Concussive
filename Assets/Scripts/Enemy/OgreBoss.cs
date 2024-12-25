@@ -13,6 +13,7 @@ public class OgreBoss : Enemy
 
     private SpearScript spear;
     private SecondariesModule secondariesModule;
+    private SkillModule skillModule;
 
     public override void Start()
     {
@@ -20,6 +21,7 @@ public class OgreBoss : Enemy
         SafeAddActivationDelegate(DoBossIntro);
         spear = GetPrimaryWeapon() as SpearScript;
         secondariesModule = GetComponentInChildren<SecondariesModule>();
+        skillModule = GetComponentInChildren<SkillModule>();
         secondariesModule.SetOwner(this);
     }
 
@@ -38,7 +40,7 @@ public class OgreBoss : Enemy
                 attackRadius = meleeAttackRange;
                 spear.OnSpecialModeTriggered();
             }
-            secondariesModule.Activate();
+            secondariesModule.AimAndFireWithProbability(0.6f);
 
             if (spear.CurrentMode == HybridWeapon.HybridMode.Ranged)
             {
@@ -47,10 +49,16 @@ public class OgreBoss : Enemy
                     AttackCurrentTarget();
                 }
             }
-        }
-        else
-        {
-            secondariesModule.Deactivate();
+
+            // use skill with probability
+            bool hasUsed = skillModule.UseRandomSkillWithProbability(0.4f);
+
+            if(hasUsed)
+            {
+                float distanceToPlayerCamera = Vector3.Distance(transform.position, player.transform.position);
+                playerController.ShakePlayerCamera(distanceToPlayerCamera);
+                audioSource?.PlayOneShot(angryNoise);
+            }
         }
     }
 

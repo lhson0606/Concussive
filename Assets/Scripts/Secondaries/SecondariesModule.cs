@@ -57,6 +57,19 @@ public class SecondariesModule : MonoBehaviour
         }
     }
 
+    public void AimAndFireWithProbability(float probability)
+    {
+        AutoAim();
+        foreach (BaseWeapon secondary in secondaries)
+        {
+            DamageSource damageSource = secondary.gameObject.GetComponent<DamageSource>();
+            if (damageSource.IsCoolDownReset() && UnityEngine.Random.value < probability)
+            {
+                secondary.DoAttack();
+            }
+        }
+    }
+
     public void SetOwner(BaseCharacter owner)
     {
         this.owner = owner;

@@ -158,7 +158,10 @@ public class BaseProjectile : SlowMotionObject, IDamageable
             spriteRenderer.enabled = false;
         }
 
-        StartCoroutine(DestroyAfter(delayDestroyTime));
+        if(gameObject.active)
+        {
+            StartCoroutine(DestroyAfter(delayDestroyTime));
+        }        
     }
 
     public virtual void OnLaunch()

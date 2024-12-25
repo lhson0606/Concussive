@@ -36,12 +36,14 @@ public class Enemy : BaseCharacter
     protected bool isTargetInAttackRange = false;
     protected DamageSource damageSource;
     protected bool shouldKiteAway = false;
+    protected PlayerController playerController;
 
     protected override void Awake()
     {
         base.Awake();
         animator = this.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         MovingToPosition = transform.position;
     }
 
