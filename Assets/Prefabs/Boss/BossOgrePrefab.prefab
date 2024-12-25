@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondarySlots:
-  - {fileID: 4792214669941159003, guid: 062a53edc254c1242b6c0a80993c7ab5, type: 3}
-  - {fileID: 9022726116327696673, guid: 64e2809de5666a04cb447c3318b23968, type: 3}
+  - {fileID: 4384351537615872358, guid: 296f326959dfb9642a6f20b0a3d1843c, type: 3}
 --- !u!1 &4004172296756463233
 GameObject:
   m_ObjectHideFlags: 0

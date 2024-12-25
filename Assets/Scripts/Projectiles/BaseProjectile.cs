@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -76,12 +78,18 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         transform.parent = null;
 
         rb.linearVelocity = damageSource.GetDispersedLookDir(direction).normalized * speed;
-        Destroy(gameObject, lifeTime + delayDestroyTime);
-        if(trailRenderer)
+        StartCoroutine(DestroyAfter(lifeTime + delayDestroyTime));
+        if (trailRenderer)
         {
             trailRenderer.emitting = true;
         }
         OnLaunch();
+    }
+
+    private IEnumerator DestroyAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        Destroy(gameObject);
     }
 
     internal void SetDamageSource(DamageSource damageSource)
@@ -150,7 +158,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
             spriteRenderer.enabled = false;
         }
 
-        Destroy(gameObject, delayDestroyTime);
+        StartCoroutine(DestroyAfter(delayDestroyTime));
     }
 
     public virtual void OnLaunch()

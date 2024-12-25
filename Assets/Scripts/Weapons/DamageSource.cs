@@ -19,7 +19,7 @@ public class DamageSource : MonoBehaviour
     [SerializeField]
     private Element element;
     [SerializeField]
-    private float coolDown = 0f;// 0f means no cooldown by default
+    private float coolDown = 0.2f;// 0f means no cooldown by default
     [SerializeField]
     private float coolDownMultiplier = 1f;
     [SerializeField]

@@ -72,7 +72,15 @@ public class SecondariesModule : MonoBehaviour
         foreach(GameObject secondarySlot in secondarySlots)
         {
             GameObject secondary = Instantiate(secondarySlot, transform.position, Quaternion.identity, transform);
-            secondaries.Add(secondary.GetComponent<BaseWeapon>());
+            BaseWeapon secondaryWeapon = secondary.GetComponent<BaseWeapon>();
+
+            if(secondaryWeapon == null)
+            {
+                Debug.LogError("Secondary weapon is missing BaseWeapon component");
+                return;
+            }
+
+            secondaries.Add(secondaryWeapon);
             // make it invisible
             secondary.GetComponent<SpriteRenderer>().enabled = false;
         }
