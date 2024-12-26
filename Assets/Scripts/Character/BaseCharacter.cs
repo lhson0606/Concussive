@@ -55,8 +55,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     [SerializeField]
     [Range(0, 1)]
     protected float pushScale = 1f;
+    [SerializeField]
+    private bool canUseArmor = false;
+    [SerializeField]
+    private float forgetTakingDamageDelay = 5f;
 
     protected List<Effect> effects = new List<Effect>();
+    protected List<EffectType> effectTypes = new List<EffectType>();
+
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
 
     [SerializeField] protected int currentHealth;
@@ -74,6 +80,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected Rigidbody2D rb = null;
     private NavMeshAgent navMeshAgent;
     private Coroutine impulseCoroutine = null;
+    private Coroutine armorRecoveryCoroutine = null;
+    private Coroutine forgetTakingDamageCoroutine = null;
+    private bool isTakingDamage = false;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -99,6 +108,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected event Action<DamageData> OnHurt;
     public event Action OnDeath;
     protected event Action<bool> OnCanMoveStateChanged;
+    protected event Action<float> OnSpeedChange;
 
     public void SetIsHurtTrue()
     {
@@ -217,6 +227,42 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             weaponControl.PointerPosition = LookAtPosition;
         }
         UpdateMovingAnimation();
+        CheckArmorRecovery();
+    }
+
+    private void CheckArmorRecovery()
+    {
+        if(canUseArmor && currentArmor < maxArmor)
+        {
+            if(isTakingDamage && forgetTakingDamageCoroutine == null)
+            {
+                forgetTakingDamageCoroutine = StartCoroutine(ForgetTakingDamage());
+            }
+            else if(!isTakingDamage && armorRecoveryCoroutine == null)
+            {
+                armorRecoveryCoroutine = StartCoroutine(RecoverArmor());
+            }
+        }
+    }
+
+    private IEnumerator RecoverArmor()
+    {
+        yield return new WaitForSeconds(1f);
+        currentArmor = Math.Min(maxArmor, currentArmor + 1);
+        armorRecoveryCoroutine = null;
+    }
+
+    private IEnumerator ForgetTakingDamage()
+    {
+        if(isTakingDamage == false || forgetTakingDamageCoroutine!=null)
+        {
+            forgetTakingDamageCoroutine = null;
+            yield break;
+        }
+        //delay for forgetTakingDamageDelay
+        yield return new WaitForSeconds(forgetTakingDamageDelay);
+        isTakingDamage = false;
+        forgetTakingDamageCoroutine = null;
     }
 
     public virtual void UpdateMovingAnimation()
@@ -267,11 +313,30 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public void AddEffect(Effect effect)
     {
         effects.Add(effect);
+        effectTypes.Add(effect.EffectType);
     }
 
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
+        effectTypes.Remove(effect.EffectType);
+    }
+
+    public bool HasEffect(Effect effect)
+    {
+        return effectTypes.Contains(effect.effectType);
+    }
+
+    public Effect GetFirstEffectByType(EffectType effectType)
+    {
+        foreach (Effect effect in effects)
+        {
+            if (effect.EffectType == effectType)
+            {
+                return effect;
+            }
+        }
+        return null;
     }
 
     public void Heal(int healingAmount, EffectType healingType = EffectType.HEALING)
@@ -552,7 +617,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         if (!isInvisible)
         {
-            currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
+            ApplyDamageWithArmor((int)damageData.Damage);
         }          
 
         // Add impulse to the character
@@ -588,11 +653,33 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
+    private void ApplyDamageWithArmor(int amount)
+    {
+        isTakingDamage = true;
+        // deal damage to armor first
+        if (currentArmor > 0)
+        {
+            currentArmor -= amount;
+            if (currentArmor < 0)
+            {
+                amount = Math.Abs(currentArmor);
+                currentArmor = 0;
+            }
+            else
+            {
+                amount = 0;
+            }
+        }
+
+        // deal damage to health
+        currentHealth = (int)Math.Max(0, currentHealth - amount);
+    }
+
     public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
     {
         if (!isInvisible)
         {
-            currentHealth = (int)Math.Max(0, currentHealth - amount);
+            ApplyDamageWithArmor(amount);
         }
         flashEffect?.Flash();
 
@@ -764,5 +851,27 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     internal WeaponControl GetWeaponControl()
     {
         return weaponControl;
+    }
+
+    internal float GetSpeed()
+    {
+        return runSpeed;
+    }
+
+    internal void ModifySpeed(float v)
+    {
+        runSpeed += v;
+        OnSpeedChange?.Invoke(runSpeed);
+    }
+
+    internal void SafeAddOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
+        OnSpeedChange += onSpeedChangeDelegate;
+    }
+
+    internal void RemoveOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
     }
 }

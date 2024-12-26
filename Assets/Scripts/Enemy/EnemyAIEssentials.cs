@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class EnemyAIEssentials : MonoBehaviour
 {
@@ -33,10 +34,17 @@ public class EnemyAIEssentials : MonoBehaviour
 
         character.SafeAddActivationDelegate(OnActivated);
         character.SafeAddDeactivationDelegate(OnDeactivated);
+        character.SafeAddOnSpeedChangeDelegate(OnSpeedChangeNotify);
         character.SafeDelegateOnHurt(OnHurt);
 
         navMeshAgent.speed = character.GetRunSpeed();
     }
+
+    private void OnSpeedChangeNotify(float speed)
+    {
+        navMeshAgent.speed = speed;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

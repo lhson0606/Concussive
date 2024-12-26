@@ -32225,26 +32225,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossOgrePrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 8683769924221767985, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: skillPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8683769924221767985, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: 'skillPrefabs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1176328772242143030, guid: 8c96e77131e9a7440970c29f8fb04b52, type: 3}
-    - target: {fileID: 8683769924221767985, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: 'skillPrefabs.Array.data[1]'
-      value: 
-      objectReference: {fileID: 3847334096586406085, guid: ccacfe9af8c5b954cbad96112c405b40, type: 3}
-    - target: {fileID: 8683769924221767985, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: 'skillPrefabs.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2255084046879478348, guid: c7b0320133f27af4886a02bf724dbb95, type: 3}
-    - target: {fileID: 8802659217850415673, guid: 23f3a7629e543e14e924bb88065b80e2, type: 3}
-      propertyPath: m_Mass
-      value: 2000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

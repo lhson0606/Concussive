@@ -16,7 +16,8 @@ public class Effect : SlowMotionObject
     protected float disposeDelay = 0f;
     [SerializeField]
     protected bool attachToTarget = true;
-
+    [SerializeField]
+    protected bool isStackable = true;
 
     protected BaseCharacter target;
     protected ParticleSystem particlesInstance;
@@ -33,6 +34,11 @@ public class Effect : SlowMotionObject
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void StartEffect(BaseCharacter target)
     {
+        if(target.HasEffect(this) && !isStackable)
+        {
+            target.GetFirstEffectByType(effectType).EndEffect();
+        }
+
         this.target = target;
         target.AddEffect(this);
         transform.localScale *= target.GetEffectSizeScale();
