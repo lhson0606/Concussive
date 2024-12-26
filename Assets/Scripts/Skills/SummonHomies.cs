@@ -17,18 +17,11 @@ public class SummonHomies : BaseSkill
     private List<HomiesSpawner> spawners = new List<HomiesSpawner>();
     private int aliveHomies = 0;
 
-    public override bool Use()
+    public override void OnUse()
     {
-        bool ready = base.Use();
-
         if(!owner)
         {
             Debug.LogError("Owner is not set");
-        }
-
-        if(!ready)
-        {
-            return false;
         }
 
         spawners.Clear();
@@ -84,8 +77,6 @@ public class SummonHomies : BaseSkill
                 aliveHomies--;
             });
         }
-
-        return true;
     }
 
     private void OnDrawGizmosSelected()

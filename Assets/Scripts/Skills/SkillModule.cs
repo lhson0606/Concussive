@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkillModule : MonoBehaviour
@@ -48,7 +49,13 @@ public class SkillModule : MonoBehaviour
         if (Random.value < probability)
         {
             int randomIndex = Random.Range(0, skills.Count);
-            return skills[randomIndex].Use();
+            BaseSkill skill = skills[randomIndex];
+
+            if(skill.IsReady())
+            {
+                skill.Use();
+                return true;
+            }
         }
 
         return false;
@@ -64,7 +71,7 @@ public class SkillModule : MonoBehaviour
 
     public void UseSkill(int index)
     {
-        if (index < 0 || index >= skills.Count)
+        if (index < 0 || index >= skills.Count || !skills.First().IsReady())
         {
             return;
         }

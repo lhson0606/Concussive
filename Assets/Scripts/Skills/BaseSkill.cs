@@ -14,14 +14,18 @@ public class BaseSkill : MonoBehaviour
     protected GameObject owner;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public virtual bool Use()
+    public void Use()
     {
         if(IsReady())
         {
             ResetCooldown();
-            return true;
+            OnUse();
         }
-        return false;
+    }
+
+    public virtual void OnUse()
+    {
+        Debug.Log("Skill used");
     }
 
     public virtual void Update()
