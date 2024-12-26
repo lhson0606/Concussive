@@ -28,7 +28,10 @@ public class SimpleFlashEffect : MonoBehaviour
             StopCoroutine(flashCoroutine);
         }
 
-        flashCoroutine = StartCoroutine(FlashRoutine());
+        if(gameObject.active)
+        {
+            flashCoroutine = StartCoroutine(FlashRoutine());
+        }        
     }
 
     private IEnumerator FlashRoutine()

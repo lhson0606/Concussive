@@ -55,6 +55,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         {
             trailRenderer.emitting = false;
         }
+        col.enabled = false;
     }
 
     public void TakeDamage(DamageData damageData, bool isInvisible = false)
@@ -66,6 +67,8 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         this.gameObject.tag = damageData.DamageDealer ? damageData.DamageDealer.tag : "Untagged";
         // reverse the arrow direction
         rb.linearVelocity *= -1;
+        // reverse the arrow direction
+        transform.Rotate(0, 0, 180);
     }
 
     public void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
@@ -82,6 +85,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         transform.parent = null;
 
         rb.linearVelocity = damageSource.GetDispersedLookDir(direction).normalized * speed;
+        col.enabled = true;
         StartCoroutine(DestroyAfter(lifeTime + delayDestroyTime));
         if (trailRenderer)
         {
@@ -113,7 +117,12 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     public GameObject GetOwner()
     {
-        return parentWeapon?.GetOwner().gameObject;
+        // unity overloads to check if the game object is destroyed
+        if (parentWeapon?.GetOwner().gameObject!= null)
+        {
+            return parentWeapon.GetOwner().gameObject;
+        }
+        return null;
     }
 
     public bool IsOwner(GameObject gameObject)

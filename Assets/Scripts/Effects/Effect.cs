@@ -105,7 +105,10 @@ public class Effect : SlowMotionObject
             Destroy(particlesInstance.gameObject, particlesInstance.main.duration);
         }
         OnEffectEnd();
-        StartCoroutine(DestroyEffect(disposeDelay));
+        if(gameObject.active)
+        {
+            StartCoroutine(DestroyEffect(disposeDelay));
+        }
     }
 
     private IEnumerator DestroyEffect(float delay)
