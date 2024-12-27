@@ -230,4 +230,6 @@ MonoBehaviour:
   effectStartAudio: {fileID: 0}
   disposeDelay: 0
   attachToTarget: 1
+  isStackable: 0
   damagePerTick: 3
+  slowPercentage: 0.5

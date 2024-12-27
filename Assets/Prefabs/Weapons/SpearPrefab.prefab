@@ -141,7 +141,6 @@ GameObject:
   - component: {fileID: 2715766364587725719}
   - component: {fileID: 2709814974268819593}
   - component: {fileID: 2232945836303753868}
-  - component: {fileID: 5700887124762949969}
   m_Layer: 0
   m_Name: SpearPrefab
   m_TagString: Untagged
@@ -233,14 +232,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  criticalChance: 0.8
+  criticalChance: 0.3
   criticalMultiplier: 1.6
   damage: 6
   hasPushEffect: 1
   pushScale: 0.4
   damageType: 0
   element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
-  coolDown: 0
+  coolDown: 0.3
   coolDownMultiplier: 1
   accuracy: 0.9
   dispersion: 4
@@ -460,19 +459,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c258e681ceb8c9c4883dc013a2f484b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Javelin
-  rarity: 0
+  itemName: Ogre Giant Spear
+  rarity: 2
   description: 
-  uiTextPrefab: {fileID: 0}
+  uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
   onAttackSound: {fileID: 8300000, guid: 0c9922e3b1068bf4f8707e680d7fd0e1, type: 3}
-  onEquipSound: {fileID: 0}
+  onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
   SwitchCooldown: 0.4
   mode: 0
   spearTip: {fileID: 2413964449517575943}
   spearProjectilePrefab: {fileID: 1117219892923466677, guid: afa300ee8d9ea9246bab13944907fff3, type: 3}
+  rangedAttackSound: {fileID: 8300000, guid: af66e6d0558f1e84a8a14ae74c70b9e1, type: 3}
+  meleeAttackSound: {fileID: 8300000, guid: 0c9922e3b1068bf4f8707e680d7fd0e1, type: 3}
+  rangedHitSound: {fileID: 8300000, guid: 11f4a3afe0ad01e4185eb17308f775b4, type: 3}
+  rangedHitObstacleSound: {fileID: 8300000, guid: 1b759276476379e48a4aca245a33a146, type: 3}
 --- !u!61 &2709814974268819593
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -541,15 +544,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5700887124762949969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8087445438139880221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

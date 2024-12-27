@@ -4,16 +4,36 @@ using UnityEngine;
 public class SpearScript : HybridWeapon
 {
     [SerializeField]
+    private float meleeReloadTime = 0.5f;
+    [SerializeField]
+    private float rangedReloadTime = 1.2f;
+    [SerializeField]
     GameObject spearTip;
     [SerializeField]
     GameObject spearProjectilePrefab;
+    [SerializeField]
+    AudioClip rangedAttackSound;
+    [SerializeField]
+    AudioClip meleeAttackSound;
+    [SerializeField]
+    AudioClip rangedHitSound;
+    [SerializeField]
+    AudioClip rangedHitObstacleSound;
 
     private Collider2D spearTipCol;
+
+    public HybridMode CurrentMode => mode;
 
     protected override void Awake()
     {
         base.Awake();
         spearTipCol = spearTip.GetComponent<Collider2D>();
+    }
+
+    protected override void Start()
+    {
+        // we will play our own sounds
+        onAttackSound = null;
     }
 
     public override void OnSpecialModeTriggered()
@@ -24,16 +44,30 @@ public class SpearScript : HybridWeapon
             base.ShouldAlterRenderOrder = false;
             // set render order to character +1
             weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
+            damageSource.ResetStats();
+            damageSource.Owner = owner.gameObject;
+            damageSource.Damage *= 1.5f;
+            damageSource.CriticalMultiplier *= 1.25f;
+            damageSource.CoolDown = rangedReloadTime;
         }
         else
         {
             base.ShouldAlterRenderOrder = true;
+            damageSource.ResetStats();
+            damageSource.Owner = owner.gameObject;
+            damageSource.CoolDown = meleeReloadTime;
         }
     }
 
     public override void DoAttack()
     {
         base.DoAttack();
+
+        if(!damageSource.IsCoolDownReset())
+        {
+            return;
+        }
+
         if (mode == HybridMode.Melee)
         {
             base.ShouldAlterRenderOrder = true;
@@ -46,6 +80,8 @@ public class SpearScript : HybridWeapon
             weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
             RangedAttack();
         }
+
+        damageSource.ApplyCoolDown();
     }
 
     private void RangedAttack()
@@ -57,10 +93,6 @@ public class SpearScript : HybridWeapon
     {
         animator?.SetTrigger("Attack");
         owner?.ApplyImpulse(transform.up * 10f, 0.05f);
-        if (audioSource != null && !audioSource.isPlaying && onAttackSound != null)
-        {
-            audioSource.PlayOneShot(onAttackSound);
-        }
     }
 
     public void DealMeleeDamage()
@@ -77,18 +109,11 @@ public class SpearScript : HybridWeapon
         {
             DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
         }
-    }
 
-    public override void ReleaseAttack()
-    {
-        base.ReleaseAttack();
-
-        if(mode == HybridMode.Melee)
+        if(meleeAttackSound && audioSource && !audioSource.isPlaying)
         {
-            return;
+            audioSource.PlayOneShot(meleeAttackSound);
         }
-
-        animator?.SetTrigger("Release");
     }
 
     public void OnProjectileRelease()
@@ -99,9 +124,21 @@ public class SpearScript : HybridWeapon
         spearProjectile.SetDamageSource(damageSource);
         spearProjectile.SetDirection(damageSource.GetDispersedLookDir(transform.up));
         spearProjectile.Launch();
-        if (audioSource != null && !audioSource.isPlaying && onAttackSound != null)
+        if (rangedAttackSound && audioSource && !audioSource.isPlaying)
         {
-            audioSource.PlayOneShot(onAttackSound);
+            audioSource.PlayOneShot(rangedAttackSound);
         }
+
+        animator?.SetTrigger("Release");
+    }
+
+    public AudioClip GetRangedHitSound()
+    {
+        return rangedHitSound;
+    }
+
+    public AudioClip GetRangedHitObstacleSound()
+    {
+        return rangedHitObstacleSound;
     }
 }

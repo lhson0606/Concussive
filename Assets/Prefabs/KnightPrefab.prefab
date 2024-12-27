@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 4701075225539131842}
   - component: {fileID: 1451625136478015160}
   - component: {fileID: 8342060556990921843}
+  - component: {fileID: 2231166700106288799}
   m_Layer: 0
   m_Name: KnightPrefab
   m_TagString: Player
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd04d2716f68364cbe218070a6c5c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 32
+  maxHealth: 1000
   maxArmor: 5
   maxMana: 200
   runSpeed: 3.4
@@ -351,6 +352,10 @@ MonoBehaviour:
   dropOnDeath: []
   initialPrimaryWeapon: {fileID: 2519646079485683144, guid: b7c48247c5601c34c9a02858d92f6884, type: 3}
   initialSecondaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
+  pushable: 1
+  pushScale: 1
+  canUseArmor: 0
+  forgetTakingDamageDelay: 5
   currentHealth: 0
 --- !u!82 &4701075225539131842
 AudioSource:
@@ -500,6 +505,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0.010951221, y: -0.22792435}
   m_Size: {x: 0.77629983, y: 1.3110471}
   m_Direction: 0
+--- !u!114 &2231166700106288799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344432388816318259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7759728b92d2c4e83844f0c3bb9b06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPrefabs:
+  - {fileID: 8582795937233796295, guid: d0e4012a1a114924caf1cc458ff32626, type: 3}
 --- !u!1001 &5799194689595624537
 PrefabInstance:
   m_ObjectHideFlags: 0

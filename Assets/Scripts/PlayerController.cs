@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 cameraOriginalPosition;
 
     private Vector2 pointerPosition;
+    private SkillModule skillModule;
 
     float horizontal;
     float vertical;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         baseCharacter = GetComponent<BaseCharacter>();
         playerCamera = FindAnyObjectByType<Camera>();
+        skillModule = GetComponent<SkillModule>();
         cameraOriginalPosition = playerCamera.transform.localPosition;
     }
 
@@ -57,8 +59,17 @@ public class PlayerController : MonoBehaviour
         HandleMouseClick();
         HandlePickUp();
         HandleAttack();
+        HandleUseSkill();
         HandleSwitchWeapon();
         OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
+    }
+
+    private void HandleUseSkill()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            skillModule.UseSkill(0);
+        }
     }
 
     private void HandleAttack()
@@ -98,7 +109,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(DialogueManager.GetInstance().dialogueIsPlaying){
+        if(DialogueManager.GetInstance() && DialogueManager.GetInstance().dialogueIsPlaying){
             return;
         }
 

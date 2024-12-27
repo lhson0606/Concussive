@@ -19,13 +19,21 @@ public class StaffScript : BaseWeapon
         damageSource.ApplyCoolDown();
     }
 
+    public override void SetAsMainWeapon(BaseCharacter owner)
+    {
+        base.SetAsMainWeapon(owner);
+        base.ShouldAlterRenderOrder = false;
+        // set render order to character +1
+        weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
+    }
+
     // Call from animation
     public void SpawnProjectile()
     {
         GameObject projectile = Instantiate(staffProjectilePrefab, staffTip.transform.position, Quaternion.identity);
         StaffProjectile staffProjectile = projectile.GetComponent<StaffProjectile>();
         staffProjectile.SetDamageSource(damageSource);
-        staffProjectile.SetDirection(damageSource.GetDispersedLookDir(owner.LookDir));
+        staffProjectile.SetDirection(owner.LookDir);
         staffProjectile.SetParentWeapon(this);
         staffProjectile.Launch();
     }

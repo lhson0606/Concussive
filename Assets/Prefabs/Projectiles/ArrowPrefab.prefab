@@ -106,7 +106,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 16
-  timeToLive: 5
+  lifeTime: 5
+  delayDestroyTime: 3
+  stickToTarget: 1
+  collideTags:
+  - Obstacle
+  - Door
+  - Enemy
+  - Player
   arrowHitSound: {fileID: 8300000, guid: 7bd4adccc05244648b22d3ed11e3c9e1, type: 3}
 --- !u!96 &4401057071803272737
 TrailRenderer:
@@ -267,7 +274,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0000046417117, y: -0.06427479}
+  m_Offset: {x: -0.0000046417117, y: 0.43265888}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -277,7 +284,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.18901215, y: 1.070085}
+  m_Size: {x: 0.18901215, y: 0.38680118}
   m_EdgeRadius: 0
 --- !u!50 &9045004419547243941
 Rigidbody2D:

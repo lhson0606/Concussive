@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1176328772242143030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3828912537999706493}
+  - component: {fileID: 4476413259855266582}
+  m_Layer: 0
+  m_Name: SummonHomiesSkill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3828912537999706493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176328772242143030}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40.915016, y: 0.3070627, z: -1.2497747}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4476413259855266582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176328772242143030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f5039d92f7d774e8de6ae02130b3c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: Summon Homies
+  flashScreenPrefab: {fileID: 0}
+  cooldown: 10
+  homies:
+  - {fileID: 6701079288712103040, guid: 373b19648260aa543b1b7845be41464e, type: 3}
+  - {fileID: 3847334096586406085, guid: ccacfe9af8c5b954cbad96112c405b40, type: 3}
+  - {fileID: 2255084046879478348, guid: c7b0320133f27af4886a02bf724dbb95, type: 3}
+  - {fileID: 2019573082574802805, guid: 317b26f03e7cb8348a6249f182436100, type: 3}
+  summonCount: 4
+  summonRadius: 16
+  summonDelay: 1.5
+  aliveHomiesLimit: 10

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 
 public class Enemy : BaseCharacter
@@ -35,12 +36,14 @@ public class Enemy : BaseCharacter
     protected bool isTargetInAttackRange = false;
     protected DamageSource damageSource;
     protected bool shouldKiteAway = false;
+    protected PlayerController playerController;
 
     protected override void Awake()
     {
         base.Awake();
         animator = this.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         MovingToPosition = transform.position;
     }
 
@@ -351,6 +354,15 @@ public class Enemy : BaseCharacter
         Vector2 kitingDirection = GetRadomKitingDirection();
         Vector2 kitingPosition = (Vector2)transform.position + kitingDirection * UnityEngine.Random.Range(3f, maxKitingDistance);
         return kitingPosition;
+    }
+
+    public override void UpdateMovingAnimation()
+    {
+        NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+        if(navMeshAgent)
+        {
+            animator?.SetBool("IsMoving", navMeshAgent.velocity.magnitude > 0.1f);
+        }
     }
 
     public Vector3 MovingToPosition;

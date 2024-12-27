@@ -19,7 +19,7 @@ public class DamageSource : MonoBehaviour
     [SerializeField]
     private Element element;
     [SerializeField]
-    private float coolDown = 0f;// 0f means no cooldown by default
+    private float coolDown = 0.2f;// 0f means no cooldown by default
     [SerializeField]
     private float coolDownMultiplier = 1f;
     [SerializeField]
@@ -146,7 +146,7 @@ public class DamageSource : MonoBehaviour
         return damageData;
     }
 
-    internal void ApplyDamageTo(BaseCharacter target, Vector2 position, bool shouldApplyCoolDown = true)
+    internal DamageData ApplyDamageTo(BaseCharacter target, Vector2 position, bool shouldApplyCoolDown = true)
     {
         if(shouldApplyCoolDown)
         {
@@ -160,6 +160,7 @@ public class DamageSource : MonoBehaviour
             ApplyElementalEffectToTarget(target);
         }
         target.TakeDamage(damageData);
+        return damageData;
     }
 
     internal void AppyDamageDataTo(DamageData damageData, BaseCharacter target)

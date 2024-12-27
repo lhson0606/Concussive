@@ -50,8 +50,19 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected GameObject initialPrimaryWeapon = null;
     [SerializeField]
     protected GameObject initialSecondaryWeapon = null;
+    [SerializeField]
+    protected bool pushable = true;
+    [SerializeField]
+    [Range(0, 1)]
+    protected float pushScale = 1f;
+    [SerializeField]
+    private bool canUseArmor = false;
+    [SerializeField]
+    private float forgetTakingDamageDelay = 5f;
 
     protected List<Effect> effects = new List<Effect>();
+    protected List<EffectType> effectTypes = new List<EffectType>();
+
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
 
     [SerializeField] protected int currentHealth;
@@ -69,6 +80,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected Rigidbody2D rb = null;
     private NavMeshAgent navMeshAgent;
     private Coroutine impulseCoroutine = null;
+    private Coroutine armorRecoveryCoroutine = null;
+    private Coroutine forgetTakingDamageCoroutine = null;
+    private bool isTakingDamage = false;
 
     protected SimpleFlashEffect flashEffect;
 
@@ -86,6 +100,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     public bool IsMovementEnabled { get; set; } = true;
     private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
+    public bool IsDead { get; set; } = false;
 
     protected bool isHurt = false;
 
@@ -93,6 +108,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected event Action<DamageData> OnHurt;
     public event Action OnDeath;
     protected event Action<bool> OnCanMoveStateChanged;
+    protected event Action<float> OnSpeedChange;
 
     public void SetIsHurtTrue()
     {
@@ -189,11 +205,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             return;
         }
 
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-
         if (IsAttacking)
         {
             return;
@@ -215,22 +226,60 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             weaponControl.PointerPosition = LookAtPosition;
         }
+        UpdateMovingAnimation();
+        CheckArmorRecovery();
+    }
 
+    private void CheckArmorRecovery()
+    {
+        if(canUseArmor && currentArmor < maxArmor)
+        {
+            if(isTakingDamage && forgetTakingDamageCoroutine == null)
+            {
+                forgetTakingDamageCoroutine = StartCoroutine(ForgetTakingDamage());
+            }
+            else if(!isTakingDamage && armorRecoveryCoroutine == null)
+            {
+                armorRecoveryCoroutine = StartCoroutine(RecoverArmor());
+            }
+        }
+    }
+
+    private IEnumerator RecoverArmor()
+    {
+        yield return new WaitForSeconds(1f);
+        currentArmor = Math.Min(maxArmor, currentArmor + 1);
+        armorRecoveryCoroutine = null;
+    }
+
+    private IEnumerator ForgetTakingDamage()
+    {
+        if(isTakingDamage == false || forgetTakingDamageCoroutine!=null)
+        {
+            forgetTakingDamageCoroutine = null;
+            yield break;
+        }
+        //delay for forgetTakingDamageDelay
+        yield return new WaitForSeconds(forgetTakingDamageDelay);
+        isTakingDamage = false;
+        forgetTakingDamageCoroutine = null;
+    }
+
+    public virtual void UpdateMovingAnimation()
+    {
         Vector2 moveVector = rb.linearVelocity;
-
-        animator?.SetFloat("MovingSpeed", moveVector.magnitude);
-        if(navMeshAgent == null)
-        {
-            animator?.SetBool("IsMoving", moveVector.magnitude > 0);
-        }
-        else
-        {
-            animator?.SetBool("IsMoving", navMeshAgent.isOnNavMesh && !navMeshAgent.isStopped);
-        }
+        animator?.SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     public virtual void Die()
     {
+        if(IsDead)
+        {
+            return;
+        }
+
+        IsDead = true;
+
         foreach (GameObject drop in dropOnDeath)
         {
             if (drop != null)
@@ -250,17 +299,44 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             gameObject.SetActive(false);
             return;
         }
-        Destroy(gameObject);
+
+        // make the character invisible and schedule it for destruction
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null)
+        {
+            col.enabled = false;
+        }
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, 0.2f);
     }
 
     public void AddEffect(Effect effect)
     {
         effects.Add(effect);
+        effectTypes.Add(effect.EffectType);
     }
 
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
+        effectTypes.Remove(effect.EffectType);
+    }
+
+    public bool HasEffect(Effect effect)
+    {
+        return effectTypes.Contains(effect.effectType);
+    }
+
+    public Effect GetFirstEffectByType(EffectType effectType)
+    {
+        foreach (Effect effect in effects)
+        {
+            if (effect.EffectType == effectType)
+            {
+                return effect;
+            }
+        }
+        return null;
     }
 
     public void Heal(int healingAmount, EffectType healingType = EffectType.HEALING)
@@ -541,11 +617,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         if (!isInvisible)
         {
-            currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
+            ApplyDamageWithArmor((int)damageData.Damage);
         }          
 
         // Add impulse to the character
-        if(damageData.PushScale > 0 && !isInvisible)
+        if(pushable && damageData.PushScale > 0 && !isInvisible)
         {
             Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
             const float pushForce = 8f;
@@ -562,7 +638,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
                 if (rb != null && damageData.PushScale > 0)
                 {
                     DisableMovement();
-                    rb.linearVelocity += impulse;
+                    rb.linearVelocity += impulse * pushScale;
                     StartCoroutine(KnockCo());
                 }
 
@@ -577,11 +653,33 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
+    private void ApplyDamageWithArmor(int amount)
+    {
+        isTakingDamage = true;
+        // deal damage to armor first
+        if (currentArmor > 0)
+        {
+            currentArmor -= amount;
+            if (currentArmor < 0)
+            {
+                amount = Math.Abs(currentArmor);
+                currentArmor = 0;
+            }
+            else
+            {
+                amount = 0;
+            }
+        }
+
+        // deal damage to health
+        currentHealth = (int)Math.Max(0, currentHealth - amount);
+    }
+
     public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
     {
         if (!isInvisible)
         {
-            currentHealth = (int)Math.Max(0, currentHealth - amount);
+            ApplyDamageWithArmor(amount);
         }
         flashEffect?.Flash();
 
@@ -743,7 +841,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     private IEnumerator ApplyImpulseCo(Vector2 velocity, float duration)
     {
         DisableMovement();
-        rb.linearVelocity += velocity;
+        rb.linearVelocity += velocity*pushScale;
         yield return new WaitForSeconds(duration);
         rb.linearVelocity -= Vector2.zero;
         impulseCoroutine = null;
@@ -753,5 +851,27 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     internal WeaponControl GetWeaponControl()
     {
         return weaponControl;
+    }
+
+    internal float GetSpeed()
+    {
+        return runSpeed;
+    }
+
+    internal void ModifySpeed(float v)
+    {
+        runSpeed += v;
+        OnSpeedChange?.Invoke(runSpeed);
+    }
+
+    internal void SafeAddOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
+        OnSpeedChange += onSpeedChangeDelegate;
+    }
+
+    internal void RemoveOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
     }
 }

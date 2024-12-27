@@ -28,11 +28,19 @@ public class SimpleFlashEffect : MonoBehaviour
             StopCoroutine(flashCoroutine);
         }
 
-        flashCoroutine = StartCoroutine(FlashRoutine());
+        if(gameObject.active)
+        {
+            flashCoroutine = StartCoroutine(FlashRoutine());
+        }        
     }
 
     private IEnumerator FlashRoutine()
     {
+        if(!spriteRenderer)
+        {
+            yield break;
+        }
+
         spriteRenderer.color = flashColor;
         yield return new WaitForSeconds(flashDuration);
         spriteRenderer.color = originalColor;
