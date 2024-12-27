@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
         HandleAttack();
         HandleUseSkill();
         HandleSwitchWeapon();
+        OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
     }
 
     private void HandleUseSkill()
@@ -68,6 +69,8 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F))
         {
             skillModule.UseSkill(0);
+            float cooldownDuration = 10.0f; // Example cooldown duration
+            UIHandler.instance.OnSpecialAbilityUsed(cooldownDuration);
         }
     }
 
