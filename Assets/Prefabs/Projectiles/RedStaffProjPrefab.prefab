@@ -168,6 +168,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  lifeTime: 5
+  delayDestroyTime: 0.5
+  stickToTarget: 0
+  collideTags:
+  - Obstacle
+  - Door
+  - Enemy
+  - Player
+  - Wall
 --- !u!95 &3835294068363388812
 Animator:
   serializedVersion: 7

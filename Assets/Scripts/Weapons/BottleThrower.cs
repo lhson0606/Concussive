@@ -4,6 +4,14 @@ public class BottleThrower : BaseWeapon
 {
     [SerializeField]
     private GameObject bottlePrefab;
+    [SerializeField]
+    private AudioClip onThrowSound;
+
+    protected override void Start()
+    {
+        base.Start();
+        base.ShouldAlterRenderOrder = false;
+    }
 
     public override void DoAttack()
     {
@@ -15,6 +23,7 @@ public class BottleThrower : BaseWeapon
         }
 
         Vector2 throwDestination = owner.LookAtPosition;
+        throwDestination = damageSource.GetDispersedAimPosition(throwDestination);
         //spawn bottle
         GameObject bottle = Instantiate(bottlePrefab, transform.position, Quaternion.identity);
         ThrowableBottle bottleScript = bottle.GetComponent<ThrowableBottle>();

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -16,11 +17,14 @@ public class BaseThrownProjectile : MonoBehaviour
     private float gravity = -9.8f; // Gravity to simulate the parabolic path
     [SerializeField]
     private float spinSpeed = 360f; // Degrees per second
+    [SerializeField]
+    protected List<string> collideTags = new List<string> { "Wall" };
 
     private Vector2 startPosition;
     private Vector2 targetPosition;
     private Vector2 initialVelocity;
     private float elapsedTime = 0f;
+    private bool isCollided = false;
 
     private AudioSource audioSource;
 
@@ -30,6 +34,7 @@ public class BaseThrownProjectile : MonoBehaviour
     public void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        damageSource = GetComponent<DamageSource>();
     }
 
     public void Launch(Vector2 targetPosition)
@@ -50,7 +55,7 @@ public class BaseThrownProjectile : MonoBehaviour
 
     private IEnumerator MoveInParabolicPath()
     {
-        while (true)
+        while (!isCollided)
         {
             elapsedTime += Time.deltaTime;
             Vector2 position = startPosition + initialVelocity * elapsedTime + 0.5f * new Vector2(0, gravity) * elapsedTime * elapsedTime;
@@ -62,7 +67,7 @@ public class BaseThrownProjectile : MonoBehaviour
             // Check if the projectile has reached the target position
             if (Vector2.Distance(transform.position, targetPosition) <= targetHitThreshold)
             {
-                OnHitGround();
+                OnImpact(targetPosition);
                 yield break;
             }
 
@@ -70,8 +75,9 @@ public class BaseThrownProjectile : MonoBehaviour
         }
     }
 
-    protected virtual void OnHitGround()
+    protected virtual void OnImpact(Vector3 impactPoint)
     {
+        isCollided = true;
         // Implement the logic for hitting the ground or target
         // For now, just destroy the projectile on hitting the ground
         Destroy(gameObject);
@@ -92,5 +98,20 @@ public class BaseThrownProjectile : MonoBehaviour
     {
         this.parentWeapon = parentWeapon;
         damageSource = parentWeapon.GetDamageSource();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.isTrigger)
+        //{
+        //    return;
+        //}
+
+        if (!collideTags.Contains(collision.gameObject.tag))
+        {
+            return;
+        }
+
+        OnImpact(transform.position);
     }
 }

@@ -72,6 +72,14 @@ PrefabInstance:
       propertyPath: stickToTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8007368493121796836, guid: afa300ee8d9ea9246bab13944907fff3, type: 3}
+      propertyPath: collideTags.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007368493121796836, guid: afa300ee8d9ea9246bab13944907fff3, type: 3}
+      propertyPath: 'collideTags.Array.data[4]'
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

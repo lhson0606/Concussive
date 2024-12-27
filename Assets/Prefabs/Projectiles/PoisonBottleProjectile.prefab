@@ -121,7 +121,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -172,6 +172,10 @@ MonoBehaviour:
   timeToLive: 5
   gravity: -9.8
   spinSpeed: 360
+  collideTags:
+  - Wall
+  impactSound: {fileID: 8300000, guid: ae057a7e497837f4698b917ee2970e76, type: 3}
+  poisonousAreaPrefab: {fileID: 7389498037545120076, guid: 4805d5a375b85934ba45de6c7c7e2ad0, type: 3}
 --- !u!82 &8115935464292980988
 AudioSource:
   m_ObjectHideFlags: 0

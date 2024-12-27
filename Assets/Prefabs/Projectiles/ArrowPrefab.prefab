@@ -114,6 +114,7 @@ MonoBehaviour:
   - Door
   - Enemy
   - Player
+  - Wall
   arrowHitSound: {fileID: 8300000, guid: 7bd4adccc05244648b22d3ed11e3c9e1, type: 3}
 --- !u!96 &4401057071803272737
 TrailRenderer:

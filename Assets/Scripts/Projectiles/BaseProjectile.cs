@@ -19,7 +19,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
     [SerializeField]
     protected bool stickToTarget = false;
     [SerializeField]
-    private List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player" };
+    private List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player", "Wall"};
 
     protected DamageSource damageSource;
     protected Vector2 direction;
@@ -118,7 +118,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
     public GameObject GetOwner()
     {
         // unity overloads to check if the game object is destroyed
-        if (parentWeapon?.GetOwner().gameObject!= null)
+        if (parentWeapon?.GetOwner()?.gameObject!= null)
         {
             return parentWeapon.GetOwner().gameObject;
         }
@@ -132,10 +132,10 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.isTrigger)
-        {
-            return;
-        }
+        //if (collision.isTrigger)
+        //{
+        //    return;
+        //}
 
         if(!collideTags.Contains(collision.gameObject.tag))
         {

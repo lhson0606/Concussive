@@ -208,3 +208,5 @@ MonoBehaviour:
   element: {fileID: 7476733976280514811, guid: 0bcf4c4228ccec04897c8d81217a9b6f, type: 3}
   coolDown: 0.5
   coolDownMultiplier: 1
+  accuracy: 0.5
+  dispersion: 10

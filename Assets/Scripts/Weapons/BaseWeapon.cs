@@ -123,6 +123,8 @@ public class BaseWeapon : GameItem
         UpdateState(STATE_IDLE);
         OnEquippedAsMainWeapon();
         SetUpDamageSource(owner);
+        // adjust render order
+        weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
     }
 
     public void SetUpAsAutoSecondary(BaseCharacter owner)
@@ -179,6 +181,10 @@ public class BaseWeapon : GameItem
 
     public virtual void DoAttack()
     {
+        if(!damageSource.IsCoolDownReset())
+        {
+            return;
+        }
         OnAttackStarted();
     }
 

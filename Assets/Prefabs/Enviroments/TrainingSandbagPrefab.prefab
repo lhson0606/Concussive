@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 10
   m_Sprite: {fileID: 2763936479711478133, guid: 20ff6ebbfcde3404da1886609414a83d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -242,6 +242,10 @@ MonoBehaviour:
   dropOnDeath: []
   initialPrimaryWeapon: {fileID: 0}
   initialSecondaryWeapon: {fileID: 0}
+  pushable: 1
+  pushScale: 1
+  canUseArmor: 0
+  forgetTakingDamageDelay: 5
   currentHealth: 0
 --- !u!114 &2655603607001535303
 MonoBehaviour:

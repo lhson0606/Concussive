@@ -275,7 +275,7 @@ MonoBehaviour:
   bareHandDamage: 1
   bareHandAttackSpeed: 1
   characterText: {fileID: 621133704344693419, guid: cf7758237cfd0f14f9bdfdf468cd7b89, type: 3}
-  race: 0
+  race: 1
   hurtSound: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
   idleSound: {fileID: 8300000, guid: 051d3e4538a307845a71726593d28e93, type: 3}
   deathSound: {fileID: 0}
@@ -286,6 +286,8 @@ MonoBehaviour:
   initialSecondaryWeapon: {fileID: 0}
   pushable: 1
   pushScale: 1
+  canUseArmor: 0
+  forgetTakingDamageDelay: 5
   currentHealth: 0
   enemyName: Small Orc
   chaseRadius: 4

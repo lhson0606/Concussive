@@ -13,18 +13,29 @@ public class PoisonI : Effect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
-        target?.TakeDirectEffectDamage((int)damagePerTick, this);
-        if(!isSlowed)
+        if(target.Race == RaceType.UNDEAD || target.Race == RaceType.ORC)
         {
-            slowAmount = target.GetSpeed() * slowPercentage;
-            target.ModifySpeed(-slowAmount);
-            isSlowed = true;
+            // heal the target instead of damaging it
+            target.Heal((int)damagePerTick);
         }
+        else
+        {
+            target?.TakeDirectEffectDamage((int)damagePerTick, this);
+            if (!isSlowed)
+            {
+                slowAmount = target.GetSpeed() * slowPercentage;
+                target.ModifySpeed(-slowAmount);
+                isSlowed = true;
+            }
+        }        
     }
 
     public override void OnEffectEnd()
     {
-        // revert the slow effect
-        target?.ModifySpeed(slowAmount);
+        if (target.Race != RaceType.UNDEAD && target.Race != RaceType.ORC)
+        {
+            // revert the slow effect
+            target?.ModifySpeed(slowAmount);
+        }
     }
 }

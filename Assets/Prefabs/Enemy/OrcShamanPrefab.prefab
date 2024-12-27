@@ -41,6 +41,7 @@ Transform:
   m_Children:
   - {fileID: 1377464653343647571}
   - {fileID: 469812021394599421}
+  - {fileID: 1390855051283524792}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4409289565026792907
@@ -372,6 +373,10 @@ MonoBehaviour:
   dropOnDeath: []
   initialPrimaryWeapon: {fileID: 4792214669941159003, guid: 062a53edc254c1242b6c0a80993c7ab5, type: 3}
   initialSecondaryWeapon: {fileID: 0}
+  pushable: 1
+  pushScale: 1
+  canUseArmor: 0
+  forgetTakingDamageDelay: 5
   currentHealth: 0
   enemyName: Orc Shaman
   chaseRadius: 16
@@ -395,6 +400,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcfb2cecbbd9c264dab33ecfadd7b379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3886956046496174852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390855051283524792}
+  - component: {fileID: 5255904470904949043}
+  m_Layer: 0
+  m_Name: AutoSecondaries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1390855051283524792
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886956046496174852}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.233, y: -0.318, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6565204249312336488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5255904470904949043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886956046496174852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483785e9d9d54dc42856ab263be934f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondarySlots:
+  - {fileID: 2678503907875720218, guid: 51a69ad9746913448817be478f8e6cae, type: 3}
 --- !u!1 &4295742137060450216
 GameObject:
   m_ObjectHideFlags: 0

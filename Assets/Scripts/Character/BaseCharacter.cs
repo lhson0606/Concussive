@@ -874,4 +874,6 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         OnSpeedChange -= onSpeedChangeDelegate;
     }
+
+    public RaceType Race => race;
 }

@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 9
+  m_SortingOrder: 11
   m_Sprite: {fileID: -3013207376615114973, guid: 545ef5843f1ef5840be2e16540599927, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,11 +110,12 @@ MonoBehaviour:
   description: 
   uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
-  onAttackSound: {fileID: 0}
-  onEquipSound: {fileID: 0}
+  onAttackSound: {fileID: 8300000, guid: d68104f1bfa572d4489d49ce697073c6, type: 3}
+  onEquipSound: {fileID: 8300000, guid: 95d76625b5b3c9e4bac9015b6b81f9f0, type: 3}
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
   bottlePrefab: {fileID: 5737096840409358347, guid: 74592ec5f4883ca4bb2952408b5ba46d, type: 3}
+  onThrowSound: {fileID: 0}
 --- !u!120 &1383030293102566957
 LineRenderer:
   serializedVersion: 2
@@ -339,10 +340,10 @@ MonoBehaviour:
   pushScale: 0
   damageType: 0
   element: {fileID: 4173202743419811699, guid: 2ca7f683a9b71954ea61cfddb0e4a557, type: 3}
-  coolDown: 0.2
+  coolDown: 6
   coolDownMultiplier: 1
   accuracy: 0.5
-  dispersion: 10
+  dispersion: 2
 --- !u!70 &5584652293934359586
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

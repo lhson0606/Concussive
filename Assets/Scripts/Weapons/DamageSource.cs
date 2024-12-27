@@ -301,5 +301,14 @@ public class DamageSource : MonoBehaviour
         float angle = Random.Range(-dispersion, dispersion) * (1-accuracy);
         return Quaternion.Euler(0, 0, angle) * dir.normalized;
     }
+
+    // return a random point in circle with radius of dispersion
+    internal Vector2 GetDispersedAimPosition(Vector2 throwDestination)
+    {
+        float radius = Random.Range(0, dispersion);
+        radius *= (1 - accuracy);
+        Vector2 randomPoint = Random.insideUnitCircle * radius;
+        return throwDestination + randomPoint;
+    }
 }
 

@@ -38,6 +38,9 @@ public class Enemy : BaseCharacter
     protected bool shouldKiteAway = false;
     protected PlayerController playerController;
 
+    private bool oldCanSeeTarget = false;
+    private bool oldTargetInAttackRange = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -119,6 +122,8 @@ public class Enemy : BaseCharacter
         return target;
     }
 
+    public virtual void OnEnemyUpdate() { }
+
     public override void Update()
     {
         base.Update();
@@ -145,6 +150,12 @@ public class Enemy : BaseCharacter
             {
                 StartCoroutine(ResetTargetAfter(8f));
             }
+        }
+
+        if(canSeeTarget != oldCanSeeTarget)
+        {
+            OnTargetDetectionStateChanged(canSeeTarget);
+            oldCanSeeTarget = canSeeTarget;
         }
 
         if (canSeeTarget && HasTarget())
@@ -180,11 +191,19 @@ public class Enemy : BaseCharacter
             }
         }
 
+        if(isTargetInAttackRange != oldTargetInAttackRange)
+        {
+            OnTargetInAttackRangeStateChanged(isTargetInAttackRange);
+            oldTargetInAttackRange = isTargetInAttackRange;
+        }
+
         // randomly play idle sound
         if (idleSound != null && UnityEngine.Random.Range(0, 10000) < 1)
         {
             audioSource?.PlayOneShot(idleSound);
         }
+
+        OnEnemyUpdate();
     }
 
     public virtual void AttackCurrentTarget() 
@@ -364,6 +383,10 @@ public class Enemy : BaseCharacter
             animator?.SetBool("IsMoving", navMeshAgent.velocity.magnitude > 0.1f);
         }
     }
+
+    public virtual void OnTargetDetectionStateChanged(bool canSeeTarget) { }
+
+    public virtual void OnTargetInAttackRangeStateChanged(bool isTargetInAttackRange) { }
 
     public Vector3 MovingToPosition;
 }

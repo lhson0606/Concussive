@@ -63,9 +63,16 @@ public class SecondariesModule : MonoBehaviour
         foreach (BaseWeapon secondary in secondaries)
         {
             DamageSource damageSource = secondary.gameObject.GetComponent<DamageSource>();
-            if (damageSource.IsCoolDownReset() && UnityEngine.Random.value < probability)
+            if (damageSource.IsCoolDownReset())
             {
-                secondary.DoAttack();
+                if(UnityEngine.Random.value < probability)
+                {
+                    secondary.DoAttack();
+                }
+                else
+                {
+                    secondary.GetDamageSource().ApplyCoolDown();
+                }
             }
         }
     }
@@ -94,7 +101,7 @@ public class SecondariesModule : MonoBehaviour
 
             secondaries.Add(secondaryWeapon);
             // make it invisible
-            secondary.GetComponent<SpriteRenderer>().enabled = false;
+            // secondary.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
