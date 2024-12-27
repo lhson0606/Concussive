@@ -259,7 +259,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Free Demo 4 Potions sheet_0: -148147409187893966
+      Free Demo 4 Potions sheet_1: -3749002972589760094
+      Free Demo 4 Potions sheet_2: 7245525691351783106
+      Free Demo 4 Potions sheet_3: 8855968342107139219
+      Free Demo 4 Potions sheet_4: 6850150840280840170
+      Free Demo 4 Potions sheet_5: -3678656473491510318
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
