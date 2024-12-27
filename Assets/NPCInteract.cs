@@ -9,6 +9,13 @@ public class NPCInteract : MonoBehaviour
         if(other.CompareTag("Player"))
             OpenShop();
     }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            CloseShop();
+        }
+    }
 
     private void OpenShop()
     {

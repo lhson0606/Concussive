@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
         HandlePickUp();
         HandleAttack();
         HandleSwitchWeapon();
+        OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
     }
 
     private void HandleAttack()
