@@ -7,7 +7,9 @@ public class UIHandler : MonoBehaviour
 {
     private VisualElement UI_Healthbar;
     private VisualElement UI_PrimaryWeapon;
-    private VisualElement UI_SecondadryWeapon;
+    private VisualElement UI_SecondaryWeapon;
+    private VisualElement SkillIcon;
+    private VisualElement SkillCooldownOverlay;
     public static UIHandler instance { get; private set; }
 
     private BaseCharacter baseCharacter; // Class-level variable
@@ -24,8 +26,20 @@ public class UIHandler : MonoBehaviour
         UIDocument uiDocument = GetComponent<UIDocument>();
         UI_Healthbar = uiDocument.rootVisualElement.Q<VisualElement>("Health");
         UI_PrimaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("PrimaryWeapon");
-        UI_SecondadryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
+        UI_SecondaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
+        SkillIcon = uiDocument.rootVisualElement.Q<VisualElement>("Skill");
 
+        SkillCooldownOverlay = new VisualElement();
+        SkillCooldownOverlay.style.backgroundColor = new StyleColor(Color.gray);
+        SkillCooldownOverlay.style.position = Position.Absolute;
+        SkillCooldownOverlay.style.top = 0;
+        SkillCooldownOverlay.style.left = 0;
+        SkillCooldownOverlay.style.right = 0;
+        SkillCooldownOverlay.style.bottom = 0;
+        SkillCooldownOverlay.style.height = Length.Percent(0);
+        
+        
+        SkillIcon.Add(SkillCooldownOverlay);
         // Find the player GameObject with the tag "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -48,7 +62,7 @@ public class UIHandler : MonoBehaviour
                 }
                 if (baseCharacter.GetSecondaryWeapon() != null)
                 {
-                    SetWeaponSprite(UI_SecondadryWeapon, baseCharacter.GetSecondaryWeapon().GetWeaponSpriteRenderer().sprite);
+                    SetWeaponSprite(UI_SecondaryWeapon, baseCharacter.GetSecondaryWeapon().GetWeaponSpriteRenderer().sprite);
                 }
             }
             else
@@ -61,7 +75,8 @@ public class UIHandler : MonoBehaviour
             Debug.LogError("Player GameObject with tag 'Player' not found.");
         }
 
-        Debug.Log("Healthbar: ");
+
+        // Initialize the skill cooldown visual element
     }
 
     // Update is called once per frame
@@ -108,7 +123,35 @@ public class UIHandler : MonoBehaviour
         }
         if (secondaryWeapon != null)
         {
-            SetWeaponSprite(UI_SecondadryWeapon, secondaryWeapon.GetWeaponSpriteRenderer().sprite);
+            SetWeaponSprite(UI_SecondaryWeapon, secondaryWeapon.GetWeaponSpriteRenderer().sprite);
         }
+    }
+
+    // Method to update the skill cooldown visual element
+    public void OnSpecialAbilityUsed(float cooldownDuration)
+    {
+        StartCoroutine(HandleSkillCooldown(cooldownDuration));
+    }
+
+    private IEnumerator HandleSkillCooldown(float cooldownDuration)
+    {
+        float elapsedTime = 0f;
+
+        // Set the overlay height to full at the start
+        SkillCooldownOverlay.style.top = Length.Percent(0);
+        SkillCooldownOverlay.style.height = Length.Percent(100);
+
+        while (elapsedTime < cooldownDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / cooldownDuration;
+            SkillCooldownOverlay.style.top = Length.Percent(percentage * 100);
+            SkillCooldownOverlay.style.height = Length.Percent(100 - (percentage * 100));
+            yield return null;
+        }
+
+        // Reset the overlay height
+        SkillCooldownOverlay.style.top = Length.Percent(0);
+        SkillCooldownOverlay.style.height = Length.Percent(0);
     }
 }

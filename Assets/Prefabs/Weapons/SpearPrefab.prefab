@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 2715766364587725719}
   - component: {fileID: 2709814974268819593}
   - component: {fileID: 2232945836303753868}
+  - component: {fileID: -9003861208988429073}
   m_Layer: 0
   m_Name: SpearPrefab
   m_TagString: Untagged
@@ -157,7 +158,7 @@ Transform:
   m_GameObject: {fileID: 8087445438139880221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.69, y: -0.02, z: 0}
+  m_LocalPosition: {x: 2.0999985, y: 19.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -470,6 +471,8 @@ MonoBehaviour:
   onAttackMissSound: {fileID: 0}
   SwitchCooldown: 0.4
   mode: 0
+  meleeReloadTime: 0.5
+  rangedReloadTime: 1.2
   spearTip: {fileID: 2413964449517575943}
   spearProjectilePrefab: {fileID: 1117219892923466677, guid: afa300ee8d9ea9246bab13944907fff3, type: 3}
   rangedAttackSound: {fileID: 8300000, guid: af66e6d0558f1e84a8a14ae74c70b9e1, type: 3}
@@ -544,3 +547,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-9003861208988429073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087445438139880221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -66,7 +66,7 @@ public class ShopItem : MonoBehaviour
         {
             Vector3 playerPosition = playerController.transform.position;
 
-            // Spawn the PickUpComponent at the player's position
+            // Instantiate the pickUpPrefab at the player's position
             GameObject pickUpObject = Instantiate(pickUpPrefab, playerPosition, Quaternion.identity);
             selectedPickUp = pickUpObject.GetComponent<PickUpComponent>();
 
@@ -76,8 +76,8 @@ public class ShopItem : MonoBehaviour
                 return;
             }
 
-            // Notify the PlayerController to pick it up
-            playerController.SetSelectedPickUp(selectedPickUp);
+            // Automatically pick up the item
+            selectedPickUp.OnPickUp();
         }
         else
         {

@@ -235,7 +235,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -249,7 +249,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -273,7 +273,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1797,7 +1797,74 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      One_Sheet_0: -2206746315348381455
+      One_Sheet_1: -6703230572937699208
+      One_Sheet_10: 612958229449888845
+      One_Sheet_11: -955293456254366197
+      One_Sheet_12: 8857357986999356346
+      One_Sheet_13: -4378098613291971812
+      One_Sheet_14: -5597359939034971328
+      One_Sheet_15: -2928906602460806453
+      One_Sheet_16: 7374992239178409056
+      One_Sheet_17: 5967713855408246770
+      One_Sheet_18: -8342773523592201352
+      One_Sheet_19: 6157412215743184762
+      One_Sheet_2: -4386500731356893104
+      One_Sheet_20: -5174221001422540148
+      One_Sheet_21: 605117935821501931
+      One_Sheet_22: 7464745791302770795
+      One_Sheet_23: 3281504530928692693
+      One_Sheet_24: -1160248703177139554
+      One_Sheet_25: 8254038883803637379
+      One_Sheet_26: 3875812695568078798
+      One_Sheet_27: 6553229462918792314
+      One_Sheet_28: -6132694813770100658
+      One_Sheet_29: 7227906553189039110
+      One_Sheet_3: 426244386141006462
+      One_Sheet_30: -6648692734863808374
+      One_Sheet_31: -5491215634810568207
+      One_Sheet_32: 1178676861648041635
+      One_Sheet_33: -2161142613362270307
+      One_Sheet_34: 4487851828238273282
+      One_Sheet_35: 2780922509443660557
+      One_Sheet_36: 6254234213770864470
+      One_Sheet_37: 7407607338875959565
+      One_Sheet_38: -826654235925123420
+      One_Sheet_39: -3340821866637639251
+      One_Sheet_4: 7050853267928286017
+      One_Sheet_40: 6044962819750742305
+      One_Sheet_41: 7635101535889915436
+      One_Sheet_42: 1392067556593712129
+      One_Sheet_43: 5540362600491013715
+      One_Sheet_44: 7442883806502881022
+      One_Sheet_45: -8770605174046657761
+      One_Sheet_46: -6727230721866369305
+      One_Sheet_47: 3163534856931567876
+      One_Sheet_48: -2437111521268472733
+      One_Sheet_49: -6478478023025651865
+      One_Sheet_5: 5818857864003871631
+      One_Sheet_50: -8207962066839161920
+      One_Sheet_51: 71634117524536719
+      One_Sheet_52: 8945823006921091243
+      One_Sheet_53: -4427475883376667859
+      One_Sheet_54: 8639738933320022725
+      One_Sheet_55: -3110990916589373274
+      One_Sheet_56: -3330998378742185606
+      One_Sheet_57: -2030727742156097302
+      One_Sheet_58: 1191920797130808538
+      One_Sheet_59: 3612209694962088218
+      One_Sheet_6: -6165078464753046149
+      One_Sheet_60: -5270122935905705608
+      One_Sheet_61: 4303519185284266068
+      One_Sheet_62: -6239944647144191003
+      One_Sheet_63: 8348854075408021576
+      One_Sheet_64: 1775055473160621155
+      One_Sheet_65: -8259972893416695467
+      One_Sheet_66: -1915741636989314505
+      One_Sheet_7: 3654966712611603480
+      One_Sheet_8: -7513526996662665199
+      One_Sheet_9: 3391112295572644904
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
