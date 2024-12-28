@@ -462,11 +462,14 @@ MonoBehaviour:
   idleSound: {fileID: 8300000, guid: 3365876922cbc0343b3091a7caef7e5e, type: 3}
   deathSound: {fileID: 8300000, guid: 8e4950baf58fcc1429d792eafa24d918, type: 3}
   effectSizeScale: 2
-  dropOnDeath: []
+  dropOnDeath:
+  - {fileID: 8087445438139880221, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
   initialPrimaryWeapon: {fileID: 1540561243107446225, guid: c4981ea0a0c67d14aa418e4bfab40d8a, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   pushable: 0
   pushScale: 0.106
+  canUseArmor: 0
+  forgetTakingDamageDelay: 5
   currentHealth: 0
   enemyName: Ogre
   chaseRadius: 20

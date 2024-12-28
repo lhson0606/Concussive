@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rune_turq_h_0: -991094327938564278
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

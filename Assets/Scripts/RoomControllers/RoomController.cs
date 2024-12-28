@@ -119,6 +119,12 @@ public class RoomController : MonoBehaviour
 
     void OnPlayerEnterRoom()
     {
+        if(enemies.Count == 0)
+        {
+            OpenBarriers();
+            return;
+        }
+
         CloseBarriers();
         foreach (Enemy enemy in enemies)
         {

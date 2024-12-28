@@ -108,7 +108,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: OgreGiantSpearPrefab Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -9003861208988429073, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
