@@ -29,10 +29,11 @@ Transform:
   m_GameObject: {fileID: 8075385496417332365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.53, y: 7.98, z: 1.3130443}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3654936942772453474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &185297983414265043
@@ -151,6 +152,9 @@ MonoBehaviour:
   particles: {fileID: 0}
   effectType: 4
   effectStartAudio: {fileID: 8300000, guid: 2bbeada50b5293141a186166586a269a, type: 3}
+  disposeDelay: 0
+  attachToTarget: 1
+  isStackable: 1
   damagePercentPerTick: 3
   maxDamagePerTick: 99
   minDamagePerTick: 1
@@ -231,3 +235,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &2588390353035309306
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5581479358133766933}
+    m_Modifications:
+    - target: {fileID: 619004419546002801, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_Name
+      value: FlickeringTorchLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+--- !u!4 &3654936942772453474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1248410271434682520, guid: fa44b9e5b6f1aef488f3e18313fc7cd6, type: 3}
+  m_PrefabInstance: {fileID: 2588390353035309306}
+  m_PrefabAsset: {fileID: 0}
