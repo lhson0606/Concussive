@@ -7,5 +7,6 @@ public class StaffProjectile : BaseProjectile
     {
         base.OnHit(collision);
         DamageUtils.TryToApplyDamageTo(damageSource.Owner, collision, damageSource, false);
+        AudioUtils.PlayAudioClipAtPoint(parentWeapon.GetOnHitSound(), transform.position);
     }
 }

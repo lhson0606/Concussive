@@ -200,12 +200,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectName: Instant Freeze II
-  duration: 1.5
+  duration: 2
   tickRate: 0
   delay: 0
   particles: {fileID: 0}
   effectType: 3
   effectStartAudio: {fileID: 8300000, guid: b19075568ce928848bc67a0826ded1b0, type: 3}
+  disposeDelay: 0
+  attachToTarget: 1
+  isStackable: 1
 --- !u!95 &7824092880889320325
 Animator:
   serializedVersion: 7

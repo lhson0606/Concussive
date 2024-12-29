@@ -284,7 +284,14 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             if (drop != null)
             {
-                Instantiate(drop, transform.position, Quaternion.identity);
+                GameObject dropInstance = Instantiate(drop, transform.position, Quaternion.identity);
+                GameItem gameItem = dropInstance.GetComponent<GameItem>();
+
+                if(gameItem != null)
+                {
+                    Vector2 dropPosition = transform.position;
+                    gameItem.DropItem(dropPosition);
+                }
             }
         }
         OnDeath?.Invoke();
