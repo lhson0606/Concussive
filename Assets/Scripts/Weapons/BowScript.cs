@@ -88,7 +88,7 @@ public class BowScript : BaseWeapon
         //rotate the arrow to match the bow
         arrow.transform.Rotate(0, 0, -90);
         ArrowScript arrowScript = arrow.GetComponent<ArrowScript>();
-        arrowScript.SetAllNecessities(damageSource, arrow.transform.up, this);
+        arrowScript.SetAllNecessities(arrow.transform.up, this);
         if (arrowNockSound)
         {
             audioSource?.PlayOneShot(arrowNockSound);

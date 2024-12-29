@@ -32,9 +32,7 @@ public class StaffScript : BaseWeapon
     {
         GameObject projectile = Instantiate(staffProjectilePrefab, staffTip.transform.position, Quaternion.identity);
         StaffProjectile staffProjectile = projectile.GetComponent<StaffProjectile>();
-        staffProjectile.SetDamageSource(damageSource);
-        staffProjectile.SetDirection(owner.LookDir);
-        staffProjectile.SetParentWeapon(this);
+        staffProjectile.SetAllNecessities(owner.LookDir, this);
         staffProjectile.Launch();
     }
 }

@@ -28,6 +28,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
     protected AudioSource audioSource;
     protected SpriteRenderer spriteRenderer;
     protected TrailRenderer trailRenderer;
+    protected GameObject owner;
 
     private bool isInitialized = false;
 
@@ -60,11 +61,6 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     public void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
-        if(GetOwner()?.tag == damageData.DamageDealer?.tag)
-        {
-            return;
-        }
-        this.gameObject.tag = damageData.DamageDealer ? damageData.DamageDealer.tag : "Untagged";
         // reverse the arrow direction
         rb.linearVelocity *= -1;
         // reverse the arrow direction
@@ -100,29 +96,26 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         Destroy(gameObject);
     }
 
-    internal void SetDamageSource(DamageSource damageSource)
-    {
-        this.damageSource = damageSource;
-    }
-
     internal void SetDirection(Vector2 direction)
     {
-        this.direction = direction;
+        if(damageSource == null)
+        {
+            throw new Exception("You have to set parent weapon first");
+        }
+
+        this.direction = damageSource.GetDispersedLookDir(direction);
     }
 
     internal void SetParentWeapon(BaseWeapon parentWeapon)
     {
         this.parentWeapon = parentWeapon;
+        damageSource = parentWeapon.GetDamageSource();
+        owner = parentWeapon.GetOwner().gameObject;
     }
 
     public GameObject GetOwner()
     {
-        // unity overloads to check if the game object is destroyed
-        if (parentWeapon?.GetOwner()?.gameObject!= null)
-        {
-            return parentWeapon.GetOwner().gameObject;
-        }
-        return null;
+        return owner;
     }
 
     public bool IsOwner(GameObject gameObject)
@@ -144,9 +137,9 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
         // Ensure the collision is not with the damage source owner or the parent weapon
         if (damageSource == null ||
-            damageSource.Owner?.tag == collision.gameObject.tag ||
+            owner?.tag == collision.gameObject.tag ||
             ReferenceEquals(collision.gameObject, parentWeapon.gameObject) ||
-            ReferenceEquals(collision.gameObject, damageSource.Owner))
+            ReferenceEquals(collision.gameObject, owner))
         {
             return;
         }
@@ -187,10 +180,9 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         // Implement specific hit logic in derived classes
     }
 
-    public void SetAllNecessities(DamageSource damageSource, Vector2 direction, BaseWeapon parentWeapon)
+    public void SetAllNecessities(Vector2 direction, BaseWeapon parentWeapon)
     {
-        SetDamageSource(damageSource);
-        SetDirection(direction);
         SetParentWeapon(parentWeapon);
+        SetDirection(direction);
     }
 }

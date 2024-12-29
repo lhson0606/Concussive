@@ -71,6 +71,9 @@ public class SpearScript : HybridWeapon
         if (mode == HybridMode.Melee)
         {
             base.ShouldAlterRenderOrder = true;
+            damageSource.ResetStats();
+            damageSource.Owner = owner.gameObject;
+            damageSource.CoolDown = meleeReloadTime;
             MeleeAttack();
         }
         else
@@ -78,6 +81,11 @@ public class SpearScript : HybridWeapon
             base.ShouldAlterRenderOrder = false;
             // set render order to character +1
             weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
+            damageSource.ResetStats();
+            damageSource.Owner = owner.gameObject;
+            damageSource.Damage *= 1.5f;
+            damageSource.CriticalMultiplier *= 1.25f;
+            damageSource.CoolDown = rangedReloadTime;
             RangedAttack();
         }
 
@@ -120,9 +128,7 @@ public class SpearScript : HybridWeapon
     {
         GameObject projectile = Instantiate(spearProjectilePrefab, spearTip.transform.position, spearTip.transform.rotation);
         SpearProjectile spearProjectile = projectile.GetComponent<SpearProjectile>();
-        spearProjectile.SetParentWeapon(this);
-        spearProjectile.SetDamageSource(damageSource);
-        spearProjectile.SetDirection(damageSource.GetDispersedLookDir(transform.up));
+        spearProjectile.SetAllNecessities(transform.up, this);
         spearProjectile.Launch();
         if (rangedAttackSound && audioSource && !audioSource.isPlaying)
         {

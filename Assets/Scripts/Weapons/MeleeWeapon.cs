@@ -42,6 +42,11 @@ public class MeleeWeapon : BaseWeapon
 
         for (int i = 0; i < count; i++)
         {
+            if (ReferenceEquals(hitColliders[i].gameObject, owner.gameObject))
+            {
+                continue;
+            }
+
             DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
         }
     }

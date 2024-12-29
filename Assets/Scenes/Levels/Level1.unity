@@ -30516,11 +30516,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 49.02
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.31
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 787119162334776628, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_LocalPosition.z
@@ -30565,7 +30565,7 @@ PrefabInstance:
     - target: {fileID: 4615792865534151208, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: initialSecondaryWeapon
       value: 
-      objectReference: {fileID: 2678503907875720218, guid: 51a69ad9746913448817be478f8e6cae, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8344432388816318259, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_Name
       value: Player

@@ -10,8 +10,6 @@ public class BaseThrownProjectile : MonoBehaviour
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private float targetHitThreshold = 1f; // Distance threshold to consider hitting the target
-    [SerializeField]
     private float timeToLive = 5f;
     [SerializeField]
     private float gravity = -9.8f; // Gravity to simulate the parabolic path
@@ -20,6 +18,7 @@ public class BaseThrownProjectile : MonoBehaviour
     [SerializeField]
     protected List<string> collideTags = new List<string> { "Wall" };
 
+    private float targetHitThreshold = 0.1f; // Distance threshold to consider hitting the target
     private Vector2 startPosition;
     private Vector2 targetPosition;
     private Vector2 initialVelocity;
@@ -39,7 +38,12 @@ public class BaseThrownProjectile : MonoBehaviour
 
     public void Launch(Vector2 targetPosition)
     {
-        this.targetPosition = targetPosition;
+        if(damageSource == null)
+        {
+            throw new System.Exception("Damage source is not set");
+        }
+
+        this.targetPosition = damageSource.GetDispersedAimPosition(targetPosition);
         CalculateInitialVelocity();
         StartCoroutine(MoveInParabolicPath());
         Destroy(gameObject, timeToLive);

@@ -32,7 +32,7 @@ public class DoubleTripleSecondary : BaseWeapon
             // Instantiate and launch projectile
             GameObject projectile = Instantiate(projectilePrefab, transform.position, rotation);
             BaseProjectile projectileScript = projectile.GetComponent<BaseProjectile>();
-            projectileScript.SetAllNecessities(damageSource, direction, this);
+            projectileScript.SetAllNecessities(direction, this);
             projectileScript.Launch();
 
             // Slight delay between each projectile in the first wave (optional)
@@ -52,7 +52,7 @@ public class DoubleTripleSecondary : BaseWeapon
             // Instantiate and launch projectile
             GameObject projectile = Instantiate(projectilePrefab, transform.position, rotation);
             BaseProjectile projectileScript = projectile.GetComponent<BaseProjectile>();
-            projectileScript.SetAllNecessities(damageSource, direction, this);
+            projectileScript.SetAllNecessities(direction, this);
             projectileScript.Launch();
 
             // Slight delay between each projectile in the second wave (optional)
