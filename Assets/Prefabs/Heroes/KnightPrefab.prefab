@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
-  maxArmor: 5
+  maxArmor: 6
   maxMana: 200
   runSpeed: 3.4
   criticalHitChance: 0.05
@@ -354,8 +354,7 @@ MonoBehaviour:
   initialSecondaryWeapon: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
   pushable: 1
   pushScale: 1
-  canUseArmor: 0
-  forgetTakingDamageDelay: 5
+  canUseArmor: 1
   currentHealth: 0
 --- !u!82 &4701075225539131842
 AudioSource:

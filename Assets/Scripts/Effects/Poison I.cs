@@ -20,7 +20,7 @@ public class PoisonI : Effect
         }
         else
         {
-            target?.TakeDirectEffectDamage((int)damagePerTick, this);
+            target?.TakeDirectEffectDamage((int)damagePerTick, this, true);
             if (!isSlowed)
             {
                 slowAmount = target.GetSpeed() * slowPercentage;

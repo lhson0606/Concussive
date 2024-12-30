@@ -17,9 +17,9 @@ public class Sandbag : BaseCharacter
         }
     }
 
-    public override void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
+    public override void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)
     {
-        base.TakeDirectEffectDamage(amount, effect, true);
+        base.TakeDirectEffectDamage(amount, effect, true, true);
 
         Vector2 direction = (effect.transform.position - transform.position).normalized;
         if (direction.x > 0)

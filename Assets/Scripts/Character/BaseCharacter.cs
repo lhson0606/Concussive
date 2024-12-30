@@ -248,7 +248,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     private IEnumerator RecoverArmor()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         currentArmor = Math.Min(maxArmor, currentArmor + 1);
         armorRecoveryCoroutine = null;
     }
@@ -322,6 +322,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         effects.Add(effect);
         effectTypes.Add(effect.EffectType);
+        SpawnEffectText(effect);
     }
 
     public void RemoveEffect(Effect effect)
@@ -628,10 +629,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             ApplyDamageWithArmor((int)damageData.Damage, damageData.IsCritical);
         }
 
-        if(damageData.IsCritical && damageData.SourceElement.IsElemental)
-        {
-            SpawnEffectText(damageData.SourceElement.Effect);
-        }
+        //if(damageData.IsCritical && damageData.SourceElement.IsElemental)
+        //{
+        //    SpawnEffectText(damageData.SourceElement.Effect);
+        //}
 
         // Add impulse to the character
         if (pushable && damageData.PushScale > 0 && !isInvisible)
@@ -706,20 +707,31 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         var color = Color.white;
         var text = "";
-        float lifeTime = 0.8f;
+        float lifeTime = 1f;
         Vector2 initVel = new Vector2(0, 1);
         float scale = 1.15f;
 
         if (effect != null)
         {
-            text = effect.name;
+            text = effect.effectName;
             color = EffectConfig.Instance.GetEffectTextColor(effect.effectType);
             this.SpawnText(text, color, lifeTime, initVel, scale);
         }
     }
 
-    private void ApplyDamageWithArmor(int amount, bool isCritical)
+    private void ApplyDamageWithArmor(int amount, bool isCritical, bool ignoreArmor = false)
     {
+        if(!canUseArmor || ignoreArmor)
+        {
+            currentHealth = (int)Math.Max(0, currentHealth - amount);
+            SpawnDamageText(amount, 0, isCritical);
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+            return;
+        }
+
         int healthLoss = 0;
         int armorLoss = 0;
         int oldArmor = currentArmor;
@@ -766,14 +778,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
-    public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
+    public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)
     {
         if (!isInvisible)
         {
-            ApplyDamageWithArmor(amount, false);
+            ApplyDamageWithArmor(amount, false, ignoreArmor);
         }
-
-        SpawnEffectText(effect);
 
         flashEffect?.Flash();
 

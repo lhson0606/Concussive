@@ -67,7 +67,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         transform.Rotate(0, 0, 180);
     }
 
-    public void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
+    public void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)
     {
     }
 

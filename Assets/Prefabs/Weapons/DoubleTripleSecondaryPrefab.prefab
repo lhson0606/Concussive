@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8868249712408111285}
   - component: {fileID: 2952044624319813949}
   - component: {fileID: 5084425594587896599}
-  - component: {fileID: 6491479408123167406}
   m_Layer: 0
   m_Name: DoubleTripleSecondaryPrefab
   m_TagString: Untagged
@@ -231,9 +230,9 @@ MonoBehaviour:
   description: 
   uiTextPrefab: {fileID: 0}
   animator: {fileID: 0}
-  onAttackSound: {fileID: 0}
+  onAttackSound: {fileID: 8300000, guid: 1e63148a42cc00841b9783b6c7106d53, type: 3}
   onEquipSound: {fileID: 0}
-  onHitSound: {fileID: 0}
+  onHitSound: {fileID: 8300000, guid: 9e67bfe71ae2692489d28987d2ae2468, type: 3}
   onAttackMissSound: {fileID: 0}
   projectilePrefab: {fileID: 1970712677557608409, guid: 13507df705a4d14438aa462097f1a2f2, type: 3}
   angleBetweenProjectiles: 15
@@ -442,27 +441,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6491479408123167406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4384351537615872358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b5f17ac13462e541b964d3d7b013196, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  description: 
-  uiTextPrefab: {fileID: 0}
-  animator: {fileID: 0}
-  onAttackSound: {fileID: 0}
-  onEquipSound: {fileID: 0}
-  onHitSound: {fileID: 0}
-  onAttackMissSound: {fileID: 0}
-  projectilePrefab: {fileID: 7092825922332225434, guid: 7e6e427ebab3d1a4a8796fb6ae0b7073, type: 3}
-  angleBetweenProjectiles: 15
-  timeBetweenWaves: 0.1
