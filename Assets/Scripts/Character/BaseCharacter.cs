@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.GraphicsBuffer;
@@ -57,7 +58,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected float pushScale = 1f;
     [SerializeField]
     private bool canUseArmor = false;
-    [SerializeField]
+    
     private float forgetTakingDamageDelay = 5f;
 
     protected List<Effect> effects = new List<Effect>();
@@ -364,42 +365,42 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     }
 
-    public void SpawnDamageText(DamageData damageData)
-    {
-        if (characterText == null)
-        {
-            return;
-        }
+    //public void SpawnDamageText(DamageData damageData)
+    //{
+    //    if (characterText == null)
+    //    {
+    //        return;
+    //    }
 
-        var color = Color.white;
-        var text = ((int)damageData.Damage).ToString();
-        float lifeTime = 0.8f;
-        Vector2 initVel = new Vector2(0, 1);
-        float scale = 1;
+    //    var color = Color.white;
+    //    var text = ((int)damageData.Damage).ToString();
+    //    float lifeTime = 0.8f;
+    //    Vector2 initVel = new Vector2(0, 1);
+    //    float scale = 1;
 
-        if (damageData.SourceElement.IsElemental)
-        {
-            color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
-        }
+    //    if (damageData.SourceElement.IsElemental)
+    //    {
+    //        color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
+    //    }
 
-        if (damageData.IsCritical)
-        {
-            if(damageData.SourceElement.IsElemental)
-            {
-                String effectName = damageData.SourceElement.Effect.effectName;
-                // Spawn the effect name
-                this.SpawnText(effectName, color, lifeTime, initVel, scale);
-            }
-            else
-            {
-                initVel *= 1.5f;
-                scale = 1.5f;
-                color = Color.red;
-            }
-        }
+    //    if (damageData.IsCritical)
+    //    {
+    //        if(damageData.SourceElement.IsElemental)
+    //        {
+    //            String effectName = damageData.SourceElement.Effect.effectName;
+    //            // Spawn the effect name
+    //            this.SpawnText(effectName, color, lifeTime, initVel, scale);
+    //        }
+    //        else
+    //        {
+    //            initVel *= 1.5f;
+    //            scale = 1.5f;
+    //            color = Color.red;
+    //        }
+    //    }
 
-        this.SpawnText(text, color, lifeTime, initVel, scale);
-    }
+    //    this.SpawnText(text, color, lifeTime, initVel, scale);
+    //}
 
     public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel, float scale = 1)
     {
@@ -609,7 +610,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         flashEffect?.Flash();
 
-        SpawnDamageText(damageData);
+        // SpawnDamageText(damageData);
 
         if (hurtSound && !audioSource.isPlaying)
         {
@@ -624,11 +625,16 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         if (!isInvisible)
         {
-            ApplyDamageWithArmor((int)damageData.Damage);
-        }          
+            ApplyDamageWithArmor((int)damageData.Damage, damageData.IsCritical);
+        }
+
+        if(damageData.IsCritical && damageData.SourceElement.IsElemental)
+        {
+            SpawnEffectText(damageData.SourceElement.Effect);
+        }
 
         // Add impulse to the character
-        if(pushable && damageData.PushScale > 0 && !isInvisible)
+        if (pushable && damageData.PushScale > 0 && !isInvisible)
         {
             Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
             const float pushForce = 8f;
@@ -660,9 +666,77 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
-    private void ApplyDamageWithArmor(int amount)
+    private void SpawnDamageText(int healthLoss, int armorLoss, bool isCritical)
     {
+        if (characterText == null)
+        {
+            return;
+        }
+        var color = Color.white;
+        var text = "";
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+        float scale = 1;
+        if (isCritical)
+        {
+            initVel *= 1.5f;
+            scale = 1.15f;
+            color = Color.red;
+        }
+        if (healthLoss > 0)
+        {
+            color = Color.red;
+            text = "-" + healthLoss + " HP";
+            this.SpawnText(text, color, lifeTime, initVel, scale*1.15f);
+        }
+        if (armorLoss > 0)
+        {
+            color = Color.gray;
+            text = "-" + armorLoss + " Armor";
+            this.SpawnText(text, color, lifeTime, initVel, scale);
+        }
+    }
+
+    private void SpawnEffectText(Effect effect)
+    {
+        if(characterText == null)
+        {
+            return;
+        }
+
+        var color = Color.white;
+        var text = "";
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+        float scale = 1.15f;
+
+        if (effect != null)
+        {
+            text = effect.name;
+            color = EffectConfig.Instance.GetEffectTextColor(effect.effectType);
+            this.SpawnText(text, color, lifeTime, initVel, scale);
+        }
+    }
+
+    private void ApplyDamageWithArmor(int amount, bool isCritical)
+    {
+        int healthLoss = 0;
+        int armorLoss = 0;
+        int oldArmor = currentArmor;
         isTakingDamage = true;
+
+        if(forgetTakingDamageCoroutine != null)
+        {
+            StopCoroutine(forgetTakingDamageCoroutine);
+            forgetTakingDamageCoroutine = null;
+        }
+
+        if(armorRecoveryCoroutine != null)
+        {
+            StopCoroutine(armorRecoveryCoroutine);
+            armorRecoveryCoroutine = null;
+        }
+
         // deal damage to armor first
         if (currentArmor > 0)
         {
@@ -678,16 +752,29 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             }
         }
 
+        healthLoss = amount;
+        armorLoss = oldArmor - currentArmor;
+
+        SpawnDamageText(healthLoss, armorLoss, isCritical);
+
         // deal damage to health
         currentHealth = (int)Math.Max(0, currentHealth - amount);
+
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool isInvisible = false)
     {
         if (!isInvisible)
         {
-            ApplyDamageWithArmor(amount);
+            ApplyDamageWithArmor(amount, false);
         }
+
+        SpawnEffectText(effect);
+
         flashEffect?.Flash();
 
         if (hurtSound && !audioSource.isPlaying)
@@ -695,15 +782,15 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             audioSource?.PlayOneShot(hurtSound);
         }
 
-        var color = Color.white;
-        var text = amount.ToString();
-        float lifeTime = 0.8f;
-        Vector2 initVel = new Vector2(0, 1);
-        float scale = 1;
+        //var color = Color.white;
+        //var text = amount.ToString();
+        //float lifeTime = 0.8f;
+        //Vector2 initVel = new Vector2(0, 1);
+        //float scale = 1;
 
-        color = EffectConfig.Instance.GetEffectTextColor(effect.EffectType);
+        //color = EffectConfig.Instance.GetEffectTextColor(effect.EffectType);
 
-        this.SpawnText(text, color, lifeTime, initVel, scale);
+        //this.SpawnText(text, color, lifeTime, initVel, scale);
 
         SetIsHurtTrue();
     }
@@ -732,10 +819,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             {
                 freezeTimeLeft = freezeDuration;
             }
-            else
-            {
-                return;
-            }
+
+            return;
         }
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -753,7 +838,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         IsFreezing = true;
         freezeTimeLeft = freezeDuration;
-        StartCoroutine(Unfreeze());
+
+        if(gameObject.active)
+        {
+            StartCoroutine(Unfreeze());
+        }
+
     }
 
     private IEnumerator Unfreeze()
