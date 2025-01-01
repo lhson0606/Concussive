@@ -15113,11 +15113,11 @@ PrefabInstance:
     - target: {fileID: 4615792865534151208, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: initialPrimaryWeapon
       value: 
-      objectReference: {fileID: 4792214669941159003, guid: 062a53edc254c1242b6c0a80993c7ab5, type: 3}
+      objectReference: {fileID: 3808507833137881544, guid: b1bfdca7a96936f4aba9ff2a2f711c11, type: 3}
     - target: {fileID: 4615792865534151208, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: initialSecondaryWeapon
       value: 
-      objectReference: {fileID: 6047659511505436485, guid: 2aaccc252d4595a419b2f2604de7e47c, type: 3}
+      objectReference: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
     - target: {fileID: 8344432388816318259, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: m_Name
       value: Player
@@ -15695,37 +15695,6 @@ Transform:
   m_Children:
   - {fileID: 1973388411}
   - {fileID: 1915837783}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &949768126
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 949768127}
-  m_Layer: 0
-  m_Name: BlazeRing
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &949768127
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949768126}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5737067, y: 12.215229, z: -20.247372}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1018184009
@@ -16816,7 +16785,6 @@ SceneRoots:
   - {fileID: 589577177}
   - {fileID: 380860493}
   - {fileID: 578660689601784338}
-  - {fileID: 949768127}
   - {fileID: 444225136}
   - {fileID: 1699189385}
   - {fileID: 1068495224}

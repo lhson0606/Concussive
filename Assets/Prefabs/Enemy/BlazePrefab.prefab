@@ -232,7 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483785e9d9d54dc42856ab263be934f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondarySlots: []
+  secondarySlots:
+  - {fileID: 5552850621861634329, guid: 4d9a03da0c65b604298306616769e8e0, type: 3}
 --- !u!1 &8635081235509132800
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +549,6 @@ MonoBehaviour:
   pushable: 1
   pushScale: 1
   canUseArmor: 1
-  forgetTakingDamageDelay: 5
   currentHealth: 0
   enemyName: 
   chaseRadius: 8

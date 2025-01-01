@@ -267,6 +267,12 @@ public class BaseWeapon : GameItem
     internal void SetOwner(BaseCharacter baseCharacter)
     {
         this.owner = baseCharacter;
+        OnSetOwner(owner);
+    }
+
+    public virtual void OnSetOwner(BaseCharacter owner)
+    {
+        
     }
 
     internal BaseCharacter GetOwner()
