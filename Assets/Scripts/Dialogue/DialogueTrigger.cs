@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour{
 
-    // [Header("VisualCue")]
-    // [SerializeField] private GameObject visualCue;
+    private bool isFirstTime;
 
-    [Header("Ink JSon")]
-    [SerializeField] private TextAsset inkJSon;
+    [Header("First Ink JSon")]
+    [SerializeField] private TextAsset firstInkJSon;
+
+    [Header("Defaut Ink JSon")]
+    [SerializeField] private TextAsset defautInkJSon;
 
     private bool playerInRange;
     public KeyCode interacKey;
+    
 
     private void Update(){
         if(playerInRange && !DialogueManager.GetInstance().dialogueIsPlaying){
@@ -26,12 +29,22 @@ public class DialogueTrigger : MonoBehaviour{
     }
     private void Awake(){
         playerInRange = false;
-        // visualCue.SetActive(false); 
+        isFirstTime = true;
     }
     public void TriggerDialogue()
     {
         GameObject gameObject = this.gameObject;
-        DialogueManager.GetInstance().EnterDialogueMode(inkJSon);
+        if(defautInkJSon == null){
+            DialogueManager.GetInstance().EnterDialogueMode(firstInkJSon);
+        }
+        else    
+            if(isFirstTime){
+                DialogueManager.GetInstance().EnterDialogueMode(firstInkJSon);
+                isFirstTime = false;
+            }
+            else{
+                DialogueManager.GetInstance().EnterDialogueMode(defautInkJSon);
+            }
         DialogueManager.GetInstance().SetCurrentGameObject(gameObject);
     }  
 
