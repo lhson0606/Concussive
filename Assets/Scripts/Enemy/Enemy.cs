@@ -67,7 +67,7 @@ public class Enemy : BaseCharacter
 
         if (damageSource != null)
         {
-            damageSource.CoolDown = enemyAttackSpeed;
+            damageSource.CoolDown += enemyAttackSpeed;
         }
     }
 

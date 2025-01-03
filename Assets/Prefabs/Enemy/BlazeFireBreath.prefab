@@ -50,17 +50,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  criticalChance: 0
+  criticalChance: 0.4
   criticalMultiplier: 1.6
-  damage: 0
-  hasPushEffect: 0
+  damage: 8
+  hasPushEffect: 1
   pushScale: 0
   damageType: 0
-  element: {fileID: 0}
-  coolDown: 0.2
+  element: {fileID: 7476733976280514811, guid: a5a2de88d9f571041807ce832e5026f2, type: 3}
+  coolDown: 10
   coolDownMultiplier: 1
-  accuracy: 0.5
-  dispersion: 10
+  accuracy: 0
+  dispersion: 16
 --- !u!120 &2257250554922212791
 LineRenderer:
   serializedVersion: 2
@@ -212,15 +212,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 451583806320811785, guid: 281c7585ec6127a4e8a74b95609b2e96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!82 &6995032966607944795
@@ -332,15 +332,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16953314729abd543801b0199dfc755d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Blaze Breath
   rarity: 0
   description: 
-  uiTextPrefab: {fileID: 0}
+  uiTextPrefab: {fileID: 3637357124881535254, guid: 8e276e74c99f5da49b08f134e2ee7c4e, type: 3}
   animator: {fileID: 0}
   onAttackSound: {fileID: 0}
   onEquipSound: {fileID: 0}
   onHitSound: {fileID: 0}
   onAttackMissSound: {fileID: 0}
+  blazeFireBallProjectilePrefab: {fileID: 382240880962395070, guid: 3a10b93b65ac2834e8fec84314d05196, type: 3}
+  attackRate: 0.2
+  numberOfFireBalls: 3
 --- !u!61 &5877002400581190149
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -378,10 +381,10 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 4, y: 4}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0

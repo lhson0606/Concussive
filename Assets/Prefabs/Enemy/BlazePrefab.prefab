@@ -551,9 +551,9 @@ MonoBehaviour:
   canUseArmor: 1
   currentHealth: 0
   enemyName: 
-  chaseRadius: 8
-  attackRadius: 4
-  kiteRadius: 5
+  chaseRadius: 16
+  attackRadius: 6
+  kiteRadius: 4
   isActivated: 0
   angryNoise: {fileID: 8300000, guid: 10f4afa0f37008541ad8ad23b1dad4bd, type: 3}
   enemyAttackSpeed: 1

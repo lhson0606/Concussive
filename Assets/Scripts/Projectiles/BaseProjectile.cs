@@ -19,7 +19,13 @@ public class BaseProjectile : SlowMotionObject, IDamageable
     [SerializeField]
     protected bool stickToTarget = false;
     [SerializeField]
-    private List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player", "Wall"};
+    protected List<string> collideTags = new() { "Obstacle", "Door", "Enemy", "Player", "Wall"};
+    [SerializeField]
+    protected AudioClip launchSound;
+    [SerializeField]
+    protected AudioClip hitSound;
+    [SerializeField]
+    protected bool disabledRendererOnImpact = true;
 
     protected DamageSource damageSource;
     protected Vector2 direction;
@@ -28,6 +34,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
     protected AudioSource audioSource;
     protected SpriteRenderer spriteRenderer;
     protected TrailRenderer trailRenderer;
+    protected Animator animator;
     protected GameObject owner;
 
     private bool isInitialized = false;
@@ -52,6 +59,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
+        animator = GetComponent<Animator>();
         if (trailRenderer)
         {
             trailRenderer.emitting = false;
@@ -61,6 +69,16 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     public void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
+        if (damageData.DamageDealer == null)
+        {
+            return;
+        }
+
+        if (damageData.DamageDealer.tag == gameObject.tag)
+        {
+            return;
+        }
+
         // reverse the arrow direction
         rb.linearVelocity *= -1;
         // reverse the arrow direction
@@ -104,6 +122,10 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         }
 
         this.direction = damageSource.GetDispersedLookDir(direction);
+
+        // rotate the projectile to face the direction
+        float angle = Mathf.Atan2(this.direction.y, this.direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     internal void SetParentWeapon(BaseWeapon parentWeapon)
@@ -159,7 +181,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         {
             transform.SetParent(collision.transform);
         }
-        else
+        else if(disabledRendererOnImpact)
         {
             spriteRenderer.enabled = false;
         }
@@ -172,7 +194,10 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     public virtual void OnLaunch()
     {
-        // Implement specific hit logic in derived classes
+        if(launchSound != null)
+        {
+            audioSource?.PlayOneShot(launchSound);
+        }
     }
 
     public virtual void OnHit(Collider2D collision)

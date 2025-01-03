@@ -20,6 +20,12 @@ public class BurntI : Effect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
+
+        if(target.Race == RaceType.DEMON)
+        {
+            return;
+        }
+
         target?.TakeDirectEffectDamage(damagePerTick, this);
     }
 

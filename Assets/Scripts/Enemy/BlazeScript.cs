@@ -10,4 +10,10 @@ public class BlazeScript : RangedEnemy
         secondariesModule = GetComponentInChildren<SecondariesModule>();
         secondariesModule.SetOwner(this);
     }
+
+    public override void AttackCurrentTarget()
+    {
+        base.AttackCurrentTarget();
+        primaryWeapon.DoAttack();
+    }
 }
