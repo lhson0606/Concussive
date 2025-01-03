@@ -46,7 +46,7 @@ public class BlazeFireBreath : BaseWeapon
         Vector3 direction = owner.LookDir;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         BlazeFireBall blazeFireBall = Instantiate(blazeFireBallProjectilePrefab, transform.position, Quaternion.Euler(0, 0, angle)).GetComponent<BlazeFireBall>();
-        blazeFireBall.SetAllNecessities(owner.LookDir, this);
+        blazeFireBall.SetAllNecessities(owner.LookDir, this, true);
         blazeFireBall.Launch();
     }
 }

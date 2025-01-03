@@ -114,7 +114,7 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         Destroy(gameObject);
     }
 
-    internal void SetDirection(Vector2 direction)
+    internal void SetDirection(Vector2 direction, bool adjustRotation = false)
     {
         if(damageSource == null)
         {
@@ -123,9 +123,12 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
         this.direction = damageSource.GetDispersedLookDir(direction);
 
-        // rotate the projectile to face the direction
-        float angle = Mathf.Atan2(this.direction.y, this.direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        //// rotate the projectile to face the direction
+        if(adjustRotation)
+        {
+            float angle = Mathf.Atan2(this.direction.y, this.direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 
     internal void SetParentWeapon(BaseWeapon parentWeapon)
@@ -205,9 +208,9 @@ public class BaseProjectile : SlowMotionObject, IDamageable
         // Implement specific hit logic in derived classes
     }
 
-    public void SetAllNecessities(Vector2 direction, BaseWeapon parentWeapon)
+    public void SetAllNecessities(Vector2 direction, BaseWeapon parentWeapon, bool adjustRotation = false)
     {
         SetParentWeapon(parentWeapon);
-        SetDirection(direction);
+        SetDirection(direction, adjustRotation);
     }
 }
