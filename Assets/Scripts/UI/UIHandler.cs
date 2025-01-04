@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UIHandler : MonoBehaviour
 {
+    public UIDocument uiDocument;
     private VisualElement UI_Healthbar;
     private VisualElement UI_PrimaryWeapon;
     private VisualElement UI_SecondaryWeapon;
@@ -13,7 +15,7 @@ public class UIHandler : MonoBehaviour
     public static UIHandler instance { get; private set; }
 
     private BaseCharacter baseCharacter; // Class-level variable
-
+    private Label UI_CoinsCounter;
     // Awake is called when the script instance is being loaded (in this situation, when the game scene loads)
     private void Awake()
     {
@@ -28,7 +30,7 @@ public class UIHandler : MonoBehaviour
         UI_PrimaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("PrimaryWeapon");
         UI_SecondaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
         SkillIcon = uiDocument.rootVisualElement.Q<VisualElement>("Skill");
-
+        UI_CoinsCounter = uiDocument.rootVisualElement.Q<Label>("CoinsCounter");
         SkillCooldownOverlay = new VisualElement();
         SkillCooldownOverlay.style.backgroundColor = new StyleColor(Color.gray);
         SkillCooldownOverlay.style.position = Position.Absolute;
@@ -37,8 +39,6 @@ public class UIHandler : MonoBehaviour
         SkillCooldownOverlay.style.right = 0;
         SkillCooldownOverlay.style.bottom = 0;
         SkillCooldownOverlay.style.height = Length.Percent(0);
-        
-        
         SkillIcon.Add(SkillCooldownOverlay);
         // Find the player GameObject with the tag "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -64,6 +64,8 @@ public class UIHandler : MonoBehaviour
                 {
                     SetWeaponSprite(UI_SecondaryWeapon, baseCharacter.GetSecondaryWeapon().GetWeaponSpriteRenderer().sprite);
                 }
+                playerController.OnCoinsChanged += OnCoinsChanged;
+
             }
             else
             {
@@ -75,8 +77,9 @@ public class UIHandler : MonoBehaviour
             Debug.LogError("Player GameObject with tag 'Player' not found.");
         }
 
+        // Initialize the coins count display
 
-        // Initialize the skill cooldown visual element
+
     }
 
     // Update is called once per frame
@@ -100,6 +103,7 @@ public class UIHandler : MonoBehaviour
             Debug.LogError("UI_Healthbar is null. Cannot set health value.");
         }
     }
+
 
     public void SetWeaponSprite(VisualElement weaponElement, Sprite weaponSprite)
     {
@@ -125,6 +129,10 @@ public class UIHandler : MonoBehaviour
         {
             SetWeaponSprite(UI_SecondaryWeapon, secondaryWeapon.GetWeaponSpriteRenderer().sprite);
         }
+    }
+    private void OnCoinsChanged(int amount)
+    {
+        UI_CoinsCounter.text = amount.ToString();
     }
 
     // Method to update the skill cooldown visual element

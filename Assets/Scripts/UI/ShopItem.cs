@@ -1,60 +1,59 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ShopItem : MonoBehaviour
 {
-    [SerializeField] private GameObject ItemImage;
-    [SerializeField] private GameObject ItemName;
-    [SerializeField] private GameObject ItemPrice;
+    public GameItem pickUpPrefab;
+    public string ItemName;
+    public string ItemPrice;
 
-    public string itemName;
-    public int price;
-    public GameObject pickUpPrefab; // Prefab for the PickUpComponent
+    private Image itemImage;
+    private TextMeshProUGUI itemNameText;
+    private TextMeshProUGUI itemPriceText;
 
-    private PickUpComponent selectedPickUp;
-
-    void Start()
+    private void Start()
     {
-        // Set the item name
-        TextMeshProUGUI nameTextComponent = ItemName.GetComponent<TextMeshProUGUI>();
-        if (nameTextComponent != null)
+        // Find the Image component within the nested hierarchy
+        Transform imageTransform = transform.Find("Image/Item");
+        if (imageTransform == null)
         {
-            nameTextComponent.text = itemName;
+            Debug.LogError("GameObject 'Image/Item' not found in the hierarchy");
         }
         else
         {
-            Debug.LogError("TextMeshProUGUI component not found");
-        }
-
-        // Set the item price
-        TextMeshProUGUI priceTextComponent = ItemPrice.GetComponent<TextMeshProUGUI>();
-        if (priceTextComponent != null)
-        {
-            priceTextComponent.text = price.ToString();
-        }
-        else
-        {
-            Debug.LogError("TextMeshProUGUI component not found");
-        }
-
-        // Set the item image from the pickUpPrefab
-        PickUpComponent pickUpComponent = pickUpPrefab.GetComponent<PickUpComponent>();
-        if (pickUpComponent != null)
-        {
-            SpriteRenderer spriteRenderer = pickUpComponent.GetComponentInChildren<SpriteRenderer>();
-            if (spriteRenderer != null)
+            itemImage = imageTransform.GetComponent<Image>();
+            if (itemImage == null)
             {
-                ItemImage.GetComponent<Image>().sprite = spriteRenderer.sprite;
+                Debug.LogError("Image component not found on GameObject 'Image/Item'");
             }
             else
             {
-                Debug.LogError("SpriteRenderer component not found in pickUpPrefab");
+                // Get the SpriteRenderer component from the pickUpPrefab
+                SpriteRenderer spriteRenderer = pickUpPrefab.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    // Update the itemImage with the sprite from the SpriteRenderer
+                    itemImage.sprite = spriteRenderer.sprite;
+                }
+                else
+                {
+                    Debug.LogError("SpriteRenderer component not found on pickUpPrefab");
+                }
             }
         }
-        else
+
+        // Find and set the text components
+        itemNameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
+        itemPriceText = transform.Find("Price").GetComponent<TextMeshProUGUI>();
+
+        if (itemNameText != null)
         {
-            Debug.LogError("PickUpComponent not found on pickUpPrefab");
+            itemNameText.text = ItemName;
+        }
+        if (itemPriceText != null)
+        {
+            itemPriceText.text = ItemPrice;
         }
     }
 
@@ -62,26 +61,18 @@ public class ShopItem : MonoBehaviour
     {
         // Find the player and get their position
         PlayerController playerController = FindObjectOfType<PlayerController>();
-        if (playerController != null)
+        if (playerController.coinsCounter >= int.Parse(ItemPrice))
         {
             Vector3 playerPosition = playerController.transform.position;
 
-            // Instantiate the pickUpPrefab at the player's position
-            GameObject pickUpObject = Instantiate(pickUpPrefab, playerPosition, Quaternion.identity);
-            selectedPickUp = pickUpObject.GetComponent<PickUpComponent>();
+            GameItem newItem = Instantiate(pickUpPrefab, playerPosition, Quaternion.identity);
 
-            if (selectedPickUp == null)
-            {
-                Debug.LogError("PickUpComponent not found on the instantiated prefab");
-                return;
-            }
-
-            // Automatically pick up the item
-            selectedPickUp.OnPickUp();
+            newItem.DropItem(playerPosition);
+            playerController.coinsCounter -= int.Parse(ItemPrice);
         }
         else
         {
-            Debug.LogError("PlayerController not found in the scene");
+            Debug.LogError("Not enough coins to purchase item");
         }
     }
 }
