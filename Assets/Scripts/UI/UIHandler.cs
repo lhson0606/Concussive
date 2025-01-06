@@ -103,44 +103,44 @@ public class UIHandler : MonoBehaviour
     public void SetHealthValue(int currentHealth, int maxHealth)
     {
         if (UI_Healthbar != null)
-    {
-        float percentage = currentHealth / maxHealth;
-        UI_Healthbar.style.width = Length.Percent(100 * percentage);
-        if (UI_HealthText != null)
         {
-            UI_HealthText.text = $"{currentHealth}/{maxHealth}";
+            float percentage = (float)currentHealth / maxHealth * 100;
+            UI_Healthbar.style.width = Length.Percent(percentage);
+            if (UI_HealthText != null)
+            {
+                UI_HealthText.text = $"{currentHealth}/{maxHealth}";
+            }
+            else
+            {
+                Debug.LogError("UI_HealthText is null. Cannot set health text.");
+            }
         }
         else
         {
-            Debug.LogError("UI_HealthText is null. Cannot set health text.");
+            Debug.LogError("UI_Healthbar is null. Cannot set health value.");
         }
     }
-    else
-    {
-        Debug.LogError("UI_Healthbar is null. Cannot set health value.");
-    }
-    }
+
     public void SetArmorValue(int currentArmor, int maxArmor)
     {
         if (UI_Armorbar != null)
-    {
-        float percentage = currentArmor / maxArmor;
-        UI_Armorbar.style.width = Length.Percent(100 * percentage);
-        if (UI_ArmorText != null)
         {
-            UI_ArmorText.text = $"{currentArmor}/{maxArmor}";
+            float percentage = (float)currentArmor / maxArmor * 100;
+            UI_Armorbar.style.width = Length.Percent(percentage);
+            if (UI_ArmorText != null)
+            {
+                UI_ArmorText.text = $"{currentArmor}/{maxArmor}";
+            }
+            else
+            {
+                Debug.LogError("UI_ArmorText is null. Cannot set armor text.");
+            }
         }
         else
         {
-            Debug.LogError("UI_ArmorText is null. Cannot set Armor text.");
+            Debug.LogError("UI_Armorbar is null. Cannot set armor value.");
         }
     }
-    else
-    {
-        Debug.LogError("UI_Armorbar is null. Cannot set Armor value.");
-    }
-    }
-
 
     public void SetWeaponSprite(VisualElement weaponElement, Sprite weaponSprite)
     {
