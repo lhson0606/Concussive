@@ -167,6 +167,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         rb.freezeRotation = true;
 
 
+        SpawnInitialWeapons(initialPrimaryWeapon, secondaryWeaponSlot);
+    }
+
+    public void SpawnInitialWeapons(GameObject primaryPrefab, GameObject secondaryPrefab)
+    {
         if (initialSecondaryWeapon != null)
         {
             BaseWeapon weapon = Instantiate(initialSecondaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();

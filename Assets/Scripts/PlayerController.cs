@@ -298,35 +298,20 @@ public class PlayerController : MonoBehaviour,IDataPersistent
             return;
         }
 
+        GameObject savedPrimaryWeaponPrefab = null;
+        GameObject savedSecondaryWeaponPrefab = null;
+
         if (gameData.primaryWeapon != "")
         {
-            BaseWeapon weapon = Resources.Load<BaseWeapon>("Weapons/" + gameData.primaryWeapon);
-            baseCharacter.SetPrimaryWeapon(weapon);
-
-            if(weapon != null)
-            {
-                Debug.Log("Primary weapon loaded: " + weapon.name);
-            }
-            else
-            {
-                Debug.LogWarning("Primary weapon not found: " + gameData.primaryWeapon);
-            }
+            savedPrimaryWeaponPrefab = Resources.Load<GameObject>("Weapons/" + gameData.primaryWeapon);
         }
 
         if (gameData.secondaryWeapon != "")
         {
-            BaseWeapon weapon = Resources.Load<BaseWeapon>("Weapons/" + gameData.secondaryWeapon);
-            baseCharacter.SetSecondaryWeapon(weapon);
-
-            if (weapon != null)
-            {
-                Debug.Log("Secondary weapon loaded: " + weapon.name);
-            }
-            else
-            {
-                Debug.LogWarning("Secondary weapon not found: " + gameData.secondaryWeapon);
-            }
+            savedSecondaryWeaponPrefab = Resources.Load<GameObject>("Weapons/" + gameData.secondaryWeapon);
         }
+
+        baseCharacter.SpawnInitialWeapons(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
     }
 
     public void SaveData(GameData gameData)
