@@ -999,5 +999,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         secondaryWeapon = weapon;
     }
 
-
+    internal void SetInitialWeaponPrefabs(GameObject savedPrimaryWeaponPrefab, GameObject savedSecondaryWeaponPrefab)
+    {
+        initialPrimaryWeapon = savedPrimaryWeaponPrefab;
+        initialSecondaryWeapon = savedSecondaryWeaponPrefab;
+    }
 }

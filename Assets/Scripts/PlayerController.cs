@@ -325,7 +325,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
             savedSecondaryWeaponPrefab = Resources.Load<GameObject>("Weapons/" + gameData.secondaryWeapon);
         }
 
-        baseCharacter.SpawnInitialWeapons(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
+        baseCharacter.SetInitialWeaponPrefabs(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
     }
 
     public void SaveData(GameData gameData)
