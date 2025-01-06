@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 public class FileDataHandler 
 {
+
     private string dataDirPath = "";
     private string dataFileName = ""; 
 
@@ -20,6 +21,15 @@ public class FileDataHandler
             try
             {
                 string dataAsJson = "";
+                using (FileStream fs = new FileStream(dataPath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(fs))
+                    {
+                        dataAsJson = reader.ReadToEnd();
+                    }
+                }
+
+                gameData = JsonUtility.FromJson<GameData>(dataAsJson);
                 
             }
             catch (System.Exception e)
@@ -28,7 +38,7 @@ public class FileDataHandler
             }
         }
 
-        return new GameData();
+        return gameData;
     }
 
     public void Save(GameData gameData)

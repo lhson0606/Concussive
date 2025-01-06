@@ -983,4 +983,16 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     }
 
     public RaceType Race => race;
+
+    public void SetPrimaryWeapon(BaseWeapon weapon)
+    {
+        primaryWeapon = weapon;
+    }
+
+    public void SetSecondaryWeapon(BaseWeapon weapon)
+    {
+        secondaryWeapon = weapon;
+    }
+
+
 }

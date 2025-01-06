@@ -33,12 +33,15 @@ public class DataPersistentManager : MonoBehaviour
     
     public void NewGame()
     {
-        // Add code here to reset all data to default values
+        Debug.Log("Creating new game data.");
+
         this.gameData = new GameData();
     }
 
     public void LoadGame()
     {
+        Debug.Log("Loading game data.");
+
         this.gameData = this.fileDataHandler.Load();
 
         if(this.gameData == null && debugMode)
@@ -60,6 +63,7 @@ public class DataPersistentManager : MonoBehaviour
 
     public void SaveGame()
     {
+        Debug.Log("Saving game data.");
         if (this.gameData == null)
         {
             Debug.LogWarning("No game data to save.");
@@ -67,7 +71,7 @@ public class DataPersistentManager : MonoBehaviour
         }
         foreach (IDataPersistent dataPersistentObject in this.dataPersistentObjects)
         {
-            dataPersistentObject.SaveData(ref this.gameData);
+            dataPersistentObject.SaveData(this.gameData);
         }   
 
         this.fileDataHandler.Save(this.gameData);
@@ -78,10 +82,10 @@ public class DataPersistentManager : MonoBehaviour
 
     }
 
-    private void OnApplicationQuit()
-    {
-        SaveGame();
-    }
+    // private void OnApplicationQuit()
+    // {
+    //     SaveGame();
+    // }
 
     private List<IDataPersistent> FindAllDataPersistentObjects()
     {
@@ -97,25 +101,19 @@ public class DataPersistentManager : MonoBehaviour
         LoadGame();
     }
 
-    private void OnSceneUnloaded(Scene scene)
-    {
-        SaveGame();
-    }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     public bool hasGameData()
     {
         return this.gameData != null;
     }
+
 }

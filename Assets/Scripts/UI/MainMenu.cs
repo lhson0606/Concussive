@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
         try
         {
             SceneManager.LoadScene(startSceneName);
+            DataPersistentManager.instance.NewGame();
         }
         catch
         {

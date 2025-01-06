@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BaseCharacter))]
 [RequireComponent(typeof(AudioSource))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,IDataPersistent
 {
     private SpriteRenderer spriteRenderer = null;
     private BaseCharacter baseCharacter = null;
@@ -287,5 +288,66 @@ public class PlayerController : MonoBehaviour
         {
             return new Vector2(0, Mathf.Sign(vertical)).normalized;
         }
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        Debug.Log("Loading player data.");
+        if (gameData == null)
+        {
+            return;
+        }
+
+        if (gameData.primaryWeapon != "")
+        {
+            BaseWeapon weapon = Resources.Load<BaseWeapon>("Weapons/" + gameData.primaryWeapon);
+            baseCharacter.SetPrimaryWeapon(weapon);
+
+            if(weapon != null)
+            {
+                Debug.Log("Primary weapon loaded: " + weapon.name);
+            }
+            else
+            {
+                Debug.LogWarning("Primary weapon not found: " + gameData.primaryWeapon);
+            }
+        }
+
+        if (gameData.secondaryWeapon != "")
+        {
+            BaseWeapon weapon = Resources.Load<BaseWeapon>("Weapons/" + gameData.secondaryWeapon);
+            baseCharacter.SetSecondaryWeapon(weapon);
+
+            if (weapon != null)
+            {
+                Debug.Log("Secondary weapon loaded: " + weapon.name);
+            }
+            else
+            {
+                Debug.LogWarning("Secondary weapon not found: " + gameData.secondaryWeapon);
+            }
+        }
+    }
+
+    public void SaveData(GameData gameData)
+    {
+        if (gameData == null)
+        {
+            return;
+        }
+
+        if (baseCharacter.GetPrimaryWeapon() != null)
+        {
+            string primaryWeaponName = baseCharacter.GetPrimaryWeapon().name;
+            gameData.primaryWeapon = primaryWeaponName.Replace("(Clone)", "").Trim();
+        }
+
+        if (baseCharacter.GetSecondaryWeapon() != null)
+        {
+            string secondaryWeaponName = baseCharacter.GetSecondaryWeapon().name;
+            gameData.secondaryWeapon = secondaryWeaponName.Replace("(Clone)", "").Trim();
+        }
+
+        gameData.currentScene = SceneManager.GetActiveScene().name;
     }
 }

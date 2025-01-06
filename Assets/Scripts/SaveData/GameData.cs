@@ -3,10 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    int health;
+    public string primaryWeapon;
+    public string secondaryWeapon;
+    public string currentScene;
 
     public GameData()
     {
-        this.health = 15;
+        primaryWeapon = "";
+        secondaryWeapon = "";
+        currentScene = "";
     }
 }
