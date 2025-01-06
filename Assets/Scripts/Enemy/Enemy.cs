@@ -67,7 +67,7 @@ public class Enemy : BaseCharacter
 
         if (damageSource != null)
         {
-            damageSource.CoolDown = enemyAttackSpeed;
+            damageSource.CoolDown += enemyAttackSpeed;
         }
     }
 
@@ -81,6 +81,7 @@ public class Enemy : BaseCharacter
         isActivated = true;
         OnActivated?.Invoke();
         NotifyCanMoveStateChanged();
+        damageSource?.ApplyRandomCoolDown(0, 4);
     }
 
     internal void Deactivate()
@@ -175,6 +176,7 @@ public class Enemy : BaseCharacter
                 if (GetPrimaryWeapon()?.GetDamageSource().IsCoolDownReset() ?? false)
                 {
                     AttackCurrentTarget();
+                    damageSource?.ApplyRandomExtraRandomCoolDown((int)enemyAttackSpeed, (int)enemyAttackSpeed + 4);
                 }
             } else
             {
@@ -209,7 +211,6 @@ public class Enemy : BaseCharacter
     public virtual void AttackCurrentTarget() 
     {
         LookAtPosition = target.transform.position;
-        // damageSource?.ApplyCoolDown();
     }
 
     private bool isTryingToResetTarget = false;

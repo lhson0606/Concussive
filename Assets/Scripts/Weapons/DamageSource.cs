@@ -310,5 +310,15 @@ public class DamageSource : MonoBehaviour
         Vector2 randomPoint = Random.insideUnitCircle * radius;
         return throwDestination + randomPoint;
     }
+
+    public void ApplyRandomExtraRandomCoolDown(int min, int max)
+    {
+        coolDownTimer = coolDown + Random.Range(min, max);
+    }
+
+    public void ApplyRandomCoolDown(int min, int max)
+    {
+        coolDownTimer = Random.Range(min, max);
+    }
 }
 

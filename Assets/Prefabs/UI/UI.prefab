@@ -860,10 +860,10 @@ RectTransform:
   - {fileID: 7584890219013134366}
   m_Father: {fileID: 826855109150204759}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.1537857, y: -353.23523}
-  m_SizeDelta: {x: 634.308, y: 278.176}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 5.985903, y: 148.45819}
+  m_SizeDelta: {x: 634.308, y: 278.17603}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3318071754926290444
 CanvasRenderer:
@@ -1878,7 +1878,7 @@ PrefabInstance:
     - target: {fileID: 3067590207678850629, guid: a4f276008e5f6ce47b01991a5e75b88c, type: 3}
       propertyPath: pickUpPrefab
       value: 
-      objectReference: {fileID: 4735255238835949506, guid: 192bd23f6cf76a94e9915db0a4aa282e, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3067590207678850629, guid: a4f276008e5f6ce47b01991a5e75b88c, type: 3}
       propertyPath: spritePrefab
       value: 
@@ -2048,7 +2048,7 @@ PrefabInstance:
     - target: {fileID: 3067590207678850629, guid: a4f276008e5f6ce47b01991a5e75b88c, type: 3}
       propertyPath: pickUpPrefab
       value: 
-      objectReference: {fileID: 8087445438139880221, guid: 5a2679f90f5e01b41bdc2252a7523ac4, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3067590207678850629, guid: a4f276008e5f6ce47b01991a5e75b88c, type: 3}
       propertyPath: spritePrefab
       value: 
