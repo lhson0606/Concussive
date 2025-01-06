@@ -135,6 +135,18 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         set { maxHealth = value; }
     }
 
+    public int CurrentArmor
+    {
+        get { return currentArmor; }
+        set { currentArmor = value; }
+    }
+
+    public int MaxArmor
+    {
+        get { return maxArmor; }
+        set { maxArmor = value; }
+    }
+
     public BaseWeapon PrimaryWeapon
     {
         get { return primaryWeapon; }
