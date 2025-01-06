@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     float vertical;
     public delegate void WeaponChangedHandler(BaseWeapon primaryWeapon, BaseWeapon secondaryWeapon);
     public event WeaponChangedHandler OnWeaponChanged;
+    public delegate void CoinsChangedHandler(int amount);
+    public event CoinsChangedHandler OnCoinsChanged;
+
+    public int coinsCounter = 10;
+
     private void Awake()
     {
         baseCharacter = GetComponent<BaseCharacter>();
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
+        // Initialize coinsCount or other necessary components
     }
 
     void Update()
@@ -62,6 +68,7 @@ public class PlayerController : MonoBehaviour
         HandleUseSkill();
         HandleSwitchWeapon();
         OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
+        OnCoinsChanged?.Invoke(coinsCounter);
     }
 
     private void HandleUseSkill()
@@ -224,6 +231,13 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player collected " + coinAmount + " coins");
         string text = $"+{coinAmount} coins";
         baseCharacter.SpawnText(text, Color.yellow, 0.5f, Vector2.up);
+        coinsCounter += coinAmount;
+
+    }
+
+    public void RemoveCoins(int amount)
+    {
+
     }
 
     public Vector3 GetCameraOriginalPosition()

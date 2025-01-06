@@ -149,12 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31bdf5d6366799c49aaba979ed09f699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemImage: {fileID: 4965611171742787638}
-  ItemName: {fileID: 4288539190773657979}
-  ItemPrice: {fileID: 5243955683065512791}
-  itemName: Potion
-  price: 10
-  pickUpPrefab: {fileID: 4735255238835949506, guid: 192bd23f6cf76a94e9915db0a4aa282e, type: 3}
+  pickUpPrefab: {fileID: 8040301080615846241, guid: 192bd23f6cf76a94e9915db0a4aa282e, type: 3}
+  ItemName: 
+  ItemPrice: 
 --- !u!1 &4288539190773657979
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000049355906, y: 42.774506}
+  m_AnchoredPosition: {x: -3.7470236, y: -5.937444}
   m_SizeDelta: {x: 87.002, y: 29.3673}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1292980045391794604
@@ -229,8 +226,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -247,14 +244,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -285,7 +282,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 15.778999, y: 0, z: 14.41876, w: 0}
+  m_margin: {x: 15.778999, y: 0, z: 14.41876, w: 18.493975}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -325,8 +322,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000022411346, y: 2.079677}
-  m_SizeDelta: {x: 71.6946, y: 70.8839}
+  m_AnchoredPosition: {x: -0.15465713, y: 0.91688645}
+  m_SizeDelta: {x: 36.9592, y: 70.8839}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9116752607907483855
 CanvasRenderer:
@@ -400,7 +397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.444943, y: -46.16147}
+  m_AnchoredPosition: {x: -2.3021317, y: -4.9436755}
   m_SizeDelta: {x: 64.0869, y: 32.1306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &404451767731459362
@@ -440,8 +437,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283822335
-  m_fontColor: {r: 1, g: 0.9420077, b: 0.33490568, a: 1}
+    rgba: 4278649087
+  m_fontColor: {r: 1, g: 0, b: 0.027940273, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -465,7 +462,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -496,7 +493,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14.815495, y: 0, z: 19.35707, w: 0}
+  m_margin: {x: 14.815495, y: 19.878128, z: 19.35707, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

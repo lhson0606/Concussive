@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2233876909502225130}
   - component: {fileID: 6571165940221083037}
   - component: {fileID: 5770720571511741102}
+  - component: {fileID: 3925820100299362192}
   m_Layer: 0
   m_Name: BowPrefab
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 5146041445369256103}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.92, y: 0.56, z: 0}
+  m_LocalPosition: {x: -5.5330224, y: 0.66163707, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -413,3 +414,15 @@ MonoBehaviour:
   coolDownMultiplier: 1
   accuracy: 0.8
   dispersion: 10
+--- !u!114 &3925820100299362192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146041445369256103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

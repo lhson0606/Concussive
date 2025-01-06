@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 242362444215848585}
   - component: {fileID: 8040301080615846241}
   - component: {fileID: -1683881852591127213}
+  - component: {fileID: 1278577456506929635}
   m_Layer: 0
   m_Name: HealPotionII
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 4735255238835949506}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2839994, y: 19.7, z: 0}
+  m_LocalPosition: {x: -4.4986644, y: 0.21263914, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -267,6 +268,18 @@ MonoBehaviour:
   usingAudio: {fileID: 8300000, guid: 0fedd9b2ad95b75498d0d20a6dbe3700, type: 3}
   effectPrefab: {fileID: 8728101915008782468, guid: 114b36198c8ab114f9e73377891b8d3e, type: 3}
 --- !u!114 &-1683881852591127213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4735255238835949506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2434c59938396245807deeb10572fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1278577456506929635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
