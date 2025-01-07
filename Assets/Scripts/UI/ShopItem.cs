@@ -11,7 +11,9 @@ public class ShopItem : MonoBehaviour
     private Image itemImage;
     private TextMeshProUGUI itemNameText;
     private TextMeshProUGUI itemPriceText;
-
+    public GameObject overlay; // Reference to the overlay UI element
+    private bool isBought = false;
+    private GameObject panel;
     private void Start()
     {
         // Find the Image component within the nested hierarchy
@@ -46,6 +48,7 @@ public class ShopItem : MonoBehaviour
         // Find and set the text components
         itemNameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
         itemPriceText = transform.Find("Price").GetComponent<TextMeshProUGUI>();
+        panel = transform.Find("Panel").gameObject;
 
         if (itemNameText != null)
         {
@@ -59,6 +62,11 @@ public class ShopItem : MonoBehaviour
 
     public void OnItemClick()
     {
+        if (isBought)
+        {
+            Debug.LogError("Item has already been bought");
+            return;
+        }
         // Find the player and get their position
         PlayerController playerController = FindObjectOfType<PlayerController>();
         if (playerController.coinsCounter >= int.Parse(ItemPrice))
@@ -69,6 +77,8 @@ public class ShopItem : MonoBehaviour
 
             newItem.DropItem(playerPosition);
             playerController.coinsCounter -= int.Parse(ItemPrice);
+            isBought = true;
+            panel.SetActive(true); // Assuming the panel is initially inactive
         }
         else
         {

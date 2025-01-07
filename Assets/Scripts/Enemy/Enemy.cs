@@ -41,6 +41,27 @@ public class Enemy : BaseCharacter
     private bool oldCanSeeTarget = false;
     private bool oldTargetInAttackRange = false;
 
+    private float enemyAttackTimer = 0f;
+
+    private bool WillAttackThisTurn()
+    {
+        if(enemyAttackTimer <= 0)
+        {
+            enemyAttackTimer = enemyAttackSpeed;
+        }
+        else
+        {
+            return false;
+        }
+
+        if (0.6f > UnityEngine.Random.value)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -81,7 +102,6 @@ public class Enemy : BaseCharacter
         isActivated = true;
         OnActivated?.Invoke();
         NotifyCanMoveStateChanged();
-        damageSource?.ApplyRandomCoolDown(0, 4);
     }
 
     internal void Deactivate()
@@ -123,13 +143,18 @@ public class Enemy : BaseCharacter
         return target;
     }
 
-    public virtual void OnEnemyUpdate() { }
+    public virtual void OnEnemyUpdate() 
+    {
+        enemyAttackTimer = Mathf.Max(0, enemyAttackTimer - Time.deltaTime);
+    }
 
     public override void Update()
     {
         base.Update();
 
-        if(!isActivated || IsFreezing || !CanMove())
+        OnEnemyUpdate();
+
+        if (!isActivated || IsFreezing || !CanMove())
         {
             return;
         }
@@ -173,10 +198,9 @@ public class Enemy : BaseCharacter
             if (distance <= attackRadius)
             {
                 isTargetInAttackRange = true;
-                if (GetPrimaryWeapon()?.GetDamageSource().IsCoolDownReset() ?? false)
+                if ((GetPrimaryWeapon()?.GetDamageSource().IsCoolDownReset() ?? false)&& WillAttackThisTurn())
                 {
                     AttackCurrentTarget();
-                    damageSource?.ApplyRandomExtraRandomCoolDown((int)enemyAttackSpeed, (int)enemyAttackSpeed + 4);
                 }
             } else
             {
@@ -204,8 +228,6 @@ public class Enemy : BaseCharacter
         {
             audioSource?.PlayOneShot(idleSound);
         }
-
-        OnEnemyUpdate();
     }
 
     public virtual void AttackCurrentTarget() 

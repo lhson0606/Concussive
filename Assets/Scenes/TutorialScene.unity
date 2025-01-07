@@ -2293,7 +2293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a2bc8d4c814064fbeb44c5a1c96bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  debugMode: 1
   fileName: data.game
 --- !u!1 &728097193
 GameObject:
@@ -5299,6 +5299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68879b40f1deb174f9a24b5081869270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiDocument: {fileID: 0}
 --- !u!1001 &1917489948
 PrefabInstance:
   m_ObjectHideFlags: 0

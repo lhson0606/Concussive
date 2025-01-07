@@ -8,6 +8,9 @@ public class UIHandler : MonoBehaviour
 {
     public UIDocument uiDocument;
     private VisualElement UI_Healthbar;
+    private VisualElement UI_Armorbar;
+    private Label UI_HealthText;
+    private Label UI_ArmorText;
     private VisualElement UI_PrimaryWeapon;
     private VisualElement UI_SecondaryWeapon;
     private VisualElement SkillIcon;
@@ -27,6 +30,10 @@ public class UIHandler : MonoBehaviour
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         UI_Healthbar = uiDocument.rootVisualElement.Q<VisualElement>("Health");
+        UI_Armorbar = uiDocument.rootVisualElement.Q<VisualElement>("Armor");
+        UI_HealthText = uiDocument.rootVisualElement.Q<Label>("HealthText");
+        UI_ArmorText = uiDocument.rootVisualElement.Q<Label>("ArmorText");
+
         UI_PrimaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("PrimaryWeapon");
         UI_SecondaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
         SkillIcon = uiDocument.rootVisualElement.Q<VisualElement>("Skill");
@@ -50,7 +57,7 @@ public class UIHandler : MonoBehaviour
             {
                 baseCharacter = playerController.GetComponent<BaseCharacter>();
                 // Set the health value using the player's currentHealth and maxHealth
-                SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
+                SetHealthValue(baseCharacter.CurrentHealth, baseCharacter.MaxHealth);
 
                 // Subscribe to the OnWeaponChanged event
                 playerController.OnWeaponChanged += OnWeaponChanged;
@@ -88,15 +95,25 @@ public class UIHandler : MonoBehaviour
         if (baseCharacter != null)
         {
             // Set the health value using the player's currentHealth and maxHealth
-            SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
+            SetHealthValue(baseCharacter.CurrentHealth,baseCharacter.MaxHealth);
+            SetArmorValue(baseCharacter.CurrentArmor,baseCharacter.MaxArmor);
         }
     }
 
-    public void SetHealthValue(float percentage)
+    public void SetHealthValue(int currentHealth, int maxHealth)
     {
         if (UI_Healthbar != null)
         {
-            UI_Healthbar.style.width = Length.Percent(100 * percentage);
+            float percentage = (float)currentHealth / maxHealth * 100;
+            UI_Healthbar.style.width = Length.Percent(percentage);
+            if (UI_HealthText != null)
+            {
+                UI_HealthText.text = $"{currentHealth}/{maxHealth}";
+            }
+            else
+            {
+                Debug.LogError("UI_HealthText is null. Cannot set health text.");
+            }
         }
         else
         {
@@ -104,6 +121,26 @@ public class UIHandler : MonoBehaviour
         }
     }
 
+    public void SetArmorValue(int currentArmor, int maxArmor)
+    {
+        if (UI_Armorbar != null)
+        {
+            float percentage = (float)currentArmor / maxArmor * 100;
+            UI_Armorbar.style.width = Length.Percent(percentage);
+            if (UI_ArmorText != null)
+            {
+                UI_ArmorText.text = $"{currentArmor}/{maxArmor}";
+            }
+            else
+            {
+                Debug.LogError("UI_ArmorText is null. Cannot set armor text.");
+            }
+        }
+        else
+        {
+            Debug.LogError("UI_Armorbar is null. Cannot set armor value.");
+        }
+    }
 
     public void SetWeaponSprite(VisualElement weaponElement, Sprite weaponSprite)
     {

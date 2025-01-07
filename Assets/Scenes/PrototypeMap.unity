@@ -4386,6 +4386,10 @@ PrefabInstance:
       propertyPath: pickUpPrefab
       value: 
       objectReference: {fileID: 8040301080615846241, guid: 192bd23f6cf76a94e9915db0a4aa282e, type: 3}
+    - target: {fileID: 2581852974790124187, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2739340447599118442, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: ItemName
       value: katana
@@ -4440,7 +4444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5781554833407109594, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8763650469716980203, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_AnchorMax.x
