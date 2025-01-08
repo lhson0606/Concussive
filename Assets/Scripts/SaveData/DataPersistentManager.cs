@@ -116,4 +116,8 @@ public class DataPersistentManager : MonoBehaviour
         return this.gameData != null;
     }
 
+    public GameData getGameData()
+    {
+        return this.gameData;
+    }
 }
