@@ -28,6 +28,7 @@ public class ExitWay : MonoBehaviour
     {
         if(interactionText != null && Input.GetKeyDown(KeyCode.E))
         {
+            DataPersistentManager.instance.SaveGame();
             SceneManager.LoadScene(sceneName);
         }
     }

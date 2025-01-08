@@ -99,6 +99,7 @@ public class DataPersistentManager : MonoBehaviour
     {
         this.dataPersistentObjects = FindAllDataPersistentObjects();
         LoadGame();
+        SaveGame();
     }
 
     private void OnEnable()

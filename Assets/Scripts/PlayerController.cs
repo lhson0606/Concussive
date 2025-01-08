@@ -326,6 +326,11 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         }
 
         baseCharacter.SetInitialWeaponPrefabs(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
+
+        baseCharacter.SetMaxHealth(gameData.maxHealth);
+        baseCharacter.SetCurrentHealth(gameData.currentHealth);
+        baseCharacter.SetMaxMana(gameData.maxMana);
+        baseCharacter.SetMaxArmor(gameData.maxArmor);
     }
 
     public void SaveData(GameData gameData)
@@ -348,5 +353,10 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         }
 
         gameData.currentScene = SceneManager.GetActiveScene().name;
+
+        gameData.maxHealth = baseCharacter.GetMaxHealth();
+        gameData.currentHealth = baseCharacter.GetCurrentHealth();
+        gameData.maxMana = baseCharacter.GetMaxMana();
+        gameData.maxArmor = baseCharacter.GetMaxArmor();
     }
 }
