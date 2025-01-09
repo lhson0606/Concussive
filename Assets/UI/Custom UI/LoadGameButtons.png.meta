@@ -259,7 +259,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      LoadGameButtons_0: 7683784632648831375
+      LoadGameButtons_1: 5690098874189020887
+      LoadGameButtons_2: -1482853538710559908
+      LoadGameButtons_3: -1292504276223808585
+      LoadGameButtons_4: 200343172662343410
+      LoadGameButtons_5: 7369115200030206540
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

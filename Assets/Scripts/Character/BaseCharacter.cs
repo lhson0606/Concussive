@@ -1008,8 +1008,15 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     internal void SetInitialWeaponPrefabs(GameObject savedPrimaryWeaponPrefab, GameObject savedSecondaryWeaponPrefab)
     {
-        initialPrimaryWeapon = savedPrimaryWeaponPrefab;
-        initialSecondaryWeapon = savedSecondaryWeaponPrefab;
+        if(savedPrimaryWeaponPrefab != null)
+        {
+            initialPrimaryWeapon = savedPrimaryWeaponPrefab;
+        }
+        
+        if(savedSecondaryWeaponPrefab != null)
+        {
+            initialSecondaryWeapon = savedSecondaryWeaponPrefab;
+        }
     }
 
     public int GetMaxHealth()
