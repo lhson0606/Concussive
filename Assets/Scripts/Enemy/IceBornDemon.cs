@@ -5,6 +5,8 @@ public class IceBornDemon : RangedEnemy
     private Animator bodyAnimator;
     private IceBornDemonBody iceBornDemonBody;
 
+    private bool isAttacking = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,12 +18,18 @@ public class IceBornDemon : RangedEnemy
     public override void AttackCurrentTarget()
     {
         base.AttackCurrentTarget();
-        bodyAnimator?.SetTrigger("Attack");
+
+        if(!isAttacking && damageSource.IsCoolDownReset() && HasTarget())
+        {
+            isAttacking = true;
+            bodyAnimator?.SetTrigger("Attack");
+        }
     }
 
     // Call from animation
     public void LaunchIceImpaler()
     {
+        isAttacking = false;
         GetPrimaryWeapon().DoAttack();
     }
 }

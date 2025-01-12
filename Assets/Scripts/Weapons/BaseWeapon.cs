@@ -181,10 +181,6 @@ public class BaseWeapon : GameItem
 
     public virtual void DoAttack()
     {
-        if(!damageSource.IsCoolDownReset())
-        {
-            return;
-        }
         OnAttackStarted();
     }
 

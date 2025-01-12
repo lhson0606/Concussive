@@ -179,6 +179,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         rb.freezeRotation = true;
 
 
+        SpawnInitialWeapons(initialPrimaryWeapon, secondaryWeaponSlot);
+    }
+
+    public void SpawnInitialWeapons(GameObject primaryPrefab, GameObject secondaryPrefab)
+    {
         if (initialSecondaryWeapon != null)
         {
             BaseWeapon weapon = Instantiate(initialSecondaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
@@ -665,7 +670,11 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
                 {
                     DisableMovement();
                     rb.linearVelocity += impulse * pushScale;
-                    StartCoroutine(KnockCo());
+
+                    if(gameObject.active)
+                    {
+                        StartCoroutine(KnockCo());
+                    }
                 }
 
             }
@@ -995,4 +1004,58 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     }
 
     public RaceType Race => race;
+
+
+    internal void SetInitialWeaponPrefabs(GameObject savedPrimaryWeaponPrefab, GameObject savedSecondaryWeaponPrefab)
+    {
+        if(savedPrimaryWeaponPrefab != null)
+        {
+            initialPrimaryWeapon = savedPrimaryWeaponPrefab;
+        }
+        
+        if(savedSecondaryWeaponPrefab != null)
+        {
+            initialSecondaryWeapon = savedSecondaryWeaponPrefab;
+        }
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxArmor()
+    {
+        return maxArmor;
+    }
+
+    public int GetMaxMana()
+    {
+        return maxMana;
+    }
+
+    public void SetMaxHealth(int maxHealth)
+    {
+        this.maxHealth = maxHealth;
+    }
+
+    public void SetCurrentHealth(int currentHealth)
+    {
+        this.currentHealth = currentHealth;
+    }
+
+    public void SetMaxArmor(int maxArmor)
+    {
+        this.maxArmor = maxArmor;
+    }
+
+    public void SetMaxMana(int maxMana)
+    {
+        this.maxMana = maxMana;
+    }
 }

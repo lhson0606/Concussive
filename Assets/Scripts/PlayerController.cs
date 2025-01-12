@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BaseCharacter))]
 [RequireComponent(typeof(AudioSource))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,IDataPersistent
 {
     private SpriteRenderer spriteRenderer = null;
     private BaseCharacter baseCharacter = null;
@@ -303,5 +304,61 @@ public class PlayerController : MonoBehaviour
         {
             return new Vector2(0, Mathf.Sign(vertical)).normalized;
         }
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        Debug.Log("Loading player data.");
+        if (gameData == null)
+        {
+            return;
+        }
+
+        GameObject savedPrimaryWeaponPrefab = null;
+        GameObject savedSecondaryWeaponPrefab = null;
+
+        if (gameData.primaryWeapon != "")
+        {
+            savedPrimaryWeaponPrefab = Resources.Load<GameObject>("Weapons/" + gameData.primaryWeapon);
+        }
+
+        if (gameData.secondaryWeapon != "")
+        {
+            savedSecondaryWeaponPrefab = Resources.Load<GameObject>("Weapons/" + gameData.secondaryWeapon);
+        }
+
+        baseCharacter.SetInitialWeaponPrefabs(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
+
+        baseCharacter.SetMaxHealth(gameData.maxHealth);
+        baseCharacter.SetCurrentHealth(gameData.currentHealth);
+        baseCharacter.SetMaxMana(gameData.maxMana);
+        baseCharacter.SetMaxArmor(gameData.maxArmor);
+    }
+
+    public void SaveData(GameData gameData)
+    {
+        if (gameData == null)
+        {
+            return;
+        }
+
+        if (baseCharacter.GetPrimaryWeapon() != null)
+        {
+            string primaryWeaponName = baseCharacter.GetPrimaryWeapon().name;
+            gameData.primaryWeapon = primaryWeaponName.Replace("(Clone)", "").Trim();
+        }
+
+        if (baseCharacter.GetSecondaryWeapon() != null)
+        {
+            string secondaryWeaponName = baseCharacter.GetSecondaryWeapon().name;
+            gameData.secondaryWeapon = secondaryWeaponName.Replace("(Clone)", "").Trim();
+        }
+
+        gameData.currentScene = SceneManager.GetActiveScene().name;
+
+        gameData.maxHealth = baseCharacter.GetMaxHealth();
+        gameData.currentHealth = baseCharacter.GetCurrentHealth();
+        gameData.maxMana = baseCharacter.GetMaxMana();
+        gameData.maxArmor = baseCharacter.GetMaxArmor();
     }
 }

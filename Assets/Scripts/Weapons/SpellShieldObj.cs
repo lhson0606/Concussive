@@ -55,7 +55,7 @@ public class SpellShieldObj : MonoBehaviour
 
         if(projectile != null)
         {
-            if (projectile.GetOwner()?.tag == owner?.tag)
+            if (projectile.GetOwner() != null && projectile.GetOwner().tag == owner?.tag)
             {
                 return;
             }
