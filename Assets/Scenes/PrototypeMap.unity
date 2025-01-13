@@ -4374,6 +4374,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 193683321026818661, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2496309572585600621, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: ItemName
       value: heal
@@ -4444,7 +4448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5781554833407109594, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8763650469716980203, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_AnchorMax.x

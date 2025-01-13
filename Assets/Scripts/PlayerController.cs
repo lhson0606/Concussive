@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
 
     private Vector2 pointerPosition;
     private SkillModule skillModule;
-
+    private Vector2 moveInput;
     float horizontal;
     float vertical;
     public delegate void WeaponChangedHandler(BaseWeapon primaryWeapon, BaseWeapon secondaryWeapon);
@@ -59,9 +59,6 @@ public class PlayerController : MonoBehaviour,IDataPersistent
 
         pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
         //baseCharacter.SetWeaponPointer(pointerPosition);
         HandleMouseClick();
         HandlePickUp();
@@ -71,7 +68,12 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
         OnCoinsChanged?.Invoke(coinsCounter);
     }
-
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 newmoveInput = context.ReadValue<Vector2>();
+        horizontal = newmoveInput.x;
+        vertical = newmoveInput.y;
+    }
     private void HandleUseSkill()
     {
         if(Input.GetKeyDown(KeyCode.F))
