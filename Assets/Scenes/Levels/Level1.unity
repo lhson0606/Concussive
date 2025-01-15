@@ -30528,6 +30528,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1680239286520979124, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+      propertyPath: m_Text
+      value: H
+      objectReference: {fileID: 0}
     - target: {fileID: 2496309572585600621, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: ItemName
       value: Potion
@@ -30560,6 +30564,10 @@ PrefabInstance:
       propertyPath: pickUpPrefab
       value: 
       objectReference: {fileID: 2233876909502225130, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}
+    - target: {fileID: 4787412755615521125, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+      propertyPath: m_Text
+      value: Interact
+      objectReference: {fileID: 0}
     - target: {fileID: 5002040783250739087, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 389
@@ -30615,6 +30623,10 @@ PrefabInstance:
     - target: {fileID: 7825667638537929651, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -20.170221
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835485240755604149, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
