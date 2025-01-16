@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ContinueMenu : MonoBehaviour
 {
     public TMP_Text levelNameText;
+    public TMP_Text coinText;
     public Image primaryWeaponImage;
     public Image secondaryWeaponImage;
     private GameData gameData;
@@ -20,6 +21,7 @@ public class ContinueMenu : MonoBehaviour
         levelNameText.text = gameData.currentScene;
 
         LoadWeaponSprites();
+        coinText.text = gameData.coinAmount.ToString();
         
     }
 

@@ -28477,6 +28477,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8910748178116176968, guid: 6fa6fe45e19d40e4891515a09b9b193f, type: 3}
   m_PrefabInstance: {fileID: 897953763}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1536346258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8600666750182471242, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+  m_PrefabInstance: {fileID: 419276032838664468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1541787135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4422196523893523294, guid: ccacfe9af8c5b954cbad96112c405b40, type: 3}
@@ -30807,7 +30818,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3096621093522033297, guid: 8c8812b3cf001ef40bafd23facb0d290, type: 3}
       propertyPath: sceneName
-      value: Level2
+      value: StoryScene1
       objectReference: {fileID: 0}
     - target: {fileID: 4953537701404054573, guid: 8c8812b3cf001ef40bafd23facb0d290, type: 3}
       propertyPath: m_Name
@@ -31127,7 +31138,7 @@ PrefabInstance:
     - target: {fileID: 4358151108918253132, guid: ddfa72a8dcebaf647bda3dd31358eda1, type: 3}
       propertyPath: displayName
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1536346258}
     - target: {fileID: 4358151108918253132, guid: ddfa72a8dcebaf647bda3dd31358eda1, type: 3}
       propertyPath: nameTextBox
       value: 

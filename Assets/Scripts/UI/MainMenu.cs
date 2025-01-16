@@ -25,6 +25,7 @@ public class MainMenu : MonoBehaviour
         try
         {
             DataPersistentManager.instance.NewGame();
+            DataPersistentManager.instance.SaveGame();
             SceneManager.LoadScene(startSceneName);
         }
         catch

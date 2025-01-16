@@ -468,6 +468,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6856850758715895193, guid: 798595458d489d84c98f2b7423f7ef86, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8565934845893885753, guid: 798595458d489d84c98f2b7423f7ef86, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
