@@ -329,10 +329,10 @@ public class PlayerController : MonoBehaviour,IDataPersistent
 
         baseCharacter.SetInitialWeaponPrefabs(savedPrimaryWeaponPrefab, savedSecondaryWeaponPrefab);
 
-        baseCharacter.SetMaxHealth(gameData.maxHealth);
-        baseCharacter.SetCurrentHealth(gameData.currentHealth);
+        baseCharacter.MaxHealth = gameData.maxHealth;
+        baseCharacter.CurrentHealth = gameData.currentHealth;
         baseCharacter.SetMaxMana(gameData.maxMana);
-        baseCharacter.SetMaxArmor(gameData.maxArmor);
+        baseCharacter.MaxArmor = gameData.maxArmor;
         coinsCounter = gameData.coinAmount;
     }
 
@@ -357,10 +357,10 @@ public class PlayerController : MonoBehaviour,IDataPersistent
 
         gameData.currentScene = SceneManager.GetActiveScene().name;
 
-        gameData.maxHealth = baseCharacter.GetMaxHealth();
-        gameData.currentHealth = baseCharacter.GetCurrentHealth();
+        gameData.maxHealth = baseCharacter.MaxHealth;
+        gameData.currentHealth = baseCharacter.CurrentHealth;
         gameData.maxMana = baseCharacter.GetMaxMana();
-        gameData.maxArmor = baseCharacter.GetMaxArmor();
+        gameData.maxArmor = baseCharacter.MaxArmor;
         gameData.coinAmount = coinsCounter;
     }
 }

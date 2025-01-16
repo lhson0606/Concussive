@@ -157,7 +157,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     public virtual void Start()
     {
-        currentHealth = maxHealth;
+        if(currentHealth == 0)
+        {
+            currentHealth = maxHealth;
+        }
         currentArmor = maxArmor;
         currentMana = maxMana;
         primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
@@ -1019,39 +1022,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
-    public int GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public int GetMaxArmor()
-    {
-        return maxArmor;
-    }
 
     public int GetMaxMana()
     {
         return maxMana;
-    }
-
-    public void SetMaxHealth(int maxHealth)
-    {
-        this.maxHealth = maxHealth;
-    }
-
-    public void SetCurrentHealth(int currentHealth)
-    {
-        this.currentHealth = currentHealth;
-    }
-
-    public void SetMaxArmor(int maxArmor)
-    {
-        this.maxArmor = maxArmor;
     }
 
     public void SetMaxMana(int maxMana)
