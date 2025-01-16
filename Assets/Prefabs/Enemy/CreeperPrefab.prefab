@@ -210,12 +210,12 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   effectSizeScale: 1
   dropOnDeath: []
-  initialPrimaryWeapon: {fileID: 0}
+  initialPrimaryWeapon: {fileID: 940434163071644959, guid: 136f5c1b42f49ed4d8711082e35ab90e, type: 3}
   initialSecondaryWeapon: {fileID: 0}
   pushable: 1
   pushScale: 1
   canUseArmor: 0
-  forgetTakingDamageDelay: 5
+  isInvulnerable: 0
   currentHealth: 0
   enemyName: 
   chaseRadius: 12
