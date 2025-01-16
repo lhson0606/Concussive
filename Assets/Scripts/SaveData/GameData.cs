@@ -10,6 +10,7 @@ public class GameData
     public int currentHealth;
     public int maxMana;
     public int maxArmor;
+    public int coinAmount;
 
     public GameData()
     {
@@ -20,5 +21,6 @@ public class GameData
         currentHealth = 50;
         maxMana = 200;
         maxArmor = 32;
+        coinAmount = 10;
     }
 }

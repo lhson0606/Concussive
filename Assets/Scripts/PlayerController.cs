@@ -333,6 +333,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         baseCharacter.SetCurrentHealth(gameData.currentHealth);
         baseCharacter.SetMaxMana(gameData.maxMana);
         baseCharacter.SetMaxArmor(gameData.maxArmor);
+        coinsCounter = gameData.coinAmount;
     }
 
     public void SaveData(GameData gameData)
@@ -360,5 +361,6 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         gameData.currentHealth = baseCharacter.GetCurrentHealth();
         gameData.maxMana = baseCharacter.GetMaxMana();
         gameData.maxArmor = baseCharacter.GetMaxArmor();
+        gameData.coinAmount = coinsCounter;
     }
 }
