@@ -16,9 +16,9 @@ public class GameData
         primaryWeapon = "";
         secondaryWeapon = "";
         currentScene = "";
-        maxHealth = 7;
-        currentHealth = 7;
+        maxHealth = 50;
+        currentHealth = 50;
         maxMana = 200;
-        maxArmor = 3;
+        maxArmor = 32;
     }
 }
