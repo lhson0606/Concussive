@@ -167,17 +167,20 @@ public class PlayerController : MonoBehaviour,IDataPersistent
     }
     public void OnPickUp(InputAction.CallbackContext context)
     {
-        float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
-                if (distance <= pickUpRange)
+        if (selectedPickUp != null)
+        {
+            float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
+            if (distance <= pickUpRange)
+            {
+                BaseWeapon newWeapon = selectedPickUp.GetComponent<BaseWeapon>();
+                if (newWeapon != null)
                 {
-                    BaseWeapon newWeapon = selectedPickUp.GetComponent<BaseWeapon>();
-                    if (newWeapon != null)
-                    {
-                        OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
-                    }
-                    selectedPickUp.OnPickUp();
-                    selectedPickUp = null; // Clear the selection after picking up
+                    OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
                 }
+                selectedPickUp.OnPickUp();
+                selectedPickUp = null; // Clear the selection after picking up
+            }
+        }
     }
 
     public IPickUpable GetSelectedPickUp()
