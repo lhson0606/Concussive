@@ -9,6 +9,8 @@ public class CoinController : MonoBehaviour
     private float collectSpeed = 8f;
     [SerializeField]
     bool isCollected = false;
+    [SerializeField]
+    AudioClip collectedSound = null;
 
     private int coinAmount = 1;
 
@@ -48,7 +50,12 @@ public class CoinController : MonoBehaviour
 
         if(DistanceToPlayer() < 0.5f)
         {
-            player.GetComponent<PlayerController>().AddCoins(coinAmount);
+            var playerController = player.GetComponent<PlayerController>();
+            playerController.AddCoins(coinAmount);
+            if(collectedSound != null)
+            {
+                playerController.PlaySound(collectedSound);
+            }
             Destroy(gameObject);
         }
     }
