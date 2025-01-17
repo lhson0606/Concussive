@@ -151,7 +151,7 @@ public partial class PatrolAction : Action
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
         // Move towards the desired position
-        if (navMeshAgent.remainingDistance > stoppingDistance + 3)
+        if (navMeshAgent.remainingDistance > stoppingDistance + 3 && entity.IsPositionInSight(desiredPosition))
         {
             Vector2 direction = (desiredPosition - entity.transform.position).normalized;
             rb.linearVelocity = direction * entity.GetRunSpeed();

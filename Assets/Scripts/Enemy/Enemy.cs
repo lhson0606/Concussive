@@ -248,6 +248,27 @@ public class Enemy : BaseCharacter
         isTryingToResetTarget = false;
     }
 
+    public bool IsPositionInSight(Vector3 position)
+    {
+        Vector2 direction = (position - transform.position).normalized;
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = false; // Ignore trigger colliders
+        contactFilter.SetLayerMask(Physics2D.AllLayers); // Check all layers
+        RaycastHit2D[] hits = new RaycastHit2D[2];
+        int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, chaseRadius);
+        if (hits.Length > 0)
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                if (hits[i].collider.gameObject.tag == "Player")
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private bool IsGameObjectInSight(GameObject target)
     {
         if (target == null)

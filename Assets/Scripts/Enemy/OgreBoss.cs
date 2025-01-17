@@ -21,7 +21,7 @@ public class OgreBoss : Enemy
         SafeAddActivationDelegate(DoBossIntro);
         spear = GetPrimaryWeapon() as SpearScript;
         secondariesModule = GetComponentInChildren<SecondariesModule>();
-        skillModule = GetComponentInChildren<SkillModule>();
+        skillModule = GetComponent<SkillModule>();
         secondariesModule.SetOwner(this);
     }
 

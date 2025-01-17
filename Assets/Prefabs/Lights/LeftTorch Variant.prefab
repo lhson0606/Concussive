@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3363431363336780050, guid: 0a35accbdafe4944e9f07b3d0ccee91c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3430846637171385740, guid: 0a35accbdafe4944e9f07b3d0ccee91c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.13

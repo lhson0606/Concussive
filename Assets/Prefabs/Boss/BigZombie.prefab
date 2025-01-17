@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7972847962931659520}
-  - component: {fileID: 1378212257847090505}
+  - component: {fileID: 6513841340695770804}
   m_Layer: 0
   m_Name: Secondaries
   m_TagString: Untagged
@@ -79,7 +79,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8771722871322875805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1378212257847090505
+--- !u!114 &6513841340695770804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,9 +88,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4805664718018363597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 903b240e9395f52499b9a7042c511c06, type: 3}
+  m_Script: {fileID: 11500000, guid: 483785e9d9d54dc42856ab263be934f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondarySlots:
+  - {fileID: 6047659511505436485, guid: 2aaccc252d4595a419b2f2604de7e47c, type: 3}
+  - {fileID: 5357268263132020357, guid: 1bcf109faf939c04a8e6ec97b39c6cff, type: 3}
 --- !u!1 &6094097162222725848
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,12 +112,11 @@ GameObject:
   - component: {fileID: 633916724188993728}
   - component: {fileID: 3945078295501590458}
   - component: {fileID: 4562649817983818931}
-  - component: {fileID: 3705718410116709692}
   - component: {fileID: 4244801659768375756}
   - component: {fileID: 1500721165298565120}
   m_Layer: 0
   m_Name: BigZombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,7 +129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6094097162222725848}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 18.018217, y: -15.288439, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -226,8 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4448f6d4dc5815e41b037d99f3cbe291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 7
-  maxArmor: 3
+  maxHealth: 300
+  maxArmor: 8
   maxMana: 200
   runSpeed: 2.4
   criticalHitChance: 0.05
@@ -245,8 +247,8 @@ MonoBehaviour:
   initialSecondaryWeapon: {fileID: 0}
   pushable: 1
   pushScale: 1
-  canUseArmor: 0
-  forgetTakingDamageDelay: 5
+  canUseArmor: 1
+  isInvulnerable: 0
   currentHealth: 0
   enemyName: 
   chaseRadius: 12
@@ -381,20 +383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed7759728b92d2c4e83844f0c3bb9b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillPrefabs: []
---- !u!114 &3705718410116709692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094097162222725848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483785e9d9d54dc42856ab263be934f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondarySlots: []
+  skillPrefabs:
+  - {fileID: 59794580308801727, guid: acc913fef4a89f24eb647b4a5bde2c9e, type: 3}
 --- !u!82 &4244801659768375756
 AudioSource:
   m_ObjectHideFlags: 0
@@ -518,7 +508,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &8701422666198270813
 GameObject:
   m_ObjectHideFlags: 0
