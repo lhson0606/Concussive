@@ -1,49 +1,34 @@
 fileFormatVersion: 2
-guid: 310a4fe788a6a4b4d978aea2b1f1123d
+guid: e83b7c19d347c1441b84014699f5f444
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6707965084828699773
-    second: rpg (3)_0
+      213: 1470995323240339367
+    second: beer (3)_0
   - first:
-      213: -7955175320632232616
-    second: rpg (3)_1
+      213: -7505468387283276030
+    second: beer (3)_1
   - first:
-      213: -2942587771640431532
-    second: rpg (3)_2
+      213: -3674850649947333108
+    second: beer (3)_2
   - first:
-      213: 5013830423694628282
-    second: rpg (3)_3
+      213: 1655849542514299588
+    second: beer (3)_3
   - first:
-      213: 71182119554223738
-    second: rpg (3)_4
+      213: 8406757561251631448
+    second: beer (3)_4
   - first:
-      213: -9206690260012632974
-    second: rpg (3)_5
+      213: -3228474935746667187
+    second: beer (3)_5
   - first:
-      213: 3356484417987323099
-    second: rpg (3)_6
+      213: -3587042056442192171
+    second: beer (3)_6
   - first:
-      213: 4260185826969935545
-    second: rpg (3)_7
+      213: -1984100278566368864
+    second: beer (3)_7
   - first:
-      213: 7969456246921106313
-    second: rpg (3)_8
-  - first:
-      213: 8887833878618507132
-    second: rpg (3)_9
-  - first:
-      213: -1204597991796962579
-    second: rpg (3)_10
-  - first:
-      213: 8480775214534841379
-    second: rpg (3)_11
-  - first:
-      213: -5883095937588325545
-    second: rpg (3)_12
-  - first:
-      213: -1979180230553804505
-    second: rpg (3)_13
+      213: 1936615516676553229
+    second: beer (3)_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -135,17 +120,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rpg (3)_0
+      name: beer (3)_0
       rect:
         serializedVersion: 2
-        x: 39
-        y: 65
-        width: 68
-        height: 9
+        x: 8
+        y: 110
+        width: 14
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,218 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7c00fe44ba771d50800000000000000
-      internalID: 6707965084828699773
+      spriteID: 7a7500ce3760a6410800000000000000
+      internalID: 1470995323240339367
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rpg (3)_1
+      name: beer (3)_1
       rect:
         serializedVersion: 2
-        x: 108
-        y: 65
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 855f2c7b13a899190800000000000000
-      internalID: -7955175320632232616
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_2
-      rect:
-        serializedVersion: 2
-        x: 118
-        y: 65
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 45cb6fe1304d927d0800000000000000
-      internalID: -2942587771640431532
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_3
-      rect:
-        serializedVersion: 2
-        x: 123
-        y: 65
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ab55d58b434b49540800000000000000
-      internalID: 5013830423694628282
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_4
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 53
-        width: 68
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a7e8366b2c3ecf000800000000000000
-      internalID: 71182119554223738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_5
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 45
-        width: 68
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 274f5e6dcf34b3080800000000000000
-      internalID: -9206690260012632974
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_6
-      rect:
-        serializedVersion: 2
-        x: 108
-        y: 53
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd4a4447bc0a49e20800000000000000
-      internalID: 3356484417987323099
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_7
-      rect:
-        serializedVersion: 2
-        x: 108
-        y: 45
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9be52bd20783f1b30800000000000000
-      internalID: 4260185826969935545
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_8
-      rect:
-        serializedVersion: 2
-        x: 113
-        y: 45
-        width: 11
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 98310ca8b32399e60800000000000000
-      internalID: 7969456246921106313
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_9
-      rect:
-        serializedVersion: 2
-        x: 118
-        y: 37
-        width: 11
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c770db5a2dde75b70800000000000000
-      internalID: 8887833878618507132
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rpg (3)_10
-      rect:
-        serializedVersion: 2
-        x: 121
-        y: 53
+        x: 22
+        y: 110
         width: 10
-        height: 9
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -374,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dea0bc93288684fe0800000000000000
-      internalID: -1204597991796962579
+      spriteID: 20f6e07744837d790800000000000000
+      internalID: -7505468387283276030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rpg (3)_11
+      name: beer (3)_2
       rect:
         serializedVersion: 2
-        x: 127
-        y: 45
+        x: 32
+        y: 110
         width: 8
-        height: 17
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -396,20 +196,86 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3245942ef14c1b570800000000000000
-      internalID: 8480775214534841379
+      spriteID: c0e9647ddce400dc0800000000000000
+      internalID: -3674850649947333108
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rpg (3)_12
+      name: beer (3)_3
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 84
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c2de07c262caf610800000000000000
+      internalID: 1655849542514299588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beer (3)_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 84
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8519b37067dcaa470800000000000000
+      internalID: 8406757561251631448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beer (3)_5
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 84
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4d5190b6272233d0800000000000000
+      internalID: -3228474935746667187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beer (3)_6
       rect:
         serializedVersion: 2
         x: 39
-        y: 37
-        width: 68
-        height: 9
+        y: 84
+        width: 10
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -418,20 +284,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 753118c2a6b0b5ea0800000000000000
-      internalID: -5883095937588325545
+      spriteID: 5de506f2144483ec0800000000000000
+      internalID: -3587042056442192171
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rpg (3)_13
+      name: beer (3)_7
       rect:
         serializedVersion: 2
-        x: 108
-        y: 37
-        width: 11
-        height: 9
+        x: 50
+        y: 84
+        width: 10
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -440,8 +306,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7216d53011a8884e0800000000000000
-      internalID: -1979180230553804505
+      spriteID: 0a94c411f4f0774e0800000000000000
+      internalID: -1984100278566368864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beer (3)_8
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 84
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0af3024d8d30ea10800000000000000
+      internalID: 1936615516676553229
       vertices: []
       indices: 
       edges: []
@@ -457,21 +345,18 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      rpg (3)_0: 6707965084828699773
-      rpg (3)_1: -7955175320632232616
-      rpg (3)_10: -1204597991796962579
-      rpg (3)_11: 8480775214534841379
-      rpg (3)_12: -5883095937588325545
-      rpg (3)_13: -1979180230553804505
-      rpg (3)_2: -2942587771640431532
-      rpg (3)_3: 5013830423694628282
-      rpg (3)_4: 71182119554223738
-      rpg (3)_5: -9206690260012632974
-      rpg (3)_6: 3356484417987323099
-      rpg (3)_7: 4260185826969935545
-      rpg (3)_8: 7969456246921106313
-      rpg (3)_9: 8887833878618507132
+      beer (3)_0: 1470995323240339367
+      beer (3)_1: -7505468387283276030
+      beer (3)_2: -3674850649947333108
+      beer (3)_3: 1655849542514299588
+      beer (3)_4: 8406757561251631448
+      beer (3)_5: -3228474935746667187
+      beer (3)_6: -3587042056442192171
+      beer (3)_7: -1984100278566368864
+      beer (3)_8: 1936615516676553229
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
