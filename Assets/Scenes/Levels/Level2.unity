@@ -1127,6 +1127,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4615792865534151208, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
+      propertyPath: dieScreen
+      value: 
+      objectReference: {fileID: 1407309318}
+    - target: {fileID: 4615792865534151208, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
       propertyPath: maxHealth
       value: 50
       objectReference: {fileID: 0}
@@ -8368,6 +8372,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3221937604317335003, guid: 753766941f80ddd41829bb2de68b0131, type: 3}
   m_PrefabInstance: {fileID: 1044063834}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1407309318 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2815215702086904802, guid: c0d7be5466fe38e4789836da7122708e, type: 3}
+  m_PrefabInstance: {fileID: 168178308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4052be299fba549804f0d0be497872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1408692441
 GameObject:
   m_ObjectHideFlags: 0

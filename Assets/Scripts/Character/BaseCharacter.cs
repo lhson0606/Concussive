@@ -88,7 +88,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     private bool isTakingDamage = false;
 
     protected SimpleFlashEffect flashEffect;
-
+    
+    [SerializeField] private DieScreen dieScreen;
     public Vector2 LookDir 
     { 
         get
@@ -326,7 +327,21 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         if (gameObject.tag == "Player")
         {
+
+            // Find the camera attached to the player
+            Camera playerCamera = GetComponentInChildren<Camera>();
+            if (playerCamera != null)
+            {
+                // Detach the camera
+                playerCamera.transform.parent = null;
+            }
+
+            // Deactivate the player game object
             gameObject.SetActive(false);
+            if (dieScreen != null)
+            {
+                dieScreen.ShowDieScreen();
+            }
             return;
         }
 
