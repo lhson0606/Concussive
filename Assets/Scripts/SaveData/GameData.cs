@@ -10,15 +10,17 @@ public class GameData
     public int currentHealth;
     public int maxMana;
     public int maxArmor;
+    public int coinAmount;
 
     public GameData()
     {
         primaryWeapon = "";
         secondaryWeapon = "";
         currentScene = "";
-        maxHealth = 7;
-        currentHealth = 7;
+        maxHealth = 50;
+        currentHealth = 50;
         maxMana = 200;
-        maxArmor = 3;
+        maxArmor = 32;
+        coinAmount = 10;
     }
 }

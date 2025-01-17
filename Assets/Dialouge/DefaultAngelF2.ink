@@ -1,0 +1,1 @@
+Hi vọng ánh sáng nhỏ nhoi này sẽ giúp được ngươi #speaker:Angel

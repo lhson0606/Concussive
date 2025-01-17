@@ -359,7 +359,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   criticalChance: 1
   criticalMultiplier: 0
-  damage: 10
+  damage: 16
   hasPushEffect: 1
   pushScale: 2
   damageType: 2

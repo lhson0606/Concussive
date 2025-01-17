@@ -325,10 +325,10 @@ RectTransform:
   - {fileID: 623032928}
   m_Father: {fileID: 1744559929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -400.00003, y: -225.1852}
-  m_SizeDelta: {x: 38.399998, y: 21.599998}
+  m_SizeDelta: {x: -761.6, y: -428.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &302872314
 GameObject:

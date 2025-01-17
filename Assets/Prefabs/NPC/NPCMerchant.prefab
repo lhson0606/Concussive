@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8506223608558198343}
   - component: {fileID: 2634549503236068973}
   m_Layer: 0
-  m_Name: doc_idle_anim_f0
+  m_Name: NPCMerchant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

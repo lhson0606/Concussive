@@ -58,7 +58,9 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected float pushScale = 1f;
     [SerializeField]
     private bool canUseArmor = false;
-    
+    [SerializeField]
+    private bool isInvulnerable = false;
+
     private float forgetTakingDamageDelay = 5f;
 
     protected List<Effect> effects = new List<Effect>();
@@ -740,16 +742,25 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         }
     }
 
-    private void ApplyDamageWithArmor(int amount, bool isCritical, bool ignoreArmor = false)
+    private void ReduceHealth(int amount)
     {
-        if(!canUseArmor || ignoreArmor)
+        if(!isInvulnerable)
         {
             currentHealth = (int)Math.Max(0, currentHealth - amount);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void ApplyDamageWithArmor(int amount, bool isCritical, bool ignoreArmor = false)
+    {
+        if (!canUseArmor || ignoreArmor)
+        {
+            ReduceHealth(amount);
             SpawnDamageText(amount, 0, isCritical);
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
             return;
         }
 
@@ -791,12 +802,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         SpawnDamageText(healthLoss, armorLoss, isCritical);
 
         // deal damage to health
-        currentHealth = (int)Math.Max(0, currentHealth - amount);
-
-        if(currentHealth <= 0)
-        {
-            Die();
-        }
+        ReduceHealth(healthLoss);
     }
 
     public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)

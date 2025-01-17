@@ -1,0 +1,1 @@
+Tiến lên nào hiệp sĩ trẻ, chứng minh bản thân ở tầng sâu nhất của hầm ngục đi #speaker:Dwarf2
