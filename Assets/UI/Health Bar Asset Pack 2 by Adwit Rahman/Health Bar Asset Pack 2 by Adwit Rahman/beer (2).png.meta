@@ -407,6 +407,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
       beer (2)_0: -4152737581263048874
       beer (2)_1: -547270626139911523

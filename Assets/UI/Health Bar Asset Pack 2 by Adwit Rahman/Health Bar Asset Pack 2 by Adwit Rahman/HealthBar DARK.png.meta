@@ -382,6 +382,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
       HealthBar DARK_0: 855109145746902920
       HealthBar DARK_1: 1671030921758915942

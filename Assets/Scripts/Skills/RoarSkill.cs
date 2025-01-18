@@ -18,6 +18,5 @@ public class RoarSkill : BaseSkill
         if(roarSound != null)
             AudioUtils.PlayAudioClipAtPoint(roarSound, owner.transform.position);
         owner.GetComponent<BaseCharacter>().Heal(64);
-        owner.IsTa
     }
 }

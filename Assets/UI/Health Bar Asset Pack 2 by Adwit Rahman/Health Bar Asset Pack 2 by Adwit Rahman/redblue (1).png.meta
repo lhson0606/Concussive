@@ -157,6 +157,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
       redblue (1)_0: -7816208775310603739
       redblue (1)_1: -1469808387573340603

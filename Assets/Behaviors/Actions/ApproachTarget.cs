@@ -53,7 +53,7 @@ public partial class ApproachPlayerAction : Action
 
         navMeshAgent.SetDestination(entity.GetCurrentTarget().transform.position);
 
-        if (navMeshAgent.remainingDistance > stoppingDistance + 3)
+        if (navMeshAgent.remainingDistance > stoppingDistance + 3 && entity.IsTargetInSight())
         {
             Vector3 desiredPosition = entity.GetCurrentTarget().transform.position;
             Vector2 direction = (desiredPosition - entity.transform.position).normalized;
