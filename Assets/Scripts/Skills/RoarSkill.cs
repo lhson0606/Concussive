@@ -14,10 +14,6 @@ public class RoarSkill : BaseSkill
     public override void OnUse()
     {
         base.OnUse();
-        if (!IsReady())
-        {
-            return;
-        }
         shockWaveController.DoShockWave(owner.transform.position, 1f, 1f);
         if(roarSound != null)
             AudioUtils.PlayAudioClipAtPoint(roarSound, owner.transform.position);

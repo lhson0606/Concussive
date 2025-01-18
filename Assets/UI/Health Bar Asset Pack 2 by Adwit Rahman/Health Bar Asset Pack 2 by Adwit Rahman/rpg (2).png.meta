@@ -157,6 +157,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
       rpg (2)_0: -1567821731857660092
       rpg (2)_1: 8126780781496270720

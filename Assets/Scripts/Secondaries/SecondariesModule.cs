@@ -53,6 +53,7 @@ public class SecondariesModule : MonoBehaviour
             if (secondary.gameObject.GetComponent<DamageSource>().IsCoolDownReset())
             {
                 secondary.DoAttack();
+                secondary.GetDamageSource().ApplyCoolDown();
             }
         }
     }
@@ -68,11 +69,9 @@ public class SecondariesModule : MonoBehaviour
                 if(UnityEngine.Random.value < probability)
                 {
                     secondary.DoAttack();
+                    //secondary.GetDamageSource().ApplyCoolDown();
                 }
-                else
-                {
-                    secondary.GetDamageSource().ApplyCoolDown();
-                }
+                secondary.GetDamageSource().ApplyCoolDown();
             }
         }
     }

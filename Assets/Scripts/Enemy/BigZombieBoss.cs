@@ -20,7 +20,7 @@ public class BigZombieBoss : Enemy
         {
             // use skill with probability
             bool hasUsed = skillModule.UseRandomSkillWithProbability(0.3f);
-            secondariesModule.AimAndFireWithProbability(0.8f);
+            secondariesModule.AimAndFireWithProbability(0.4f);
 
             if (hasUsed)
             {

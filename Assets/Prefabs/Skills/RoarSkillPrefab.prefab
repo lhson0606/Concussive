@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Roar!!!
   flashScreenPrefab: {fileID: 0}
-  cooldown: 3
+  cooldown: 8
   roarSound: {fileID: 8300000, guid: acad67b88df2b674b9e927e6db49034f, type: 3}
