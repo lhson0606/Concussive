@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.GraphicsBuffer;
@@ -22,7 +24,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     [SerializeField]
     protected int maxMana = 200;
     [SerializeField]
-    protected float runSpeed = 240.0f;
+    protected float runSpeed = 2.4f;
     [SerializeField]
     protected float criticalHitChance = 0.05f;
     [SerializeField]
@@ -49,8 +51,21 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected GameObject initialPrimaryWeapon = null;
     [SerializeField]
     protected GameObject initialSecondaryWeapon = null;
+    [SerializeField]
+    protected bool pushable = true;
+    [SerializeField]
+    [Range(0, 1)]
+    protected float pushScale = 1f;
+    [SerializeField]
+    private bool canUseArmor = false;
+    [SerializeField]
+    private bool isInvulnerable = false;
+
+    private float forgetTakingDamageDelay = 5f;
 
     protected List<Effect> effects = new List<Effect>();
+    protected List<EffectType> effectTypes = new List<EffectType>();
+
     protected Dictionary<BuffType, List<Buff>> buffs = new Dictionary<BuffType, List<Buff>>();
 
     [SerializeField] protected int currentHealth;
@@ -66,16 +81,29 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected AudioSource audioSource;
     protected Animator animator = null;
     protected Rigidbody2D rb = null;
+    private NavMeshAgent navMeshAgent;
+    private Coroutine impulseCoroutine = null;
+    private Coroutine armorRecoveryCoroutine = null;
+    private Coroutine forgetTakingDamageCoroutine = null;
+    private bool isTakingDamage = false;
 
     protected SimpleFlashEffect flashEffect;
 
-    public Vector2 LookDir { get; private set; }
+    public Vector2 LookDir 
+    { 
+        get
+        {
+            return LookAtPosition - (Vector2)transform.position;
+        } 
+    }
+
     public Vector2 LookAtPosition { get; set; }
 
     public bool IsAttacking { get; set; } = false;
     public bool IsMovementEnabled { get; set; } = true;
     private float freezeTimeLeft = 0f;
     public bool IsFreezing { get; set; } = false;
+    public bool IsDead { get; set; } = false;
 
     protected bool isHurt = false;
 
@@ -83,6 +111,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     protected event Action<DamageData> OnHurt;
     public event Action OnDeath;
     protected event Action<bool> OnCanMoveStateChanged;
+    protected event Action<float> OnSpeedChange;
 
     public void SetIsHurtTrue()
     {
@@ -108,6 +137,18 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         set { maxHealth = value; }
     }
 
+    public int CurrentArmor
+    {
+        get { return currentArmor; }
+        set { currentArmor = value; }
+    }
+
+    public int MaxArmor
+    {
+        get { return maxArmor; }
+        set { maxArmor = value; }
+    }
+
     public BaseWeapon PrimaryWeapon
     {
         get { return primaryWeapon; }
@@ -118,7 +159,10 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     public virtual void Start()
     {
-        currentHealth = maxHealth;
+        if(currentHealth == 0)
+        {
+            currentHealth = maxHealth;
+        }
         currentArmor = maxArmor;
         currentMana = maxMana;
         primaryWeaponSlot = transform.Find("PrimaryWeapon")?.gameObject;
@@ -130,14 +174,21 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         LookAtPosition = transform.position;
-        LookDir = Vector2.right;
+        // LookDir is set to right by default
+        LookAtPosition = (Vector2)transform.position + Vector2.right;
 
         flashEffect = GetComponent<SimpleFlashEffect>();
 
         rb.freezeRotation = true;
 
 
+        SpawnInitialWeapons(initialPrimaryWeapon, secondaryWeaponSlot);
+    }
+
+    public void SpawnInitialWeapons(GameObject primaryPrefab, GameObject secondaryPrefab)
+    {
         if (initialSecondaryWeapon != null)
         {
             BaseWeapon weapon = Instantiate(initialSecondaryWeapon, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<BaseWeapon>();
@@ -177,23 +228,19 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             return;
         }
 
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-
         if (IsAttacking)
         {
             return;
         }
 
-        LookDir = (LookAtPosition - (Vector2)transform.position).normalized;
+        Vector2 currentLookDir = LookDir;
+        currentLookDir = (LookAtPosition - (Vector2)transform.position).normalized;
 
-        if (LookDir.x < 0)
+        if (currentLookDir.x < 0)
         {
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
         }
-        else if (LookDir.x > 0)
+        else if (currentLookDir.x > 0)
         {
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
@@ -202,15 +249,72 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         {
             weaponControl.PointerPosition = LookAtPosition;
         }
+        UpdateMovingAnimation();
+        CheckArmorRecovery();
+    }
+
+    private void CheckArmorRecovery()
+    {
+        if(canUseArmor && currentArmor < maxArmor)
+        {
+            if(isTakingDamage && forgetTakingDamageCoroutine == null)
+            {
+                forgetTakingDamageCoroutine = StartCoroutine(ForgetTakingDamage());
+            }
+            else if(!isTakingDamage && armorRecoveryCoroutine == null)
+            {
+                armorRecoveryCoroutine = StartCoroutine(RecoverArmor());
+            }
+        }
+    }
+
+    private IEnumerator RecoverArmor()
+    {
+        yield return new WaitForSeconds(0.5f);
+        currentArmor = Math.Min(maxArmor, currentArmor + 1);
+        armorRecoveryCoroutine = null;
+    }
+
+    private IEnumerator ForgetTakingDamage()
+    {
+        if(isTakingDamage == false || forgetTakingDamageCoroutine!=null)
+        {
+            forgetTakingDamageCoroutine = null;
+            yield break;
+        }
+        //delay for forgetTakingDamageDelay
+        yield return new WaitForSeconds(forgetTakingDamageDelay);
+        isTakingDamage = false;
+        forgetTakingDamageCoroutine = null;
+    }
+
+    public virtual void UpdateMovingAnimation()
+    {
+        Vector2 moveVector = rb.linearVelocity;
+        animator?.SetBool("IsMoving", moveVector.magnitude > 0);
     }
 
     public virtual void Die()
     {
+        if(IsDead)
+        {
+            return;
+        }
+
+        IsDead = true;
+
         foreach (GameObject drop in dropOnDeath)
         {
             if (drop != null)
             {
-                Instantiate(drop, transform.position, Quaternion.identity);
+                GameObject dropInstance = Instantiate(drop, transform.position, Quaternion.identity);
+                GameItem gameItem = dropInstance.GetComponent<GameItem>();
+
+                if(gameItem != null)
+                {
+                    Vector2 dropPosition = transform.position;
+                    gameItem.DropItem(dropPosition);
+                }
             }
         }
         OnDeath?.Invoke();
@@ -225,17 +329,45 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             gameObject.SetActive(false);
             return;
         }
-        Destroy(gameObject);
+
+        // make the character invisible and schedule it for destruction
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null)
+        {
+            col.enabled = false;
+        }
+        GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(gameObject, 0.2f);
     }
 
     public void AddEffect(Effect effect)
     {
         effects.Add(effect);
+        effectTypes.Add(effect.EffectType);
+        SpawnEffectText(effect);
     }
 
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
+        effectTypes.Remove(effect.EffectType);
+    }
+
+    public bool HasEffect(Effect effect)
+    {
+        return effectTypes.Contains(effect.effectType);
+    }
+
+    public Effect GetFirstEffectByType(EffectType effectType)
+    {
+        foreach (Effect effect in effects)
+        {
+            if (effect.EffectType == effectType)
+            {
+                return effect;
+            }
+        }
+        return null;
     }
 
     public void Heal(int healingAmount, EffectType healingType = EffectType.HEALING)
@@ -256,42 +388,42 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
     }
 
-    public void SpawnDamageText(DamageData damageData)
-    {
-        if (characterText == null)
-        {
-            return;
-        }
+    //public void SpawnDamageText(DamageData damageData)
+    //{
+    //    if (characterText == null)
+    //    {
+    //        return;
+    //    }
 
-        var color = Color.white;
-        var text = damageData.Damage.ToString();
-        float lifeTime = 0.8f;
-        Vector2 initVel = new Vector2(0, 1);
-        float scale = 1;
+    //    var color = Color.white;
+    //    var text = ((int)damageData.Damage).ToString();
+    //    float lifeTime = 0.8f;
+    //    Vector2 initVel = new Vector2(0, 1);
+    //    float scale = 1;
 
-        if (damageData.SourceElement.IsElemental)
-        {
-            color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
-        }
+    //    if (damageData.SourceElement.IsElemental)
+    //    {
+    //        color = EffectConfig.Instance.GetEffectTextColor(damageData.SourceElement.Effect.EffectType);
+    //    }
 
-        if (damageData.IsCritical)
-        {
-            if(damageData.SourceElement.IsElemental)
-            {
-                String effectName = damageData.SourceElement.Effect.effectName;
-                // Spawn the effect name
-                this.SpawnText(effectName, color, lifeTime, initVel, scale);
-            }
-            else
-            {
-                initVel *= 1.5f;
-                scale = 1.5f;
-                color = Color.red;
-            }
-        }
+    //    if (damageData.IsCritical)
+    //    {
+    //        if(damageData.SourceElement.IsElemental)
+    //        {
+    //            String effectName = damageData.SourceElement.Effect.effectName;
+    //            // Spawn the effect name
+    //            this.SpawnText(effectName, color, lifeTime, initVel, scale);
+    //        }
+    //        else
+    //        {
+    //            initVel *= 1.5f;
+    //            scale = 1.5f;
+    //            color = Color.red;
+    //        }
+    //    }
 
-        this.SpawnText(text, color, lifeTime, initVel, scale);
-    }
+    //    this.SpawnText(text, color, lifeTime, initVel, scale);
+    //}
 
     public void SpawnText(string text, Color color, float lifeTime, Vector2 initVel, float scale = 1)
     {
@@ -501,7 +633,7 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
     {
         flashEffect?.Flash();
 
-        SpawnDamageText(damageData);
+        // SpawnDamageText(damageData);
 
         if (hurtSound && !audioSource.isPlaying)
         {
@@ -512,38 +644,195 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
         OnHurt?.Invoke(damageData);
     }
 
-    public virtual void TakeDamage(DamageData damageData)
+    public virtual void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
-        currentHealth = (int)Math.Max(0, currentHealth - damageData.Damage);
-
-        // Add impulse to the character
-        Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
-        const float pushForce = 8f;
-        Vector2 impulse = dir.normalized * damageData.PushScale * pushForce;
-        if (damageData.IsCritical)
+        if (!isInvisible)
         {
-            impulse *= GetCriticalDamageMultiplier();
+            ApplyDamageWithArmor((int)damageData.Damage, damageData.IsCritical);
         }
 
-        OnDamageTaken(damageData);
-        
-        if(IsMovementEnabled)
+        //if(damageData.IsCritical && damageData.SourceElement.IsElemental)
+        //{
+        //    SpawnEffectText(damageData.SourceElement.Effect);
+        //}
+
+        // Add impulse to the character
+        if (pushable && damageData.PushScale > 0 && !isInvisible)
         {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            
-            if (rb != null && damageData.PushScale > 0)
+            Vector2 dir = damageData.TargetPosition - damageData.SourcePosition;
+            const float pushForce = 8f;
+            Vector2 impulse = dir.normalized * damageData.PushScale * pushForce;
+            if (damageData.IsCritical)
             {
-                DisableMovement();
-                rb.linearVelocity += impulse;
-                StartCoroutine(KnockCo());
-            }           
-            
-        }    
+                impulse *= GetCriticalDamageMultiplier();
+            }
+
+            if (IsMovementEnabled)
+            {
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+                if (rb != null && damageData.PushScale > 0)
+                {
+                    DisableMovement();
+                    rb.linearVelocity += impulse * pushScale;
+
+                    if(gameObject.active)
+                    {
+                        StartCoroutine(KnockCo());
+                    }
+                }
+
+            }
+        }        
+
+        OnDamageTaken(damageData);         
         
         if(currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    private void SpawnDamageText(int healthLoss, int armorLoss, bool isCritical)
+    {
+        if (characterText == null)
+        {
+            return;
+        }
+        var color = Color.white;
+        var text = "";
+        float lifeTime = 0.8f;
+        Vector2 initVel = new Vector2(0, 1);
+        float scale = 1;
+        if (isCritical)
+        {
+            initVel *= 1.5f;
+            scale = 1.15f;
+            color = Color.red;
+        }
+        if (healthLoss > 0)
+        {
+            color = Color.red;
+            text = "-" + healthLoss + " HP";
+            this.SpawnText(text, color, lifeTime, initVel, scale*1.15f);
+        }
+        if (armorLoss > 0)
+        {
+            color = Color.gray;
+            text = "-" + armorLoss + " Armor";
+            this.SpawnText(text, color, lifeTime, initVel, scale);
+        }
+    }
+
+    private void SpawnEffectText(Effect effect)
+    {
+        if(characterText == null)
+        {
+            return;
+        }
+
+        var color = Color.white;
+        var text = "";
+        float lifeTime = 1f;
+        Vector2 initVel = new Vector2(0, 1);
+        float scale = 1.15f;
+
+        if (effect != null)
+        {
+            text = effect.effectName;
+            color = EffectConfig.Instance.GetEffectTextColor(effect.effectType);
+            this.SpawnText(text, color, lifeTime, initVel, scale);
+        }
+    }
+
+    private void ReduceHealth(int amount)
+    {
+        if(!isInvulnerable)
+        {
+            currentHealth = (int)Math.Max(0, currentHealth - amount);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void ApplyDamageWithArmor(int amount, bool isCritical, bool ignoreArmor = false)
+    {
+        if (!canUseArmor || ignoreArmor)
+        {
+            ReduceHealth(amount);
+            SpawnDamageText(amount, 0, isCritical);
+            return;
+        }
+
+        int healthLoss = 0;
+        int armorLoss = 0;
+        int oldArmor = currentArmor;
+        isTakingDamage = true;
+
+        if(forgetTakingDamageCoroutine != null)
+        {
+            StopCoroutine(forgetTakingDamageCoroutine);
+            forgetTakingDamageCoroutine = null;
+        }
+
+        if(armorRecoveryCoroutine != null)
+        {
+            StopCoroutine(armorRecoveryCoroutine);
+            armorRecoveryCoroutine = null;
+        }
+
+        // deal damage to armor first
+        if (currentArmor > 0)
+        {
+            currentArmor -= amount;
+            if (currentArmor < 0)
+            {
+                amount = Math.Abs(currentArmor);
+                currentArmor = 0;
+            }
+            else
+            {
+                amount = 0;
+            }
+        }
+
+        healthLoss = amount;
+        armorLoss = oldArmor - currentArmor;
+
+        SpawnDamageText(healthLoss, armorLoss, isCritical);
+
+        // deal damage to health
+        ReduceHealth(healthLoss);
+    }
+
+    public virtual void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)
+    {
+        if (!isInvisible)
+        {
+            ApplyDamageWithArmor(amount, false, ignoreArmor);
+        }
+
+        flashEffect?.Flash();
+
+        if (hurtSound && !audioSource.isPlaying)
+        {
+            audioSource?.PlayOneShot(hurtSound);
+        }
+
+        //var color = Color.white;
+        //var text = amount.ToString();
+        //float lifeTime = 0.8f;
+        //Vector2 initVel = new Vector2(0, 1);
+        //float scale = 1;
+
+        //color = EffectConfig.Instance.GetEffectTextColor(effect.EffectType);
+
+        //this.SpawnText(text, color, lifeTime, initVel, scale);
+
+        SetIsHurtTrue();
     }
 
     private IEnumerator KnockCo()
@@ -570,10 +859,8 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             {
                 freezeTimeLeft = freezeDuration;
             }
-            else
-            {
-                return;
-            }
+
+            return;
         }
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -591,7 +878,12 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
 
         IsFreezing = true;
         freezeTimeLeft = freezeDuration;
-        StartCoroutine(Unfreeze());
+
+        if(gameObject.active)
+        {
+            StartCoroutine(Unfreeze());
+        }
+
     }
 
     private IEnumerator Unfreeze()
@@ -671,5 +963,79 @@ public class BaseCharacter : SlowMotionObject, IDamageable, IControlButtonIntera
             return true;
         }
         return false;
+    }
+
+    public bool ApplyImpulse(Vector2 velocity, float duration = 0.1f)
+    {
+        if (impulseCoroutine != null)
+        {
+            return false;
+        }
+        impulseCoroutine = StartCoroutine(ApplyImpulseCo(velocity, duration));
+        return true;
+    }
+
+    private IEnumerator ApplyImpulseCo(Vector2 velocity, float duration)
+    {
+        DisableMovement();
+        rb.linearVelocity += velocity*pushScale;
+        yield return new WaitForSeconds(duration);
+        rb.linearVelocity -= Vector2.zero;
+        impulseCoroutine = null;
+        EnableMovement();
+    }
+
+    internal WeaponControl GetWeaponControl()
+    {
+        return weaponControl;
+    }
+
+    internal float GetSpeed()
+    {
+        return runSpeed;
+    }
+
+    internal void ModifySpeed(float v)
+    {
+        runSpeed += v;
+        OnSpeedChange?.Invoke(runSpeed);
+    }
+
+    internal void SafeAddOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
+        OnSpeedChange += onSpeedChangeDelegate;
+    }
+
+    internal void RemoveOnSpeedChangeDelegate(Action<float> onSpeedChangeDelegate)
+    {
+        OnSpeedChange -= onSpeedChangeDelegate;
+    }
+
+    public RaceType Race => race;
+
+
+    internal void SetInitialWeaponPrefabs(GameObject savedPrimaryWeaponPrefab, GameObject savedSecondaryWeaponPrefab)
+    {
+        if(savedPrimaryWeaponPrefab != null)
+        {
+            initialPrimaryWeapon = savedPrimaryWeaponPrefab;
+        }
+        
+        if(savedSecondaryWeaponPrefab != null)
+        {
+            initialSecondaryWeapon = savedSecondaryWeaponPrefab;
+        }
+    }
+
+
+    public int GetMaxMana()
+    {
+        return maxMana;
+    }
+
+    public void SetMaxMana(int maxMana)
+    {
+        this.maxMana = maxMana;
     }
 }

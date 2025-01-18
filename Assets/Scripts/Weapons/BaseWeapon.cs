@@ -30,7 +30,19 @@ public class BaseWeapon : GameItem
     protected int currentState = 0;
     protected BaseCharacter owner;
     protected AudioSource audioSource;
-    public bool ShouldAlterRenderOrder { get; set; } = true;
+    private bool _shouldAlterRenderOrder = false;
+    public bool ShouldAlterRenderOrder { 
+        get => _shouldAlterRenderOrder;
+        set
+        {
+            _shouldAlterRenderOrder = value;
+            WeaponControl weaponControl = owner?.GetWeaponControl();
+            if (weaponControl != null)
+            {
+                weaponControl.ShouldAlterRenderOrder = value;
+            }
+        }
+    }
     protected DamageSource damageSource;
 
     protected override void OnValidate()
@@ -96,7 +108,7 @@ public class BaseWeapon : GameItem
 
     }
 
-    private void SetOwnerIsAttackingFalse()
+    public void SetOwnerIsAttackingFalse()
     {
         if (owner != null)
         {
@@ -109,7 +121,17 @@ public class BaseWeapon : GameItem
         transform.SetParent(owner.GetPrimaryWeaponSlotTransform());
         transform.localPosition = new Vector3(0, 0, 0);
         UpdateState(STATE_IDLE);
-        OnEquippedAsOffHandWeapon();
+        OnEquippedAsMainWeapon();
+        SetUpDamageSource(owner);
+        // adjust render order
+        weaponSpriteRenderer.sortingOrder = owner.GetCharacterSpriteRenderer().sortingOrder + 1;
+    }
+
+    public void SetUpAsAutoSecondary(BaseCharacter owner)
+    {
+        SetOwner(owner);
+        UpdateState(STATE_IDLE);
+        OnEquippedAsMainWeapon();
         SetUpDamageSource(owner);
     }
 
@@ -159,7 +181,7 @@ public class BaseWeapon : GameItem
 
     public virtual void DoAttack()
     {
-        
+        OnAttackStarted();
     }
 
 
@@ -232,7 +254,7 @@ public class BaseWeapon : GameItem
 
     public void PlayOnAttackSound()
     {
-        if (onAttackSound != null)
+        if (audioSource && !audioSource.isPlaying && onAttackSound != null)
         {
             audioSource.PlayOneShot(onAttackSound);
         }
@@ -241,6 +263,12 @@ public class BaseWeapon : GameItem
     internal void SetOwner(BaseCharacter baseCharacter)
     {
         this.owner = baseCharacter;
+        OnSetOwner(owner);
+    }
+
+    public virtual void OnSetOwner(BaseCharacter owner)
+    {
+        
     }
 
     internal BaseCharacter GetOwner()
@@ -251,5 +279,14 @@ public class BaseWeapon : GameItem
     public DamageSource GetDamageSource()
     {
         return damageSource;
+    }
+
+    public virtual void OnSpecialModeTriggered()
+    {
+    }
+
+    internal AudioClip GetOnHitSound()
+    {
+        return onHitSound;
     }
 }

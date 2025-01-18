@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class EnemyAIEssentials : MonoBehaviour
 {
@@ -33,8 +34,17 @@ public class EnemyAIEssentials : MonoBehaviour
 
         character.SafeAddActivationDelegate(OnActivated);
         character.SafeAddDeactivationDelegate(OnDeactivated);
+        character.SafeAddOnSpeedChangeDelegate(OnSpeedChangeNotify);
         character.SafeDelegateOnHurt(OnHurt);
+
+        navMeshAgent.speed = character.GetRunSpeed();
     }
+
+    private void OnSpeedChangeNotify(float speed)
+    {
+        navMeshAgent.speed = speed;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,6 +68,12 @@ public class EnemyAIEssentials : MonoBehaviour
             behaviorGraphAgent.SetVariableValue<Vector2>("TargetLastPosition", character.GetCurrentTarget().transform.position);
             behaviorGraphAgent.SetVariableValue<bool>("CheckedTargetLastPosition", false);
         }
+
+        behaviorGraphAgent.SetVariableValue<bool>("IsInRange", character.IsTargetInAttackRange());
+        behaviorGraphAgent.SetVariableValue<bool>("IsInChaseRadius", character.IsTargetInChaseRadius());
+        behaviorGraphAgent.SetVariableValue<bool>("AttackReset", character.IsAttackReset());
+        behaviorGraphAgent.SetVariableValue<bool>("ShouldKiteAway", character.ShouldKiteAway());
+
 
         //// testing
         //if (canSeePlayer)

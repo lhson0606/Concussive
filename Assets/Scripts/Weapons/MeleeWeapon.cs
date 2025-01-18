@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MeleeWeapon : BaseWeapon
@@ -7,6 +8,7 @@ public class MeleeWeapon : BaseWeapon
 
     public override void DoAttack()
     {
+        base.DoAttack();
         //if on cooldown, return
         if (owner.IsAttacking)
         {
@@ -28,11 +30,32 @@ public class MeleeWeapon : BaseWeapon
     public void TriggerAttack()
     {
         var hitColliders = new Collider2D[10];
-        var count = Physics2D.OverlapCollider(attackCollider, new ContactFilter2D(), hitColliders);
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = true; // Include trigger colliders
+
+        var count = Physics2D.OverlapCollider(attackCollider, contactFilter, hitColliders);
+
+        if (damageSource == null)
+        {
+            return;
+        }
 
         for (int i = 0; i < count; i++)
         {
-            DamageUtils.TryToApplyDamageTo(owner.gameObject, hitColliders[i], damageSource);
+            if (ReferenceEquals(hitColliders[i].gameObject, owner.gameObject))
+            {
+                continue;
+            }
+
+            DamageUtils.TryToApplyDamageTo(owner?.gameObject, hitColliders[i], damageSource);
+        }
+    }
+
+    public void SetMeleeOwnerIsAttackingFalse()
+    {
+        if (owner != null)
+        {
+            owner.IsAttacking = false;
         }
     }
 }

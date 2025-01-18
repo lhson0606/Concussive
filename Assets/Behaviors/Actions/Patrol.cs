@@ -46,7 +46,7 @@ public partial class PatrolAction : Action
 
         stoppingDistance = navMeshAgent.stoppingDistance;
 
-        checkingPosition = GetRandomCheckingPosition();
+        checkingPosition = entity.transform.position;
 
         entity.SafeDelegateOnCanMoveStateChanged(OnEntityCanMoveSateChange);
 
@@ -57,6 +57,7 @@ public partial class PatrolAction : Action
     {
         if (!entity.IsActivated() || !entity.CanMove())
         {
+            navMeshAgent.isStopped = true;
             return Status.Success;
         }
 
@@ -131,8 +132,8 @@ public partial class PatrolAction : Action
 
     private void PatrolTo(Vector3 desiredPosition)
     {
-        DrawDebugDesiredPoint(desiredPosition);
-        
+        //DrawDebugDesiredPoint(desiredPosition);
+        entity.MovingToPosition = desiredPosition;
         if(!entity.CanMove())
         {
             return;
@@ -150,10 +151,10 @@ public partial class PatrolAction : Action
         //Debug.DrawRay(entity.transform.position, desiredPosition - entity.transform.position, Color.green);
 
         // Move towards the desired position
-        if (navMeshAgent.remainingDistance > stoppingDistance + 3)
+        if (navMeshAgent.remainingDistance > stoppingDistance + 3 && entity.IsPositionInSight(desiredPosition))
         {
             Vector2 direction = (desiredPosition - entity.transform.position).normalized;
-            rb.linearVelocity += direction * entity.GetRunSpeed() * Time.deltaTime;
+            rb.linearVelocity = direction * entity.GetRunSpeed();
             // Draw debug line
             Debug.DrawRay(entity.transform.position, direction * 10, Color.black);
             // Stop the agent after a while
@@ -189,7 +190,7 @@ public partial class PatrolAction : Action
 
     public void OnEntityCanMoveSateChange(bool canMove)
     {
-        if (!canMove)
+        if (!canMove && rb)
         {
             rb.linearVelocity = Vector2.zero;
             if (navMeshAgent.isOnNavMesh)

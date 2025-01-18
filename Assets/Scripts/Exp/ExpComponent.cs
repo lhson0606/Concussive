@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExpComponent : MonoBehaviour
 {
     [SerializeField]
-    private float movingSpeed = 300f;
+    private float movingSpeed = 8f;
     [SerializeField]
     private Rigidbody2D rb;
 
@@ -42,7 +42,7 @@ public class ExpComponent : MonoBehaviour
         if (isCollected)
         {
             Vector3 direction = player.transform.position - transform.position;
-            rb.linearVelocity = direction.normalized * movingSpeed * Time.deltaTime;
+            rb.linearVelocity = direction.normalized * movingSpeed;
         }
 
         //if we are close enough to the player, destroy the object

@@ -246,7 +246,7 @@ TrailRenderer:
   m_ApplyActiveColorSpace: 1
 --- !u!50 &4899694522991419567
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -257,8 +257,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -336,5 +336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectRadius: 4
-  collectSpeed: 720
+  collectSpeed: 8
   isCollected: 0
+  collectedSound: {fileID: 8300000, guid: 10cac1923a1b88547a745e76ccc67501, type: 3}

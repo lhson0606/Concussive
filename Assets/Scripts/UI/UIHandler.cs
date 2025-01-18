@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UIHandler : MonoBehaviour
 {
+    public UIDocument uiDocument;
     private VisualElement UI_Healthbar;
+    private VisualElement UI_Armorbar;
+    private Label UI_HealthText;
+    private Label UI_ArmorText;
     private VisualElement UI_PrimaryWeapon;
-    private VisualElement UI_SecondadryWeapon;
+    private VisualElement UI_SecondaryWeapon;
+    private VisualElement SkillIcon;
+    private VisualElement SkillCooldownOverlay;
     public static UIHandler instance { get; private set; }
 
     private BaseCharacter baseCharacter; // Class-level variable
-
+    private Label UI_CoinsCounter;
     // Awake is called when the script instance is being loaded (in this situation, when the game scene loads)
     private void Awake()
     {
@@ -23,9 +30,23 @@ public class UIHandler : MonoBehaviour
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         UI_Healthbar = uiDocument.rootVisualElement.Q<VisualElement>("Health");
-        UI_PrimaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("PrimaryWeapon");
-        UI_SecondadryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
+        UI_Armorbar = uiDocument.rootVisualElement.Q<VisualElement>("Armor");
+        UI_HealthText = uiDocument.rootVisualElement.Q<Label>("HealthText");
+        UI_ArmorText = uiDocument.rootVisualElement.Q<Label>("ArmorText");
 
+        UI_PrimaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("PrimaryWeapon");
+        UI_SecondaryWeapon = uiDocument.rootVisualElement.Q<VisualElement>("SecondaryWeapon");
+        SkillIcon = uiDocument.rootVisualElement.Q<VisualElement>("Skill");
+        UI_CoinsCounter = uiDocument.rootVisualElement.Q<Label>("CoinsCounter");
+        SkillCooldownOverlay = new VisualElement();
+        SkillCooldownOverlay.style.backgroundColor = new StyleColor(Color.gray);
+        SkillCooldownOverlay.style.position = Position.Absolute;
+        SkillCooldownOverlay.style.top = 0;
+        SkillCooldownOverlay.style.left = 0;
+        SkillCooldownOverlay.style.right = 0;
+        SkillCooldownOverlay.style.bottom = 0;
+        SkillCooldownOverlay.style.height = Length.Percent(0);
+        SkillIcon.Add(SkillCooldownOverlay);
         // Find the player GameObject with the tag "Player"
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -36,7 +57,7 @@ public class UIHandler : MonoBehaviour
             {
                 baseCharacter = playerController.GetComponent<BaseCharacter>();
                 // Set the health value using the player's currentHealth and maxHealth
-                SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
+                SetHealthValue(baseCharacter.CurrentHealth, baseCharacter.MaxHealth);
 
                 // Subscribe to the OnWeaponChanged event
                 playerController.OnWeaponChanged += OnWeaponChanged;
@@ -48,8 +69,10 @@ public class UIHandler : MonoBehaviour
                 }
                 if (baseCharacter.GetSecondaryWeapon() != null)
                 {
-                    SetWeaponSprite(UI_SecondadryWeapon, baseCharacter.GetSecondaryWeapon().GetWeaponSpriteRenderer().sprite);
+                    SetWeaponSprite(UI_SecondaryWeapon, baseCharacter.GetSecondaryWeapon().GetWeaponSpriteRenderer().sprite);
                 }
+                playerController.OnCoinsChanged += OnCoinsChanged;
+
             }
             else
             {
@@ -61,7 +84,9 @@ public class UIHandler : MonoBehaviour
             Debug.LogError("Player GameObject with tag 'Player' not found.");
         }
 
-        Debug.Log("Healthbar: ");
+        // Initialize the coins count display
+
+
     }
 
     // Update is called once per frame
@@ -70,19 +95,50 @@ public class UIHandler : MonoBehaviour
         if (baseCharacter != null)
         {
             // Set the health value using the player's currentHealth and maxHealth
-            SetHealthValue(baseCharacter.CurrentHealth / (float)baseCharacter.MaxHealth);
+            SetHealthValue(baseCharacter.CurrentHealth,baseCharacter.MaxHealth);
+            SetArmorValue(baseCharacter.CurrentArmor,baseCharacter.MaxArmor);
         }
     }
 
-    public void SetHealthValue(float percentage)
+    public void SetHealthValue(int currentHealth, int maxHealth)
     {
         if (UI_Healthbar != null)
         {
-            UI_Healthbar.style.width = Length.Percent(100 * percentage);
+            float percentage = (float)currentHealth / maxHealth * 100;
+            UI_Healthbar.style.width = Length.Percent(percentage);
+            if (UI_HealthText != null)
+            {
+                UI_HealthText.text = $"{currentHealth}/{maxHealth}";
+            }
+            else
+            {
+                Debug.LogError("UI_HealthText is null. Cannot set health text.");
+            }
         }
         else
         {
             Debug.LogError("UI_Healthbar is null. Cannot set health value.");
+        }
+    }
+
+    public void SetArmorValue(int currentArmor, int maxArmor)
+    {
+        if (UI_Armorbar != null)
+        {
+            float percentage = (float)currentArmor / maxArmor * 100;
+            UI_Armorbar.style.width = Length.Percent(percentage);
+            if (UI_ArmorText != null)
+            {
+                UI_ArmorText.text = $"{currentArmor}/{maxArmor}";
+            }
+            else
+            {
+                Debug.LogError("UI_ArmorText is null. Cannot set armor text.");
+            }
+        }
+        else
+        {
+            Debug.LogError("UI_Armorbar is null. Cannot set armor value.");
         }
     }
 
@@ -108,7 +164,39 @@ public class UIHandler : MonoBehaviour
         }
         if (secondaryWeapon != null)
         {
-            SetWeaponSprite(UI_SecondadryWeapon, secondaryWeapon.GetWeaponSpriteRenderer().sprite);
+            SetWeaponSprite(UI_SecondaryWeapon, secondaryWeapon.GetWeaponSpriteRenderer().sprite);
         }
+    }
+    private void OnCoinsChanged(int amount)
+    {
+        UI_CoinsCounter.text = amount.ToString();
+    }
+
+    // Method to update the skill cooldown visual element
+    public void OnSpecialAbilityUsed(float cooldownDuration)
+    {
+        StartCoroutine(HandleSkillCooldown(cooldownDuration));
+    }
+
+    private IEnumerator HandleSkillCooldown(float cooldownDuration)
+    {
+        float elapsedTime = 0f;
+
+        // Set the overlay height to full at the start
+        SkillCooldownOverlay.style.top = Length.Percent(0);
+        SkillCooldownOverlay.style.height = Length.Percent(100);
+
+        while (elapsedTime < cooldownDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / cooldownDuration;
+            SkillCooldownOverlay.style.top = Length.Percent(percentage * 100);
+            SkillCooldownOverlay.style.height = Length.Percent(100 - (percentage * 100));
+            yield return null;
+        }
+
+        // Reset the overlay height
+        SkillCooldownOverlay.style.top = Length.Percent(0);
+        SkillCooldownOverlay.style.height = Length.Percent(0);
     }
 }

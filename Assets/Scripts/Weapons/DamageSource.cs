@@ -19,9 +19,13 @@ public class DamageSource : MonoBehaviour
     [SerializeField]
     private Element element;
     [SerializeField]
-    private float coolDown = 0f;// 0f means no cooldown by default
+    private float coolDown = 0.2f;// 0f means no cooldown by default
     [SerializeField]
     private float coolDownMultiplier = 1f;
+    [SerializeField]
+    private float accuracy = 0.5f;
+    [SerializeField]
+    private float dispersion = 10f;
 
     private float coolDownTimer = 0f;
 
@@ -122,7 +126,7 @@ public class DamageSource : MonoBehaviour
         coolDownTimer = coolDown;
     }
 
-    public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos)
+    public DamageData GetDamageData(Vector2 sourcePos, Vector2 targetPos, bool ignoreIsElemental = false)
     {
         DamageData damageData = new DamageData();
         damageData.DamageDealer = owner;
@@ -134,7 +138,7 @@ public class DamageSource : MonoBehaviour
         damageData.PushScale = hasPushEffect? pushScale : 0f;
 
         // check if the damage is critical and not elemental, then apply the critical multiplier
-        if (damageData.IsCritical && !element.IsElemental)
+        if (damageData.IsCritical && (!element.IsElemental || ignoreIsElemental))
         {
             damageData.Damage *= criticalMultiplier;
         }
@@ -142,7 +146,7 @@ public class DamageSource : MonoBehaviour
         return damageData;
     }
 
-    internal void ApplyDamageTo(BaseCharacter target, Vector2 position, bool shouldApplyCoolDown = true)
+    internal DamageData ApplyDamageTo(BaseCharacter target, Vector2 position, bool shouldApplyCoolDown = true)
     {
         if(shouldApplyCoolDown)
         {
@@ -156,6 +160,7 @@ public class DamageSource : MonoBehaviour
             ApplyElementalEffectToTarget(target);
         }
         target.TakeDamage(damageData);
+        return damageData;
     }
 
     internal void AppyDamageDataTo(DamageData damageData, BaseCharacter target)
@@ -167,9 +172,9 @@ public class DamageSource : MonoBehaviour
         target.TakeDamage(damageData);
     }
 
-    private bool ApplyElementalEffectToTarget(BaseCharacter target)
+    public bool ApplyElementalEffectToTarget(BaseCharacter target)
     {
-        if (element == null || !element.IsElemental)
+        if (element == null || !element.IsElemental || target == null)
         {
             return false;
         }
@@ -178,7 +183,15 @@ public class DamageSource : MonoBehaviour
         Effect effectPrefab = element.Effect;
         if (effectPrefab != null)
         {
-            Effect effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            Effect effectInstance = null;
+            if(effectPrefab.AttachToTarget)
+            {
+                effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity, target.transform);
+            }
+            else
+            {
+                effectInstance = Instantiate(effectPrefab, target.transform.position, Quaternion.identity);
+            }
             effectInstance.StartEffect(target);
         }
 
@@ -196,5 +209,106 @@ public class DamageSource : MonoBehaviour
     private Element initialElement;
     private bool initialHasPushEffect;
     private float initialCoolDownMultiplier;
+    private float initialAccuracy;
+    private float initialDispersion;
+
+    //get set methods
+    public float PushScale
+    {
+        get { return pushScale; }
+        set { pushScale = value; }
+    }
+
+    public float CoolDown
+    {
+        get { return coolDown; }
+        set { coolDown = value; }
+    }
+
+    public float CoolDownTimer
+    {
+        get { return coolDownTimer; }
+    }
+
+    public float CoolDownMultiplier
+    {
+        get { return coolDownMultiplier; }
+        set { coolDownMultiplier = value; }
+    }
+
+    public void SetCoolDownTimer(float value)
+    {
+        coolDownTimer = value;
+    }
+
+    public void SetCoolDownMultiplier(float value)
+    {
+        coolDownMultiplier = value;
+    }
+
+    public void SetCriticalChance(float value)
+    {
+        criticalChance = value;
+    }
+
+    public void SetCriticalMultiplier(float value)
+    {
+        criticalMultiplier = value;
+    }
+
+    public void SetDamage(float value)
+    {
+        damage = value;
+    }
+
+    public void SetHasPushEffect(bool value)
+    {
+        hasPushEffect = value;
+    }
+
+    public void SetDamageType(DamageType value)
+    {
+        damageType = value;
+    }
+
+    public void SetElement(Element value)
+    {
+        element = value;
+    }
+
+    public void SetPushScale(float value)
+    {
+        pushScale = value;
+    }
+
+    public void SetOwner(GameObject value)
+    {
+        owner = value;
+    }
+
+    public void SetAccuracy(float value)
+    {
+        accuracy = value;
+    }
+
+    public void SetDispersion(float value)
+    {
+        dispersion = value;
+    }
+
+    public Vector2 GetDispersedLookDir(Vector2 dir)
+    {
+        float angle = Random.Range(-dispersion, dispersion) * (1-accuracy);
+        return Quaternion.Euler(0, 0, angle) * dir.normalized;
+    }
+
+    // return a random point in circle with radius of dispersion
+    internal Vector2 GetDispersedAimPosition(Vector2 throwDestination)
+    {
+        float radius = Random.Range(0, dispersion);
+        radius *= (1 - accuracy);
+        Vector2 randomPoint = Random.insideUnitCircle * radius;
+        return throwDestination + randomPoint;
+    }
 }
 

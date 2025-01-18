@@ -29,7 +29,7 @@ public class BombController : MonoBehaviour, IDamageable
     private Collider2D outerCol;
     private bool isExploded = false;
 
-    private Camera playerCamera;
+    private PlayerController playerController;
     private SimpleFlashEffect flashEffect;
     private AudioSource audioSource;
     private Animator animator;
@@ -37,7 +37,7 @@ public class BombController : MonoBehaviour, IDamageable
     private Collider2D col;
     private Rigidbody2D rb;
     private Coroutine flashCoroutine;
-    private Vector3 cameraOriginalPosition;
+    private ParticleSystem smokeParticle;
 
     private void Awake()
     {
@@ -49,23 +49,17 @@ public class BombController : MonoBehaviour, IDamageable
             Debug.LogError("BombController: Inner or Outer collider is missing");
         }
 
-        playerCamera = GameObject.FindAnyObjectByType<Camera>();
+        playerController = GameObject.FindAnyObjectByType<PlayerController>();
         flashEffect = GetComponent<SimpleFlashEffect>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         damageSource = GetComponent<DamageSource>();
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
+        smokeParticle = GetComponentInChildren<ParticleSystem>();
 
         // freeze rotation
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // need to call this in start because the camera might not be initialized in PlayerController's Awake
-        cameraOriginalPosition = FindAnyObjectByType<PlayerController>().GetCameraOriginalPosition();
     }
 
     // Update is called once per frame
@@ -148,12 +142,33 @@ public class BombController : MonoBehaviour, IDamageable
 
     private void OnExplosionEffect()
     {
-        // check if the camera is close enough to shake
-        float distance = Vector2.Distance(transform.position, playerCamera.transform.position);
-        if (distance <= shakeDistanceThreshold)
+        playerController.ShakePlayerCamera(transform.position, shakeDuration, maxShakeMagnitude, shakeDistanceThreshold);
+        // just for fun here we will check if there is any arrows as a child of the bomb
+        // we will send them flying in a random direction
+        // Go through every child of the bomb to find if there are any arrows
+        // If there are, send them flying in a random direction
+        foreach (Transform child in transform)
         {
-            StartCoroutine(CameraShake(distance));
+            ArrowScript arrow = child.GetComponent<ArrowScript>();
+            if (arrow != null)
+            {
+                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
+                // Re-enable the collider of the arrow
+                // Detach the arrow from the bomb
+                arrow.transform.parent = null;
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.simulated = true;
+                arrow.GetComponent<Collider2D>().enabled = true;
+                // change collider type not trigger
+                arrow.GetComponent<Collider2D>().isTrigger = false;
+                rb.linearVelocity = GetRandomDirection() * 10f;
+                // Apply random rotation
+                rb.freezeRotation = false;
+                rb.angularVelocity = Random.Range(-360f, 360f);
+            }
         }
+
+        smokeParticle.Play();
     }
 
     private Vector2 GetRandomDirection()
@@ -165,28 +180,6 @@ public class BombController : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
-    }
-
-    private IEnumerator CameraShake(float distance)
-    {
-        float elapsed = 0.0f;
-
-        // Calculate shake magnitude based on distance
-        float shakeMagnitude = maxShakeMagnitude * (1 - (distance / shakeDistanceThreshold));
-
-        while (elapsed < shakeDuration)
-        {
-            float x = Random.Range(-1f, 1f) * shakeMagnitude;
-            float y = Random.Range(-1f, 1f) * shakeMagnitude;
-
-            playerCamera.transform.localPosition = new Vector3(cameraOriginalPosition.x + x, cameraOriginalPosition.y + y, cameraOriginalPosition.z);
-
-            elapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        playerCamera.transform.localPosition = cameraOriginalPosition;
     }
 
     private void ApplyExplosionDamage()
@@ -205,22 +198,6 @@ public class BombController : MonoBehaviour, IDamageable
             {
                 ApplyExplosionTo(false, victim);
             }
-
-            // just for fun here we will check if there is any arrows as a child of the bomb
-            // we will send them flying in a random direction
-            ArrowScript arrow = victim.GetComponent<ArrowScript>();
-            if (arrow != null)
-            {
-                Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
-                // re enable the collider of the arrow
-                // detach the arrow from the bomb
-                arrow.transform.parent = null;
-                arrow.GetComponent<Collider2D>().enabled = true;
-                rb.linearVelocity = GetRandomDirection() * 10f;
-                // apply random rotation
-                rb.freezeRotation = false;
-                rb.angularVelocity = Random.Range(-360f, 360f);
-            }
         }
     }
 
@@ -236,18 +213,29 @@ public class BombController : MonoBehaviour, IDamageable
 
     public void ApplyExplosionTo(bool isInInnerRadius, Collider2D victim)
     {
-        DamageData damageData = damageSource.GetDamageData(transform.position, victim.transform.position);
+        DamageData damageData = null;
         if(isInInnerRadius)
         {
-            damageData.Damage *= 2;
-            damageData.PushScale *= 2;
+            damageSource.CriticalChance = 1f;
+            damageSource.PushScale *= 1.2f;
+            damageSource.Damage *= 2f;
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position, true);
+        }
+        else
+        {
+            damageData = damageSource.GetDamageData(transform.position, victim.transform.position, true);
         }
 
-        DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData);
+        DamageUtils.TryToApplyDamageDataTo(gameObject, victim, damageData, damageSource, false);
+        damageSource.ResetStats();
     }
 
-    public void TakeDamage(DamageData damageData)
+    public void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
         IgniteBomb();
+    }
+
+    public void TakeDirectEffectDamage(int amount, Effect effect, bool ignoreArmor = false, bool isInvisible = false)
+    {
     }
 }

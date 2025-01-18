@@ -6,4 +6,6 @@ public enum EffectType
     HEALING,
     POSION,
     FREEZE,
+    FIRE,
+    LIGHTNING,
 }

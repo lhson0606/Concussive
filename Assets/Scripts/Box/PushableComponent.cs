@@ -95,15 +95,10 @@ public class PushableComponent : MonoBehaviour, IControlButtonInteractable
         if (collision.gameObject.CompareTag("Player") && !isMoving)
         {
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
 
             if (playerRb == null)
             {
-                return;
-            }
-
-            if (playerRb.linearVelocity.magnitude < 0.00000001f)
-            {
-                isPushing = false;
                 return;
             }
 
@@ -111,14 +106,6 @@ public class PushableComponent : MonoBehaviour, IControlButtonInteractable
             Vector2 contactPoint = collision.contacts[0].point;
             Vector2 center = collision.collider.bounds.center;
             Vector2 direction = (contactPoint - center).normalized;
-
-
-            //only push if playderdirection and direction are close to each other
-            if (Vector2.Dot(playerDirection, direction) > 0.1f)
-            {
-                isPushing = false;
-                return;
-            }
 
             // Determine the dominant axis and set the push direction accordingly
             if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
@@ -131,6 +118,23 @@ public class PushableComponent : MonoBehaviour, IControlButtonInteractable
             }
 
             pushDirection = pushDirection.normalized;
+
+            Vector2 majorInputAxisDir = playerController.GetMajorInputAxisDirection();
+            // check player MajorInputAxisDirection, it has be closed the the direction of the player and the box
+            if (playerController == null || Vector2.Dot(majorInputAxisDir, pushDirection) < 0.8f)
+            {
+                isPushing = false;
+                return;
+            }
+
+
+            //only push if playderdirection and direction are close to each other
+            if (Vector2.Dot(playerDirection, direction) > 0.1f)
+            {
+                isPushing = false;
+                return;
+            }
+
             isPushing = true;
         }
     }

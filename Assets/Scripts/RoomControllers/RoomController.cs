@@ -25,6 +25,13 @@ public class RoomController : MonoBehaviour
         ScanBarriers(colliders);
         ScanForEnemies(colliders);
 
+        if(enemies.Count == 0)
+        {
+            OpenBarriers();
+            Destroy(gameObject);
+            return;
+        }
+
         SetUpEnemies();
 
         // set up delegates
@@ -119,6 +126,12 @@ public class RoomController : MonoBehaviour
 
     void OnPlayerEnterRoom()
     {
+        if(enemies.Count == 0)
+        {
+            OpenBarriers();
+            return;
+        }
+
         CloseBarriers();
         foreach (Enemy enemy in enemies)
         {
@@ -132,6 +145,7 @@ public class RoomController : MonoBehaviour
         if (enemiesDefeated == enemies.Count)
         {
             OpenBarriers();
+            Destroy(gameObject);
         }
     }
 

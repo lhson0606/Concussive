@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - Obstacle
   - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: CameraSortingLayer
+    uniqueID: 3900893043
     locked: 0
   m_RenderingLayers:
   - Default

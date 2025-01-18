@@ -19,7 +19,7 @@ public class WeaponControl : SlowMotionObject
     // Update is called once per frame
     void Update()
     {
-        if(IsPointerTooClose())
+        if(IsPointerTooClose() || character == null)
         {
             return;
         }

@@ -1,36 +1,95 @@
+using Ink.Parsed;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class Enemy : BaseCharacter
 {
     [SerializeField]
     protected string enemyName;
     [SerializeField]
-    protected float chaseRadius;
+    protected float chaseRadius = 8;
     [SerializeField]
-    protected float attackRadius = 8;
+    protected float attackRadius = 4;
+    [SerializeField]
+    protected float kiteRadius = 5;
     [SerializeField]
     protected bool isActivated = false;
     [SerializeField]
     protected AudioClip angryNoise;
+    [SerializeField]
+    protected float enemyAttackSpeed = 1f;
+    [SerializeField]
+    protected float aggression = 0.2f; // the higher the value, the more likely they won't kite away from target
+    [SerializeField]
+    protected float maxKitingDistance = 5f;
 
     protected event Action OnActivated;
     protected event Action OnDeactivated;
     protected GameObject player;
     protected BaseCharacter target;
     protected bool canSeeTarget = false;
+    protected bool isTargetInAttackRange = false;
+    protected DamageSource damageSource;
+    protected bool shouldKiteAway = false;
+    protected PlayerController playerController;
+
+    private bool oldCanSeeTarget = false;
+    private bool oldTargetInAttackRange = false;
+
+    private float enemyAttackTimer = 0f;
+
+    private bool WillAttackThisTurn()
+    {
+        if(enemyAttackTimer <= 0)
+        {
+            enemyAttackTimer = enemyAttackSpeed;
+        }
+        else
+        {
+            return false;
+        }
+
+        if (0.6f > UnityEngine.Random.value)
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     protected override void Awake()
     {
         base.Awake();
         animator = this.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
+        MovingToPosition = transform.position;
     }
 
     public override void Start()
     {
         base.Start();
+        damageSource = GetPrimaryWeapon()?.GetDamageSource();
+
+        if(damageSource == null)
+        {
+            damageSource = GetComponent<DamageSource>();
+        }
+
+        if(damageSource == null)
+        {
+            Debug.LogError("DamageSource is missing on this enemy!");
+        }
+
+        if (damageSource != null)
+        {
+            damageSource.CoolDown += enemyAttackSpeed;
+        }
     }
 
     public void SetTarget(BaseCharacter target) 
@@ -84,11 +143,18 @@ public class Enemy : BaseCharacter
         return target;
     }
 
+    public virtual void OnEnemyUpdate() 
+    {
+        enemyAttackTimer = Mathf.Max(0, enemyAttackTimer - Time.deltaTime);
+    }
+
     public override void Update()
     {
         base.Update();
 
-        if(!isActivated || IsFreezing || !CanMove())
+        OnEnemyUpdate();
+
+        if (!isActivated || IsFreezing || !CanMove())
         {
             return;
         }
@@ -108,17 +174,53 @@ public class Enemy : BaseCharacter
         {
             if (!isTryingToResetTarget)
             {
-                StartCoroutine(ResetTargetAfter(10f));
+                StartCoroutine(ResetTargetAfter(8f));
             }
+        }
+
+        if(canSeeTarget != oldCanSeeTarget)
+        {
+            OnTargetDetectionStateChanged(canSeeTarget);
+            oldCanSeeTarget = canSeeTarget;
         }
 
         if (canSeeTarget && HasTarget())
         {
+            LookAtPosition = target.transform.position;
             // randomy play angry noise
             if (angryNoise != null && UnityEngine.Random.value < 0.0001f)
             {
                 AudioUtils.PlayAudioClipAtPoint(angryNoise, transform.position);
             }
+
+            float distance = Vector3.Distance(target.transform.position, transform.position);
+
+            if (distance <= attackRadius)
+            {
+                isTargetInAttackRange = true;
+                if ((GetPrimaryWeapon()?.GetDamageSource().IsCoolDownReset() ?? false)&& WillAttackThisTurn())
+                {
+                    AttackCurrentTarget();
+                }
+            } else
+            {
+                isTargetInAttackRange = false;
+            }
+
+            if(distance < kiteRadius)
+            {
+                shouldKiteAway = true;
+            }
+            else
+            {
+                shouldKiteAway = false;
+            }
+        }
+
+        if(isTargetInAttackRange != oldTargetInAttackRange)
+        {
+            OnTargetInAttackRangeStateChanged(isTargetInAttackRange);
+            oldTargetInAttackRange = isTargetInAttackRange;
         }
 
         // randomly play idle sound
@@ -126,6 +228,11 @@ public class Enemy : BaseCharacter
         {
             audioSource?.PlayOneShot(idleSound);
         }
+    }
+
+    public virtual void AttackCurrentTarget() 
+    {
+        LookAtPosition = target.transform.position;
     }
 
     private bool isTryingToResetTarget = false;
@@ -141,6 +248,27 @@ public class Enemy : BaseCharacter
         isTryingToResetTarget = false;
     }
 
+    public bool IsPositionInSight(Vector3 position)
+    {
+        Vector2 direction = (position - transform.position).normalized;
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = false; // Ignore trigger colliders
+        contactFilter.SetLayerMask(Physics2D.AllLayers); // Check all layers
+        RaycastHit2D[] hits = new RaycastHit2D[2];
+        int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, chaseRadius);
+        if (hits.Length > 0)
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                if (hits[i].collider.gameObject.tag == "Player")
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private bool IsGameObjectInSight(GameObject target)
     {
         if (target == null)
@@ -149,7 +277,7 @@ public class Enemy : BaseCharacter
         }
         float distance = Vector3.Distance(target.transform.position, transform.position);
         // if the distance is too far away, return false
-        if (distance > attackRadius)
+        if (distance > chaseRadius)
         {
             return false;
         }
@@ -158,18 +286,34 @@ public class Enemy : BaseCharacter
         ContactFilter2D contactFilter = new ContactFilter2D();
         contactFilter.useTriggers = false; // Ignore trigger colliders
         contactFilter.SetLayerMask(Physics2D.AllLayers); // Check all layers
-        RaycastHit2D[] hits = new RaycastHit2D[2];
+        //RaycastHit2D[] hits = new RaycastHit2D[2];
+        //int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, distance);
+        //if (hits.Length > 0)
+        //{
+        //    for (int i = 0; i < hitCount; i++)
+        //    {
+        //        if (hits[i].collider.gameObject == target)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //}
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
         int hitCount = Physics2D.Raycast(transform.position, direction, contactFilter, hits, distance);
-        if (hits.Length > 0)
+        
+        foreach(RaycastHit2D hit in hits)
         {
-            for (int i = 0; i < hitCount; i++)
+            if(hit.collider.isTrigger == false && hit.collider.gameObject.tag != gameObject.tag && hit.collider.gameObject != target)
             {
-                if (hits[i].collider.gameObject == target)
-                {
-                    return true;
-                }
+                return false;
+            }
+
+            if (hit.collider.gameObject == target)
+            {
+                return true;
             }
         }
+
         return false;
     }
 
@@ -192,4 +336,101 @@ public class Enemy : BaseCharacter
     {
         return canSeeTarget;
     }
+
+    internal bool IsTargetInAttackRange()
+    {
+        return isTargetInAttackRange;
+    }
+
+    public bool IsTargetInChaseRadius()
+    {
+        if(!HasTarget())
+        {
+            return false;
+        }
+
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        return distance <= chaseRadius;
+    }
+
+    public bool IsAttackReset()
+    {
+        return damageSource != null && damageSource.IsCoolDownReset();
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            return attackRadius;
+        }
+    }
+
+    public float ChaseRange
+    {
+        get
+        {
+            return chaseRadius;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        DebugUtils.DrawDebugCircle(transform.position, chaseRadius, Color.green);
+        DebugUtils.DrawDebugCircle(transform.position, attackRadius, Color.red);
+        DebugUtils.DrawDebugCircle(transform.position, kiteRadius, Color.blue);
+    }
+
+    internal float DistanceToCurrenTarget()
+    {
+        if (target == null)
+        {
+            return float.MaxValue;
+        }
+        return Vector3.Distance(target.transform.position, transform.position);
+    }
+
+    internal bool ShouldKiteAway()
+    {
+        return shouldKiteAway && UnityEngine.Random.value > aggression;
+    }
+
+    internal float GetAggression()
+    {
+        return aggression;
+    }
+
+    public Vector2 GetRadomKitingDirection()
+    {
+        Vector2 directionAwayFromTarget = (transform.position - target.transform.position).normalized;
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+
+        // Ensure the random direction is biased away from the target
+        float bias = 0.8f; // Adjust this value to control the bias strength (0.0 to 1.0)
+        Vector2 kitingDirection = Vector2.Lerp(randomDirection, directionAwayFromTarget, bias).normalized;
+
+        return kitingDirection;
+    }
+
+    public Vector2 GetRandomKitingPosition()
+    {
+        Vector2 kitingDirection = GetRadomKitingDirection();
+        Vector2 kitingPosition = (Vector2)transform.position + kitingDirection * UnityEngine.Random.Range(3f, maxKitingDistance);
+        return kitingPosition;
+    }
+
+    public override void UpdateMovingAnimation()
+    {
+        NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+        if(navMeshAgent)
+        {
+            animator?.SetBool("IsMoving", navMeshAgent.velocity.magnitude > 0.1f);
+        }
+    }
+
+    public virtual void OnTargetDetectionStateChanged(bool canSeeTarget) { }
+
+    public virtual void OnTargetInAttackRangeStateChanged(bool isTargetInAttackRange) { }
+
+    public Vector3 MovingToPosition;
 }

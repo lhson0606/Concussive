@@ -19,23 +19,14 @@ public class ArcherEnemy : RangedEnemy
     private bool isCharging = false;
     private bool isWaitingForNextAttack = false;
     // Update is called once per frame
-    public override void Update()
+    public override void AttackCurrentTarget()
     {
-        base.Update();
+        base.AttackCurrentTarget();
 
-        if(!IsActivated() || !CanMove())
+        if (!isCharging && !isWaitingForNextAttack)
         {
-            return;
-        }
-
-        if (HasTarget() && IsTargetInSight() && bowScript && GetPrimaryWeapon().GetDamageSource().IsCoolDownReset())
-        {
-            LookAtPosition = target.transform.position;            
-            if(!isCharging && !isWaitingForNextAttack)
-            {
-                bowScript.DoAttack();
-                StartCoroutine(Fire());
-            }
+            bowScript.DoAttack();
+            StartCoroutine(Fire());
         }
     }
 
@@ -54,5 +45,10 @@ public class ArcherEnemy : RangedEnemy
         isWaitingForNextAttack = true;
         yield return new WaitForSeconds(duration);
         isWaitingForNextAttack = false;
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 }
