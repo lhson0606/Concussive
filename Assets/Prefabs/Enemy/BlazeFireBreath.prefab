@@ -60,7 +60,7 @@ MonoBehaviour:
   coolDown: 10
   coolDownMultiplier: 1
   accuracy: 0
-  dispersion: 16
+  dispersion: 8
 --- !u!120 &2257250554922212791
 LineRenderer:
   serializedVersion: 2
@@ -343,7 +343,7 @@ MonoBehaviour:
   onAttackMissSound: {fileID: 0}
   blazeFireBallProjectilePrefab: {fileID: 382240880962395070, guid: 3a10b93b65ac2834e8fec84314d05196, type: 3}
   attackRate: 0.2
-  numberOfFireBalls: 3
+  numberOfFireBalls: 5
 --- !u!61 &5877002400581190149
 BoxCollider2D:
   m_ObjectHideFlags: 0

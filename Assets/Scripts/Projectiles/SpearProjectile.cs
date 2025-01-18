@@ -8,7 +8,7 @@ public class SpearProjectile : BaseProjectile
     {
         base.OnHit(collision);
         spear = parentWeapon as SpearScript;
-        int damageRes = DamageUtils.TryToApplyDamageToWithResult(damageSource.Owner, collision, damageSource, false);
+        int damageRes = DamageUtils.TryToApplyDamageToWithResult(owner, collision, damageSource, false);
 
         if (audioSource && !audioSource.isPlaying)
         {

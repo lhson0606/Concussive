@@ -530,7 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 32
-  maxArmor: 8
+  maxArmor: 400
   maxMana: 200
   runSpeed: 2.4
   criticalHitChance: 0.05
@@ -549,6 +549,7 @@ MonoBehaviour:
   pushable: 1
   pushScale: 1
   canUseArmor: 1
+  isInvulnerable: 0
   currentHealth: 0
   enemyName: 
   chaseRadius: 16

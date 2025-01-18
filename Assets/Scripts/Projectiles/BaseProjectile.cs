@@ -69,12 +69,12 @@ public class BaseProjectile : SlowMotionObject, IDamageable
 
     public void TakeDamage(DamageData damageData, bool isInvisible = false)
     {
-        if (damageData.DamageDealer == null)
+        if (damageData.DamageDealer == null || owner == null)
         {
             return;
         }
 
-        if (damageData.DamageDealer.tag == gameObject.tag)
+        if (damageData.DamageDealer.tag == owner.tag)
         {
             return;
         }
