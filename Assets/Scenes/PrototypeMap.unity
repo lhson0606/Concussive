@@ -9231,26 +9231,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2634549503236068973, guid: 065ad50a583b7714bba4730e23713363, type: 3}
-      propertyPath: m_DeviceLostEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2634549503236068973, guid: 065ad50a583b7714bba4730e23713363, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2634549503236068973, guid: 065ad50a583b7714bba4730e23713363, type: 3}
-      propertyPath: m_DeviceLostEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2077746508}
-    - target: {fileID: 2634549503236068973, guid: 065ad50a583b7714bba4730e23713363, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2634549503236068973, guid: 065ad50a583b7714bba4730e23713363, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4924998545724890274, guid: 065ad50a583b7714bba4730e23713363, type: 3}
       propertyPath: shopUIPanel
       value: 
@@ -10489,11 +10469,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027679869}
   m_CullTransparentMesh: 1
---- !u!1 &2077746508 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8344432388816318259, guid: c8b958cc0e46b6649babb42d5d8e2328, type: 3}
-  m_PrefabInstance: {fileID: 3717522997930356258}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2092965647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5146041445369256103, guid: 7f0e6f271d23c764f81a90f2a5818c11, type: 3}

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cdd1ac85361d90f4da8ad48d8b142588
+guid: f3517f48a499088448e5e7ba8e768f99
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3067896482578533263
-    second: Darkupdate_0
+      213: 3687786135116165809
+    second: redblue (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Darkupdate_0
+      name: redblue (2)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 600
-        height: 500
+        x: 12
+        y: 107
+        width: 113
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1747c3c4764ac65d0800000000000000
-      internalID: -3067896482578533263
+      spriteID: 1b2b53f73f5ad2330800000000000000
+      internalID: 3687786135116165809
       vertices: []
       indices: 
       edges: []
@@ -145,10 +132,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      Darkupdate_0: -3067896482578533263
+      redblue (2)_0: 3687786135116165809
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

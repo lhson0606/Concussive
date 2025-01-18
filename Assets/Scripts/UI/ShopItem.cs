@@ -46,8 +46,8 @@ public class ShopItem : MonoBehaviour
         }
 
         // Find and set the text components
-        itemNameText = transform.Find("ShopInfo/Name").GetComponent<TextMeshProUGUI>();
-        itemPriceText = transform.Find("ShopInfo/Price").GetComponent<TextMeshProUGUI>();
+        itemNameText = transform.Find("Name").GetComponent<TextMeshProUGUI>();
+        itemPriceText = transform.Find("Price").GetComponent<TextMeshProUGUI>();
         panel = transform.Find("Panel").gameObject;
 
         if (itemNameText != null)

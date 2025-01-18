@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
     private AudioSource audioSource;
     private Camera playerCamera;
     private Vector3 cameraOriginalPosition;
-    
+
     private Vector2 pointerPosition;
     private SkillModule skillModule;
     private Vector2 moveInput;
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
     public event CoinsChangedHandler OnCoinsChanged;
 
     public int coinsCounter = 10;
-    private bool justPickedUpWeapon = false;
+
     private void Awake()
     {
         baseCharacter = GetComponent<BaseCharacter>();
@@ -61,23 +61,22 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         baseCharacter.LookAtPosition = pointerPosition;
         //baseCharacter.SetWeaponPointer(pointerPosition);
         HandleMouseClick();
+        HandlePickUp();
+        HandleAttack();
+        HandleUseSkill();
         HandleSwitchWeapon();
         OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
         OnCoinsChanged?.Invoke(coinsCounter);
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(!baseCharacter.CanMove())
-        {
-            return;
-        }
         Vector2 newmoveInput = context.ReadValue<Vector2>();
         horizontal = newmoveInput.x;
         vertical = newmoveInput.y;
     }
-    public void OnSkill(InputAction.CallbackContext context)
+    private void HandleUseSkill()
     {
-        if (context.performed)
+        if(Input.GetKeyDown(KeyCode.F))
         {
             skillModule.UseSkill(0);
             float cooldownDuration = 10.0f; // Example cooldown duration
@@ -85,16 +84,18 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    private void HandleAttack()
     {
-        if (context.started)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
+            // attack if there is a weapon
             if (baseCharacter.GetPrimaryWeapon() != null)
             {
                 baseCharacter.GetPrimaryWeapon().DoAttack();
             }
         }
-        if (context.canceled)
+
+        if(Input.GetKeyUp(KeyCode.Space))
         {
             if(baseCharacter.GetPrimaryWeapon() != null)
             {
@@ -102,7 +103,6 @@ public class PlayerController : MonoBehaviour,IDataPersistent
             }
         }
     }
-    
 
     private void HandleSwitchWeapon()
     {
@@ -169,40 +169,23 @@ public class PlayerController : MonoBehaviour,IDataPersistent
             }
         }
     }
-    public void OnPickUp(InputAction.CallbackContext context)
+
+    private void HandlePickUp()
     {
-        if (context.performed && !justPickedUpWeapon)
+        if (Input.GetKeyDown(KeyCode.E) && selectedPickUp != null)
         {
-            if (selectedPickUp != null)
+            float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
+            if (distance <= pickUpRange)
             {
-                float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
-                if (distance <= pickUpRange)
+                BaseWeapon newWeapon = selectedPickUp.GetComponent<BaseWeapon>();
+                if (newWeapon != null)
                 {
-                    BaseWeapon newWeapon = selectedPickUp.GetComponent<BaseWeapon>();
-                    if (newWeapon != null)
-                    {
-                        OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
-                    }
-                    selectedPickUp.OnPickUp();
-                    selectedPickUp = null; // Clear the selection after picking up
-
-                    // Set the flag to true to prevent immediate re-pickup
-                    justPickedUpWeapon = true;
-
-                    // Reset the flag after a short delay
-                    StartCoroutine(ResetPickUpFlag());
+                    OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
                 }
-            }
-            else
-            {
-                Debug.Log("No pick-up-able object nearby.");
+                selectedPickUp.OnPickUp();
+                selectedPickUp = null; // Clear the selection after picking up
             }
         }
-    }
-    private IEnumerator ResetPickUpFlag()
-    {
-        yield return new WaitForSeconds(0.5f); // Adjust the delay as needed
-        justPickedUpWeapon = false;
     }
 
     public IPickUpable GetSelectedPickUp()

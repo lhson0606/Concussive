@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: f9d78f46f5f127d4a8c907ad9c6d46ba
+guid: 9cd8cb1683956034ca839259a42f51d1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2202427465334744498
-    second: greenbar (3)_0
+      213: -4294037516038265174
+    second: beer (1)_0
+  - first:
+      213: 2008640531554343217
+    second: beer (1)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +99,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: greenbar (3)_0
+      name: beer (1)_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 82
-        width: 110
-        height: 12
+        x: 8
+        y: 50
+        width: 8
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e4a9825a3e76f61e0800000000000000
-      internalID: -2202427465334744498
+      spriteID: aa6a65441a38864c0800000000000000
+      internalID: -4294037516038265174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beer (1)_1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 50
+        width: 10
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1399fb4dbef10eb10800000000000000
+      internalID: 2008640531554343217
       vertices: []
       indices: 
       edges: []
@@ -145,10 +157,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      greenbar (3)_0: -2202427465334744498
+      beer (1)_0: -4294037516038265174
+      beer (1)_1: 2008640531554343217
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

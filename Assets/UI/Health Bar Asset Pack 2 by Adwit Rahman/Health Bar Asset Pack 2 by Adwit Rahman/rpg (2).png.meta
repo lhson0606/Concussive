@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: f3517f48a499088448e5e7ba8e768f99
+guid: fecdf67ef7479e14b87d00429f876461
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3687786135116165809
-    second: redblue (2)_0
+      213: -1567821731857660092
+    second: rpg (2)_0
+  - first:
+      213: 8126780781496270720
+    second: rpg (2)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +99,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: redblue (2)_0
+      name: rpg (2)_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 107
-        width: 113
-        height: 17
+        x: 32
+        y: 21
+        width: 82
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b2b53f73f5ad2330800000000000000
-      internalID: 3687786135116165809
+      spriteID: 4478c79017afd3ae0800000000000000
+      internalID: -1567821731857660092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rpg (2)_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 9
+        width: 82
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08f7e80301028c070800000000000000
+      internalID: 8126780781496270720
       vertices: []
       indices: 
       edges: []
@@ -145,10 +157,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      redblue (2)_0: 3687786135116165809
+      rpg (2)_0: -1567821731857660092
+      rpg (2)_1: 8126780781496270720
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

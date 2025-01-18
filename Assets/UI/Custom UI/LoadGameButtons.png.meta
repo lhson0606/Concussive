@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: 9cd8cb1683956034ca839259a42f51d1
+guid: e00cfb65f32941d45b9b0294d3a508de
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4294037516038265174
-    second: beer (1)_0
+      213: 7683784632648831375
+    second: LoadGameButtons_0
   - first:
-      213: 2008640531554343217
-    second: beer (1)_1
+      213: 5690098874189020887
+    second: LoadGameButtons_1
+  - first:
+      213: -1482853538710559908
+    second: LoadGameButtons_2
+  - first:
+      213: -1292504276223808585
+    second: LoadGameButtons_3
+  - first:
+      213: 200343172662343410
+    second: LoadGameButtons_4
+  - first:
+      213: 7369115200030206540
+    second: LoadGameButtons_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,30 +111,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: beer (1)_0
+      name: LoadGameButtons_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 50
-        width: 8
-        height: 21
+        x: 0
+        y: 28
+        width: 26
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa6a65441a38864c0800000000000000
-      internalID: -4294037516038265174
+      spriteID: f8193a7b96942aa60800000000000000
+      internalID: 7683784632648831375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: beer (1)_1
+      name: LoadGameButtons_1
       rect:
         serializedVersion: 2
         x: 19
-        y: 50
-        width: 10
-        height: 23
+        y: 95
+        width: 410
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +152,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1399fb4dbef10eb10800000000000000
-      internalID: 2008640531554343217
+      spriteID: 7def2e457ca47fe40800000000000000
+      internalID: 5690098874189020887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LoadGameButtons_2
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 11
+        width: 410
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c53e9332098db6be0800000000000000
+      internalID: -1482853538710559908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LoadGameButtons_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 28
+        width: 412
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bba101753a101ee0800000000000000
+      internalID: -1292504276223808585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LoadGameButtons_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f6b6b7dd03c7c200800000000000000
+      internalID: 200343172662343410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LoadGameButtons_5
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 0
+        width: 412
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4a6bbe2b3b544660800000000000000
+      internalID: 7369115200030206540
       vertices: []
       indices: 
       edges: []
@@ -173,8 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      beer (1)_0: -4294037516038265174
-      beer (1)_1: 2008640531554343217
+      LoadGameButtons_0: 7683784632648831375
+      LoadGameButtons_1: 5690098874189020887
+      LoadGameButtons_2: -1482853538710559908
+      LoadGameButtons_3: -1292504276223808585
+      LoadGameButtons_4: 200343172662343410
+      LoadGameButtons_5: 7369115200030206540
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

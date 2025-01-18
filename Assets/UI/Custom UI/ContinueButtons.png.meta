@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: e00cfb65f32941d45b9b0294d3a508de
+guid: 0f261351a19b5884fae2146113eb5a19
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7683784632648831375
-    second: LoadGameButtons_0
+      213: -7681417003163397965
+    second: ContinueButtons_0
   - first:
-      213: 5690098874189020887
-    second: LoadGameButtons_1
+      213: -2274053641260521698
+    second: ContinueButtons_1
   - first:
-      213: -1482853538710559908
-    second: LoadGameButtons_2
+      213: -679488102951264224
+    second: ContinueButtons_2
   - first:
-      213: -1292504276223808585
-    second: LoadGameButtons_3
+      213: 2298066604446652818
+    second: ContinueButtons_3
   - first:
-      213: 200343172662343410
-    second: LoadGameButtons_4
+      213: -6391880793461080307
+    second: ContinueButtons_4
   - first:
-      213: 7369115200030206540
-    second: LoadGameButtons_5
+      213: 7863113190351581627
+    second: ContinueButtons_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -111,24 +111,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LoadGameButtons_0
+      name: ContinueButtons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -143,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8193a7b96942aa60800000000000000
-      internalID: 7683784632648831375
+      spriteID: 3b0dccafeef166590800000000000000
+      internalID: -7681417003163397965
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadGameButtons_1
+      name: ContinueButtons_1
       rect:
         serializedVersion: 2
         x: 19
@@ -165,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7def2e457ca47fe40800000000000000
-      internalID: 5690098874189020887
+      spriteID: e17ab700340f070e0800000000000000
+      internalID: -2274053641260521698
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadGameButtons_2
+      name: ContinueButtons_2
       rect:
         serializedVersion: 2
         x: 19
@@ -187,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c53e9332098db6be0800000000000000
-      internalID: -1482853538710559908
+      spriteID: 0206c72ab29f196f0800000000000000
+      internalID: -679488102951264224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadGameButtons_3
+      name: ContinueButtons_3
       rect:
         serializedVersion: 2
         x: 28
@@ -209,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7bba101753a101ee0800000000000000
-      internalID: -1292504276223808585
+      spriteID: 2991b3ca66f54ef10800000000000000
+      internalID: 2298066604446652818
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadGameButtons_4
+      name: ContinueButtons_4
       rect:
         serializedVersion: 2
         x: 0
@@ -231,14 +218,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f6b6b7dd03c7c200800000000000000
-      internalID: 200343172662343410
+      spriteID: d0f3c13b84a7b47a0800000000000000
+      internalID: -6391880793461080307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadGameButtons_5
+      name: ContinueButtons_5
       rect:
         serializedVersion: 2
         x: 28
@@ -253,8 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4a6bbe2b3b544660800000000000000
-      internalID: 7369115200030206540
+      spriteID: bb1389b39c36f1d60800000000000000
+      internalID: 7863113190351581627
       vertices: []
       indices: 
       edges: []
@@ -273,12 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LoadGameButtons_0: 7683784632648831375
-      LoadGameButtons_1: 5690098874189020887
-      LoadGameButtons_2: -1482853538710559908
-      LoadGameButtons_3: -1292504276223808585
-      LoadGameButtons_4: 200343172662343410
-      LoadGameButtons_5: 7369115200030206540
+      ContinueButtons_0: -7681417003163397965
+      ContinueButtons_1: -2274053641260521698
+      ContinueButtons_2: -679488102951264224
+      ContinueButtons_3: 2298066604446652818
+      ContinueButtons_4: -6391880793461080307
+      ContinueButtons_5: 7863113190351581627
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

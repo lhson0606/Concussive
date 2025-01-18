@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: 7c52eb019330abb448a9aa2e5b21aece
+guid: 07cfe2a0b97150b4ba8d859d13a78efd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4253340123282298443
-    second: BackButtons_0
+      213: 5372776407919291188
+    second: rpg (1)_0
   - first:
-      213: -7077337669612855447
-    second: BackButtons_1
+      213: -3750482850934594921
+    second: rpg (1)_1
   - first:
-      213: 1476021147468255790
-    second: BackButtons_2
-  - first:
-      213: -6164049376832286754
-    second: BackButtons_3
-  - first:
-      213: -6757342139769176957
-    second: BackButtons_4
-  - first:
-      213: 8691857258884777400
-    second: BackButtons_5
+      213: 3321681590055085053
+    second: rpg (1)_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -111,30 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackButtons_0
+      name: rpg (1)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 28
-        width: 26
-        height: 160
+        x: 31
+        y: 112
+        width: 82
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4658259e46e60b30800000000000000
-      internalID: 4253340123282298443
+      spriteID: 43be0a34dafef8a40800000000000000
+      internalID: 5372776407919291188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackButtons_1
+      name: rpg (1)_1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 95
-        width: 410
-        height: 74
+        x: 32
+        y: 98
+        width: 82
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96f1c3703ee38cd90800000000000000
-      internalID: -7077337669612855447
+      spriteID: 79269ddc7bb93fbc0800000000000000
+      internalID: -3750482850934594921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BackButtons_2
+      name: rpg (1)_2
       rect:
         serializedVersion: 2
-        x: 19
-        y: 11
-        width: 410
-        height: 74
+        x: 32
+        y: 84
+        width: 82
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,74 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e225fcfc961eb7410800000000000000
-      internalID: 1476021147468255790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BackButtons_3
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 28
-        width: 412
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: edf81f310c5e47aa0800000000000000
-      internalID: -6164049376832286754
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BackButtons_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 26
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 38cb74530291932a0800000000000000
-      internalID: -6757342139769176957
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BackButtons_5
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 0
-        width: 412
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8b54a32202eaf9870800000000000000
-      internalID: 8691857258884777400
+      spriteID: df32030aecbf81e20800000000000000
+      internalID: 3321681590055085053
       vertices: []
       indices: 
       edges: []
@@ -270,15 +182,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    spriteCustomMetadata:
-      entries: []
     nameFileIdTable:
-      BackButtons_0: 4253340123282298443
-      BackButtons_1: -7077337669612855447
-      BackButtons_2: 1476021147468255790
-      BackButtons_3: -6164049376832286754
-      BackButtons_4: -6757342139769176957
-      BackButtons_5: 8691857258884777400
+      rpg (1)_0: 5372776407919291188
+      rpg (1)_1: -3750482850934594921
+      rpg (1)_2: 3321681590055085053
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

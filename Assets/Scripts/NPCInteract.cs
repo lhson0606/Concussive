@@ -3,38 +3,17 @@ using UnityEngine;
 public class NPCInteract : MonoBehaviour
 {
     [SerializeField] private GameObject shopUIPanel;
-    private bool isPlayerInRange = false;
-    private bool isShopOpen = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInRange = true;
-        }
+        if(other.CompareTag("Player"))
+            OpenShop();
     }
-
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = false;
             CloseShop();
-        }
-    }
-
-    private void Update()
-    {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
-        {
-            if (isShopOpen)
-            {
-                CloseShop();
-            }
-            else
-            {
-                OpenShop();
-            }
         }
     }
 
@@ -44,7 +23,6 @@ public class NPCInteract : MonoBehaviour
         if (shopMenu != null)
         {
             shopMenu.Shopping();
-            isShopOpen = true;
         }
         else
         {
@@ -58,7 +36,6 @@ public class NPCInteract : MonoBehaviour
         if (shopMenu != null)
         {
             shopMenu.Exit();
-            isShopOpen = false;
         }
         else
         {
