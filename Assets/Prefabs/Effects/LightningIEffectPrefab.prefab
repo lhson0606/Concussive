@@ -230,4 +230,5 @@ MonoBehaviour:
   effectStartAudio: {fileID: 8300000, guid: 7d4fa01ee198d874d8eeccc8a14fff79, type: 3}
   disposeDelay: 4
   attachToTarget: 0
-  damage: 10
+  isStackable: 1
+  damage: 99

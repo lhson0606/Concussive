@@ -357,6 +357,7 @@ MonoBehaviour:
   pushable: 1
   pushScale: 1
   canUseArmor: 1
+  isInvulnerable: 1
   currentHealth: 0
 --- !u!82 &4701075225539131842
 AudioSource:
