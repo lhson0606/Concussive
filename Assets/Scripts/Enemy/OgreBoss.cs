@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OgreBoss : Enemy
 {
@@ -14,6 +15,8 @@ public class OgreBoss : Enemy
     private SpearScript spear;
     private SecondariesModule secondariesModule;
     private SkillModule skillModule;
+    public GameObject bossUI; // Reference to the BossUI GameObject
+    public Image healthBarFill; // Reference to the HealthBarFill Image
 
     public override void Start()
     {
@@ -28,6 +31,7 @@ public class OgreBoss : Enemy
     public override void Update()
     {
         base.Update();
+        UpdateHealthBar();
         if (HasTarget() && IsTargetInSight() && isActivated)
         {
             float distance = Vector3.Distance(target.transform.position, transform.position);
@@ -85,5 +89,30 @@ public class OgreBoss : Enemy
 
             flashScreenController.ShowFlashScreen(bossSkillPrefab);
         }
+
+        // Enable the BossUI
+        if (bossUI != null)
+        {
+            bossUI.SetActive(true);
+        }
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (healthBarFill != null)
+        {
+            float healthPercentage = GetHealthPercentage();
+            healthBarFill.fillAmount = healthPercentage;
+        }
+    }
+
+    private float GetHealthPercentage()
+    {
+        if(maxHealth <= 0)
+        {
+            return 0;
+        }
+
+        return (float)currentHealth / (float)maxHealth;
     }
 }

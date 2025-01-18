@@ -70,6 +70,9 @@ public class PlayerController : MonoBehaviour,IDataPersistent
     }
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(!baseCharacter.CanMove()) {
+            return;
+        }
         Vector2 newmoveInput = context.ReadValue<Vector2>();
         horizontal = newmoveInput.x;
         vertical = newmoveInput.y;
