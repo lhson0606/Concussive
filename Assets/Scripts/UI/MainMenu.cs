@@ -8,6 +8,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject continueMenu;
     [SerializeField] private Button continueButton;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Toggle soundToggle;
 
     private void Start()
     {
@@ -20,6 +22,7 @@ public class MainMenu : MonoBehaviour
             continueButton.interactable = false;
         }
     }
+
     public void PlayGame()
     {
         try
@@ -64,14 +67,32 @@ public class MainMenu : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
+    public void ChangeVolume()
+    {
+        AudioListener.volume = volumeSlider.value;
+    }
+
+    public void ToggleSoundClick()
+    {
+        if (soundToggle.isOn)
+        {
+            AudioListener.volume = 0.5f;
+        }
+        else
+        {
+            AudioListener.volume = 0;
+        }
+    }
+
     public void CloseSettings()
     {
         settingsMenu.SetActive(false);
         mainMenu.SetActive(true);
     }
-	    public void QuitGame()
+	
+    public void QuitGame()
     {
-        Debug.Log("Quit Game");
+        // Debug.Log("Quit Game");
         Application.Quit();
     }
 }
