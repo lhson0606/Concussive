@@ -1944,6 +1944,8 @@ MonoBehaviour:
   mainMenu: {fileID: 2147383108}
   continueMenu: {fileID: 419847461}
   continueButton: {fileID: 1495755456}
+  volumeSlider: {fileID: 1662115478}
+  soundToggle: {fileID: 1986375568}
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2843,7 +2845,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 2
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3696,8 +3698,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 620652658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 16.472458, y: 0}
   m_SizeDelta: {x: 69.843, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4284,10 +4286,22 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 519420033}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ChangeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1667008875
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,8 +5140,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 759486083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 18.453018, y: 0}
   m_SizeDelta: {x: 72.43, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5256,6 +5270,18 @@ MonoBehaviour:
       - m_Target: {fileID: 392257734}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 519420033}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ToggleSoundClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

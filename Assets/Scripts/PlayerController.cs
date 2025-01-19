@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BaseCharacter))]
 [RequireComponent(typeof(AudioSource))]
-public class PlayerController : MonoBehaviour,IDataPersistent
+public class PlayerController : MonoBehaviour, IDataPersistent
 {
     private SpriteRenderer spriteRenderer = null;
     private BaseCharacter baseCharacter = null;
@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour,IDataPersistent
     public event CoinsChangedHandler OnCoinsChanged;
 
     public int coinsCounter = 10;
+    public float switchWeaponCooldown = 0.5f;
+    private float switchWeaponCooldownTimer = 0f;
 
     private void Awake()
     {
@@ -38,48 +40,67 @@ public class PlayerController : MonoBehaviour,IDataPersistent
 
     private void OnEnable()
     {
-        
+
     }
 
     void Start()
     {
         spriteRenderer = baseCharacter.GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        pointerPosition = GetPointerWorldPosition();
+        //pointerPosition = GetPointerWorldPosition();
         baseCharacter.LookAtPosition = pointerPosition;
         // Initialize coinsCount or other necessary components
     }
 
     void Update()
     {
-        if(!baseCharacter.CanMove())
+        if (!baseCharacter.CanMove())
         {
             return;
         }
 
-        pointerPosition = GetPointerWorldPosition();
-        baseCharacter.LookAtPosition = pointerPosition;
+        //HandleLook();
         //baseCharacter.SetWeaponPointer(pointerPosition);
-        HandleMouseClick();
-        HandlePickUp();
-        HandleAttack();
-        HandleUseSkill();
-        HandleSwitchWeapon();
+        //HandleMouseClick();
+        //HandlePickUp();
+        //HandleAttack();
+        //HandleUseSkill();
+        //HandleSwitchWeapon();
         OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
         OnCoinsChanged?.Invoke(coinsCounter);
+
+        // Decrement the switch weapon cooldown timer
+        if (switchWeaponCooldownTimer > 0)
+        {
+            switchWeaponCooldownTimer -= Time.deltaTime;
+        }
     }
+
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(!baseCharacter.CanMove()) {
+        if (!baseCharacter.CanMove())
+        {
             return;
         }
         Vector2 newmoveInput = context.ReadValue<Vector2>();
         horizontal = newmoveInput.x;
         vertical = newmoveInput.y;
     }
-    private void HandleUseSkill()
+
+    public void HandleLook(InputAction.CallbackContext context)
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if (!baseCharacter.CanMove())
+        {
+            return;
+        }
+        Vector2 mousePos = context.ReadValue<Vector2>();
+        pointerPosition = GetPointerWorldPosition(mousePos);
+        baseCharacter.LookAtPosition = pointerPosition;
+    }
+
+    public void HandleUseSkill(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
         {
             skillModule.UseSkill(0);
             float cooldownDuration = 10.0f; // Example cooldown duration
@@ -87,9 +108,14 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         }
     }
 
-    private void HandleAttack()
+    public void HandleAttack(InputAction.CallbackContext context)
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(!baseCharacter.CanMove())
+        {
+            return;
+        }
+
+        if (context.phase == InputActionPhase.Started)
         {
             // attack if there is a weapon
             if (baseCharacter.GetPrimaryWeapon() != null)
@@ -98,33 +124,60 @@ public class PlayerController : MonoBehaviour,IDataPersistent
             }
         }
 
-        if(Input.GetKeyUp(KeyCode.Space))
+        if (context.phase == InputActionPhase.Canceled)
         {
-            if(baseCharacter.GetPrimaryWeapon() != null)
+            if (baseCharacter.GetPrimaryWeapon() != null)
             {
                 baseCharacter.GetPrimaryWeapon().ReleaseAttack();
             }
         }
     }
 
-    private void HandleSwitchWeapon()
+    public void HandleSwitchWeapon(InputAction.CallbackContext context)
     {
-        // Scroll wheel to switch weapons
-        if(Input.mouseScrollDelta.y != 0)
+        if(!baseCharacter.CanMove())
         {
-            baseCharacter.SwitchToSecondaryWeapon();
-            OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
+            return;
+        }
+
+        if (switchWeaponCooldownTimer <= 0)
+        {
+            float scrollValue = context.ReadValue<Vector2>().y;
+
+            // Scroll wheel to switch weapons
+            if (scrollValue != 0)
+            {
+                baseCharacter.SwitchToSecondaryWeapon();
+                OnWeaponChanged?.Invoke(baseCharacter.GetPrimaryWeapon(), baseCharacter.GetSecondaryWeapon());
+                switchWeaponCooldownTimer = switchWeaponCooldown; // Reset the cooldown timer
+            }
+        }
+    }
+
+    public void HandleChangeWeaponMode(InputAction.CallbackContext context)
+    {
+        if(!baseCharacter.CanMove())
+        {
+            return;
+        }
+
+        HybridWeapon hybridWeapon = baseCharacter.GetPrimaryWeapon() as HybridWeapon;
+
+        if(hybridWeapon != null)
+        {
+            hybridWeapon.OnSpecialModeTriggered();
         }
     }
 
     private void FixedUpdate()
     {
-        if(!baseCharacter.IsMovementEnabled)
+        if (!baseCharacter.IsMovementEnabled)
         {
             return;
         }
 
-        if(DialogueManager.GetInstance() && DialogueManager.GetInstance().dialogueIsPlaying){
+        if (DialogueManager.GetInstance() && DialogueManager.GetInstance().dialogueIsPlaying)
+        {
             return;
         }
 
@@ -134,9 +187,14 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         baseCharacter.GetRigidbody().linearVelocity = moveVector;
     }
 
-    private void HandleMouseClick()
+    public void HandleMouseClick(InputAction.CallbackContext context)
     {
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
+        if(!baseCharacter.CanMove())
+        {
+            return;
+        }
+
+        if (context.phase == InputActionPhase.Started) // Left mouse button
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
@@ -163,19 +221,16 @@ public class PlayerController : MonoBehaviour,IDataPersistent
                 }
             }
         }
-
-        if(Input.GetMouseButton(1)) // Right mouse button
-        {
-            if(baseCharacter.GetPrimaryWeapon()!=null)
-            {
-                baseCharacter.GetPrimaryWeapon().OnSpecialModeTriggered();
-            }
-        }
     }
 
-    private void HandlePickUp()
+    public void HandlePickUp(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.E) && selectedPickUp != null)
+        if(!baseCharacter.CanMove() || !selectedPickUp)
+        {
+            return;
+        }
+
+        if (context.phase == InputActionPhase.Started)
         {
             float distance = Vector2.Distance(transform.position, selectedPickUp.transform.position);
             if (distance <= pickUpRange)
@@ -206,7 +261,7 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         if (selectedPickUp != null)
         {
             selectedPickUp.OnDeselect();
-        }        
+        }
 
         selectedPickUp = pickUpComponent;
 
@@ -225,9 +280,12 @@ public class PlayerController : MonoBehaviour,IDataPersistent
         }
     }
 
-    public Vector2 GetPointerWorldPosition()
+    public Vector2 GetPointerWorldPosition(Vector3 mousePos)
     {
-        Vector3 mousePos = Mouse.current.position.ReadValue();
+        if(Camera.main == null)
+        {
+            return Vector2.zero;
+        }
         mousePos.z = Camera.main.nearClipPlane;
         return Camera.main.ScreenToWorldPoint(mousePos);
     }

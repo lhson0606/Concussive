@@ -135,7 +135,7 @@ public class RoomController : MonoBehaviour
         CloseBarriers();
         foreach (Enemy enemy in enemies)
         {
-            enemy.Activate();
+            enemy?.Activate();
         }
     }
 
@@ -153,7 +153,10 @@ public class RoomController : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-            enemy.OnDeath -= OnEnemyDie;
+            if (enemy != null)
+            {
+                enemy.OnDeath -= OnEnemyDie;
+            }
         }
     }
 }
